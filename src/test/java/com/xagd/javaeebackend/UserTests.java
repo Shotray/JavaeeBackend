@@ -1,8 +1,8 @@
 package com.xagd.javaeebackend;
 
-import com.xagd.javaeebackend.model.UserEntity;
-import com.xagd.javaeebackend.repository.UserRepository;
-import com.xagd.javaeebackend.utils.SendSMS;
+import com.xagd.javaeebackend.Entity.UserEntity;
+import com.xagd.javaeebackend.Repository.UserRepository;
+import com.xagd.javaeebackend.Utils.SendSMS;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
