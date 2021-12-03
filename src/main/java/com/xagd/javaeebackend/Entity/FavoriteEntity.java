@@ -10,6 +10,7 @@ public class FavoriteEntity {
 
     @Id
     @Column(name = "favorites_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public short getFavoritesId() {
         return favoritesId;
     }
