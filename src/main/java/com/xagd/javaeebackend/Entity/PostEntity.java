@@ -10,6 +10,7 @@ public class PostEntity {
     private Short userId;
     private Timestamp postDate;
     private String postIntroduction;
+    private Short postPrice;
 
     @Id
     @Column(name = "post_id")
@@ -74,5 +75,26 @@ public class PostEntity {
         result = 31 * result + (postDate != null ? postDate.hashCode() : 0);
         result = 31 * result + (postIntroduction != null ? postIntroduction.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "post_price")
+    public Short getPostPrice() {
+        return postPrice;
+    }
+
+    public void setPostPrice(Short postPrice) {
+        this.postPrice = postPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "PostEntity{" +
+                "postId=" + postId +
+                ", userId=" + userId +
+                ", postDate=" + postDate +
+                ", postIntroduction='" + postIntroduction + '\'' +
+                ", postPrice=" + postPrice +
+                '}';
     }
 }
