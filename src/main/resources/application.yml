@@ -24,6 +24,7 @@ spring:
     host: 8.136.17.54
     port: 6379
 
+
 # Sa-Token配置
 sa-token:
   # token名称 (同时也是cookie名称)

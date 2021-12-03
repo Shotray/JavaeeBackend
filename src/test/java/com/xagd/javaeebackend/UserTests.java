@@ -1,9 +1,11 @@
 package com.xagd.javaeebackend;
 
 import com.xagd.javaeebackend.Entity.UserEntity;
+import com.xagd.javaeebackend.InDto.LoginInfoInDto;
 import com.xagd.javaeebackend.Repository.UserRepository;
 import com.xagd.javaeebackend.Utils.SendSMS;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -14,6 +16,9 @@ public class UserTests {
 
     @Autowired
     private UserRepository userRepository;
+
+    ModelMapper modelMapper = new ModelMapper();
+    private Object UserEntity;
 
     @Test
     public void getUserList(){
@@ -31,6 +36,11 @@ public class UserTests {
     @Test
     public void checkSMS(){
         SendSMS.send("17692419697", "1234");
+    }
+
+    @Test
+    public void checkDto(){
+        LoginInfoInDto loginInfoInDto = modelMapper.map(UserEntity, LoginInfoInDto.class);
     }
 
 }
