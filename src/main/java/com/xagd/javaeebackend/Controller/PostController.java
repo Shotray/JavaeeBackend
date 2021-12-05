@@ -58,19 +58,20 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public ResponseEntity getPosts(@RequestBody PostsDto postsDto) {
+    public ResponseEntity getPosts(@RequestParam int maxNumber, @RequestParam int pageNumber) {
         System.out.println("posts requests started");
         List<PostUserEntity> postUserEntity = new ArrayList<>();
         try {
             postUserEntity = postService.getPosts();
             List<PostUserEntity> pageElement = new ArrayList<>();
-            int sta = postsDto.getMaxNumber() * (postsDto.getPageNumber() - 1);
-            for (int i = sta; i < sta + postsDto.getMaxNumber(); ++i) {
+            int sta = maxNumber * (pageNumber - 1);
+            for (int i = sta; i < sta + maxNumber; ++i) {
                 pageElement.add(postUserEntity.get(i));
             }
             return new ResponseEntity<>(pageElement, HttpStatus.OK);
         }
         catch (Exception e) {
+            System.out.println(e);
             return new ResponseEntity<>("get posts error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
