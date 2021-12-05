@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -38,5 +39,17 @@ public class PostController {
             return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    @GetMapping(value = "/postNumber")
+    public ResponseEntity getPostNumber() {
+        try {
+            String num = Integer.toString(postService.getPosts().size());
+            return new ResponseEntity(num, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity("get post number error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
