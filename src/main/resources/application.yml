@@ -47,3 +47,9 @@ sms:
   password: '2aa817ef8e82851ad7d90bf6edf228b4'
   content: '您的验证码是：1254。请不要把验证码泄露给其他人。'
 
+oss:
+  endpoint: 'http://oss-cn-shanghai.aliyuncs.com'
+  accessKeyId: 'LTAI5tBAWxg5mH5qAKzxbxc9'
+  accessKeySecret: 'ZQrtUsNYYwJlgeIsyGis2F6mp1Tpyd'
+  bucketName: 'javaee-xjj'
+
