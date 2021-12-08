@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-public interface UserService {
+public interface LoginService {
 
     UserEntity findUserEntityByUserNameOrUserPhone(String userNameOrPhone);
 

@@ -20,6 +20,6 @@ public class TestController {
 
     @PostMapping("/oss")
     public String testOSS(MultipartFile file){
-        return OSSUtil.uploadFile(file, "hh");
+        return OSSUtil.uploadFile(file, "hhhh");
     }
 }
