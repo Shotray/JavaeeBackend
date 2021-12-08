@@ -3,6 +3,7 @@ package com.xagd.javaeebackend.Repository;
 import com.xagd.javaeebackend.Entity.UserEntity;
 import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import reactor.util.annotation.Nullable;
 
 
