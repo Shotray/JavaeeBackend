@@ -2,7 +2,6 @@ package com.xagd.javaeebackend.Utils;
 import org.apache.commons.io.FilenameUtils;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,15 +16,6 @@ public class OSSUtil {
     private static String accessKeyId;
     private static String accessKeySecret;
     private static String bucketName;
-    private static OSS ossClient ;
-
-    @Autowired
-    public void setOssClient() {
-        System.out.println("hhhhhhhhhhhhhhhhh" + endpoint);
-        ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-    }
-
-
 
     @Value("${oss.endpoint}")
     public void setEndpoint(String endpoint) {
@@ -53,7 +43,7 @@ public class OSSUtil {
      * @return url
      */
     public static String uploadFile(MultipartFile file, String pre){
-//        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
         InputStream inputStream = null;
         try {
             inputStream = file.getInputStream();

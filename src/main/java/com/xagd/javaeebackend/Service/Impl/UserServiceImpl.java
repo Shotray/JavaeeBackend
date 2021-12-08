@@ -2,7 +2,7 @@ package com.xagd.javaeebackend.Service.Impl;
 
 import com.xagd.javaeebackend.Entity.UserEntity;
 import com.xagd.javaeebackend.Repository.UserRepository;
-import com.xagd.javaeebackend.Service.LoginService;
+import com.xagd.javaeebackend.Service.UserService;
 import com.xagd.javaeebackend.Utils.SendSMS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class LoginServiceImpl implements LoginService {
+public class UserServiceImpl implements UserService {
     @Resource
     private UserRepository userRepository;
 

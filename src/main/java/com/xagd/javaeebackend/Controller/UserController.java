@@ -5,7 +5,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.UserEntity;
 import com.xagd.javaeebackend.InDto.LoginInfoInDto;
 import com.xagd.javaeebackend.InDto.RegisterInfoInDto;
-import com.xagd.javaeebackend.Service.LoginService;
+import com.xagd.javaeebackend.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +15,9 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/user")
-public class LoginController {
+public class UserController {
     @Autowired
-    private LoginService loginService;
+    private UserService userService;
 
 
     @SaCheckLogin
@@ -33,10 +33,10 @@ public class LoginController {
         System.out.println(StpUtil.isLogin());
         if (StpUtil.isLogin()){
             Short userId = (short)StpUtil.getLoginIdAsInt();
-            UserEntity user = loginService.findUserEntityByUserId(userId);
+            UserEntity user = userService.findUserEntityByUserId(userId);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
-        UserEntity user = loginService.findUserEntityByUserNameOrUserPhone(loginInfoInDto.getUserName());
+        UserEntity user = userService.findUserEntityByUserNameOrUserPhone(loginInfoInDto.getUserName());
         if(user == null){
             return new ResponseEntity<>("There is no such user !",HttpStatus.UNAUTHORIZED);
         }
@@ -51,7 +51,7 @@ public class LoginController {
     public ResponseEntity register(@RequestBody RegisterInfoInDto registerInfoInDto){
         System.out.println("start register");
 
-        if (!loginService.checkCode(registerInfoInDto.getUserPhone(), registerInfoInDto.getCode())){
+        if (!userService.checkCode(registerInfoInDto.getUserPhone(), registerInfoInDto.getCode())){
             return new ResponseEntity<>("Verification code error", HttpStatus.UNAUTHORIZED);
         }
 
@@ -62,7 +62,7 @@ public class LoginController {
         user.setUserPassword(registerInfoInDto.getUserPassword());
         System.out.println(user.toString());
         try {
-            UserEntity addedUser =  loginService.addUser(user);
+            UserEntity addedUser =  userService.addUser(user);
             StpUtil.login(addedUser.getUserId());
             return new ResponseEntity<>(addedUser, HttpStatus.OK);
         }
@@ -75,7 +75,7 @@ public class LoginController {
     public ResponseEntity getCode(@RequestBody HashMap<String, Object> postInfo){
         String phone = postInfo.getOrDefault("userPhone", null).toString();
         System.out.println("phone: " + phone);
-        if (loginService.sendSMS(phone)){
+        if (userService.sendSMS(phone)){
             return new ResponseEntity<>("Sent successfully !", HttpStatus.OK);
         }
         return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -85,7 +85,7 @@ public class LoginController {
     public ResponseEntity checkEmail(@RequestBody HashMap<String, Object> postInfo){
         String email = postInfo.getOrDefault("userEmail", null).toString();
         System.out.println("email: " + email);
-        if (loginService.existsUserEntityByUserEmail(email)){
+        if (userService.existsUserEntityByUserEmail(email)){
             return new ResponseEntity<>(email + " has been registered.", HttpStatus.UNPROCESSABLE_ENTITY);
         }
         return new ResponseEntity<>(email + " is available.", HttpStatus.OK);
@@ -95,7 +95,7 @@ public class LoginController {
     public ResponseEntity checkUserName(@RequestBody HashMap<String, Object> postInfo){
         String userName = postInfo.getOrDefault("userName", null).toString();
         System.out.println("userName: " + userName);
-        if (loginService.existsUserEntityByUserName(userName)){
+        if (userService.existsUserEntityByUserName(userName)){
             System.out.println(userName + " is not available.");
             return new ResponseEntity<>(userName + " has been registered.", HttpStatus.UNAUTHORIZED);
         }
@@ -107,7 +107,7 @@ public class LoginController {
     public ResponseEntity checkPhone(@RequestBody HashMap<String, Object> postInfo){
         String phone = postInfo.getOrDefault("userPhone", null).toString();
         System.out.println("phone: " + phone);
-        if (loginService.existsUserEntityByUserPhone(phone)){
+        if (userService.existsUserEntityByUserPhone(phone)){
             return new ResponseEntity<>(phone + " has been registered.", HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(phone + " is available.", HttpStatus.OK);
