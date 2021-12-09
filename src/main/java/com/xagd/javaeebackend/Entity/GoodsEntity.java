@@ -1,14 +1,17 @@
 package com.xagd.javaeebackend.Entity;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
+@DynamicInsert
 @Table(name = "goods", schema = "db", catalog = "")
 public class GoodsEntity {
     private short goodsId;
-    private byte goodsCategory;
+    private String goodsCategory;
     private String goodsName;
     private BigDecimal goodsPrice;
     private Timestamp goodsDate;
@@ -16,8 +19,10 @@ public class GoodsEntity {
     private byte sellStatus;
     private String goodsIntroduction;
     private short goodsFavorite;
+    private String goodsUnit;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "goods_id")
     public short getGoodsId() {
         return goodsId;
@@ -29,11 +34,11 @@ public class GoodsEntity {
 
     @Basic
     @Column(name = "goods_category")
-    public byte getGoodsCategory() {
+    public String getGoodsCategory() {
         return goodsCategory;
     }
 
-    public void setGoodsCategory(byte goodsCategory) {
+    public void setGoodsCategory(String goodsCategory) {
         this.goodsCategory = goodsCategory;
     }
 
@@ -107,6 +112,16 @@ public class GoodsEntity {
         this.goodsFavorite = goodsFavorite;
     }
 
+    @Basic
+    @Column(name = "goods_unit")
+    public String getGoodsUnit() {
+        return goodsUnit;
+    }
+
+    public void setGoodsUnit(String goodsUnit) {
+        this.goodsUnit = goodsUnit;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -115,15 +130,17 @@ public class GoodsEntity {
         GoodsEntity that = (GoodsEntity) o;
 
         if (goodsId != that.goodsId) return false;
-        if (goodsCategory != that.goodsCategory) return false;
         if (sellNum != that.sellNum) return false;
         if (sellStatus != that.sellStatus) return false;
         if (goodsFavorite != that.goodsFavorite) return false;
+        if (goodsCategory != null ? !goodsCategory.equals(that.goodsCategory) : that.goodsCategory != null)
+            return false;
         if (goodsName != null ? !goodsName.equals(that.goodsName) : that.goodsName != null) return false;
         if (goodsPrice != null ? !goodsPrice.equals(that.goodsPrice) : that.goodsPrice != null) return false;
         if (goodsDate != null ? !goodsDate.equals(that.goodsDate) : that.goodsDate != null) return false;
         if (goodsIntroduction != null ? !goodsIntroduction.equals(that.goodsIntroduction) : that.goodsIntroduction != null)
             return false;
+        if (goodsUnit != null ? !goodsUnit.equals(that.goodsUnit) : that.goodsUnit != null) return false;
 
         return true;
     }
@@ -131,7 +148,7 @@ public class GoodsEntity {
     @Override
     public int hashCode() {
         int result = (int) goodsId;
-        result = 31 * result + (int) goodsCategory;
+        result = 31 * result + (goodsCategory != null ? goodsCategory.hashCode() : 0);
         result = 31 * result + (goodsName != null ? goodsName.hashCode() : 0);
         result = 31 * result + (goodsPrice != null ? goodsPrice.hashCode() : 0);
         result = 31 * result + (goodsDate != null ? goodsDate.hashCode() : 0);
@@ -139,6 +156,7 @@ public class GoodsEntity {
         result = 31 * result + (int) sellStatus;
         result = 31 * result + (goodsIntroduction != null ? goodsIntroduction.hashCode() : 0);
         result = 31 * result + (int) goodsFavorite;
+        result = 31 * result + (goodsUnit != null ? goodsUnit.hashCode() : 0);
         return result;
     }
 }
