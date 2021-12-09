@@ -19,7 +19,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     @SaCheckLogin
     @PostMapping(value = "testtoken")
     public void testToken(@RequestHeader Map<String, String> headers){
@@ -86,7 +85,7 @@ public class UserController {
         String email = postInfo.getOrDefault("userEmail", null).toString();
         System.out.println("email: " + email);
         if (userService.existsUserEntityByUserEmail(email)){
-            return new ResponseEntity<>(email + " has been registered.", HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(email + " has been registered.", HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(email + " is available.", HttpStatus.OK);
     }
