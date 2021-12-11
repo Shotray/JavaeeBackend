@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Table(name = "goods", schema = "db", catalog = "")
 public class GoodsEntity {
     private short goodsId;
-    private String goodsCategory;
+    private byte goodsCategory;
     private String goodsName;
     private BigDecimal goodsPrice;
     private Timestamp goodsDate;
@@ -20,6 +20,7 @@ public class GoodsEntity {
     private String goodsIntroduction;
     private short goodsFavorite;
     private String goodsUnit;
+    private short userId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,11 +35,11 @@ public class GoodsEntity {
 
     @Basic
     @Column(name = "goods_category")
-    public String getGoodsCategory() {
+    public byte getGoodsCategory() {
         return goodsCategory;
     }
 
-    public void setGoodsCategory(String goodsCategory) {
+    public void setGoodsCategory(byte goodsCategory) {
         this.goodsCategory = goodsCategory;
     }
 
@@ -130,11 +131,10 @@ public class GoodsEntity {
         GoodsEntity that = (GoodsEntity) o;
 
         if (goodsId != that.goodsId) return false;
+        if (goodsCategory != that.goodsCategory) return false;
         if (sellNum != that.sellNum) return false;
         if (sellStatus != that.sellStatus) return false;
         if (goodsFavorite != that.goodsFavorite) return false;
-        if (goodsCategory != null ? !goodsCategory.equals(that.goodsCategory) : that.goodsCategory != null)
-            return false;
         if (goodsName != null ? !goodsName.equals(that.goodsName) : that.goodsName != null) return false;
         if (goodsPrice != null ? !goodsPrice.equals(that.goodsPrice) : that.goodsPrice != null) return false;
         if (goodsDate != null ? !goodsDate.equals(that.goodsDate) : that.goodsDate != null) return false;
@@ -148,7 +148,7 @@ public class GoodsEntity {
     @Override
     public int hashCode() {
         int result = (int) goodsId;
-        result = 31 * result + (goodsCategory != null ? goodsCategory.hashCode() : 0);
+        result = 31 * result + (int) goodsCategory;
         result = 31 * result + (goodsName != null ? goodsName.hashCode() : 0);
         result = 31 * result + (goodsPrice != null ? goodsPrice.hashCode() : 0);
         result = 31 * result + (goodsDate != null ? goodsDate.hashCode() : 0);
@@ -158,5 +158,15 @@ public class GoodsEntity {
         result = 31 * result + (int) goodsFavorite;
         result = 31 * result + (goodsUnit != null ? goodsUnit.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "user_id")
+    public short getUserId() {
+        return userId;
+    }
+
+    public void setUserId(short userId) {
+        this.userId = userId;
     }
 }
