@@ -1,5 +1,6 @@
 package com.xagd.javaeebackend.Controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.UserEntity;
 import com.xagd.javaeebackend.InDto.MeEditDto;
@@ -21,12 +22,9 @@ public class MeController {
     @Autowired
     private UserService userService;
 
+//    @SaCheckLogin
     @GetMapping(value = "/info")
-    public ResponseEntity info(@RequestHeader Map<String, String> headers) {
-        if (!StpUtil.isLogin()) {
-            // 用户未登录，返回401未授权状态码
-            return new ResponseEntity<>("user has not logged in yet!", HttpStatus.UNAUTHORIZED);
-        }
+    public ResponseEntity info() {
         Short userId = (short)StpUtil.getLoginIdAsInt();
         UserEntity userEntity = userService.findUserEntityByUserId(userId);
         return new ResponseEntity<>(userEntity, HttpStatus.OK);
