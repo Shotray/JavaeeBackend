@@ -21,10 +21,30 @@ public class UserController {
 
     @SaCheckLogin
     @PostMapping(value = "testtoken")
-    public void testToken(@RequestHeader Map<String, String> headers){
+    public void testToken(@RequestHeader Map<String, String> headers) {
         headers.forEach((key, value) -> {
             System.out.println((String.format("Header '%s' = %s", key, value)));
         });
+    }
+
+    @PostMapping(value = "/logout")
+    public ResponseEntity logout(){
+        System.out.println(StpUtil.isLogin());
+        if (StpUtil.isLogin()){
+            StpUtil.logout();
+            return new ResponseEntity<>("OK", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Not login", HttpStatus.UNAUTHORIZED);
+    }
+
+    @PostMapping(value = "/autoLogin")
+    public ResponseEntity autoLogin() {
+        if (StpUtil.isLogin()){
+            Short userId = (short)StpUtil.getLoginIdAsInt();
+            UserEntity user = userService.findUserEntityByUserId(userId);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("not login", HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping(value = "/login")
