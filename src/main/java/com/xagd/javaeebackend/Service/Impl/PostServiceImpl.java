@@ -61,4 +61,9 @@ public class PostServiceImpl implements PostService {
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "postDate"));
         return postUserEntityRepository.findAll(pageable).getContent();
     }
+
+    @Override
+    public PostEntity[] getPosts(Short userId) {
+        return this.postRepository.getPostEntitiesByUserId(userId);
+    }
 }

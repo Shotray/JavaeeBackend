@@ -70,5 +70,8 @@ public class GoodsServiceImpl implements GoodsService {
         return res;
     }
 
-
+    @Override
+    public GoodsEntity[] getGoods(Short userId) {
+        return this.goodsRepository.getGoodsEntitiesByUserId(userId);
+    }
 }

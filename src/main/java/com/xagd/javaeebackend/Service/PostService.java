@@ -12,6 +12,7 @@ public interface PostService {
     public PostEntity addPost(PostEntity post, MultipartFile[] files);
 
     public List<PostUserEntity> getPosts();
+    public PostEntity[] getPosts(Short userId);
 
     public List<PostUserEntity> getPosts(int pageNo, int pageSize);
 }

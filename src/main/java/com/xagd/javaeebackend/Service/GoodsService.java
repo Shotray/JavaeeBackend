@@ -12,4 +12,6 @@ public interface GoodsService {
     GoodsEntity addGoods(GoodsEntity goods, MultipartFile[] files, Short userId);
 
     ArrayList<GoodsCategoryOutDto> getGoodsByCategory(byte category);
+
+    GoodsEntity[] getGoods(Short userId);
 }
