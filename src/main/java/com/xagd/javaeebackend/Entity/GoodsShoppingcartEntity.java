@@ -1,16 +1,15 @@
 package com.xagd.javaeebackend.Entity;
 
-import org.hibernate.annotations.DynamicInsert;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
-@DynamicInsert
-@Table(name = "goods", schema = "db", catalog = "")
-public class GoodsEntity {
+@Table(name = "goods_shoppingcart", schema = "db", catalog = "")
+@IdClass(GoodsShoppingcartEntityPK.class)
+public class GoodsShoppingcartEntity {
     private short goodsId;
+    private short userId;
     private byte goodsCategory;
     private String goodsName;
     private BigDecimal goodsPrice;
@@ -20,10 +19,11 @@ public class GoodsEntity {
     private String goodsIntroduction;
     private short goodsFavorite;
     private String goodsUnit;
-    private short userId;
+    private short shoppingCartId;
+    private short count;
 
+    @Basic
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "goods_id")
     public short getGoodsId() {
         return goodsId;
@@ -31,6 +31,16 @@ public class GoodsEntity {
 
     public void setGoodsId(short goodsId) {
         this.goodsId = goodsId;
+    }
+
+    @Basic
+    @Column(name = "user_id")
+    public short getUserId() {
+        return userId;
+    }
+
+    public void setUserId(short userId) {
+        this.userId = userId;
     }
 
     @Basic
@@ -123,18 +133,42 @@ public class GoodsEntity {
         this.goodsUnit = goodsUnit;
     }
 
+    @Basic
+    @Id
+    @Column(name = "shopping_cart_id")
+    public short getShoppingCartId() {
+        return shoppingCartId;
+    }
+
+    public void setShoppingCartId(short shoppingCartId) {
+        this.shoppingCartId = shoppingCartId;
+    }
+
+    @Basic
+    @Column(name = "count")
+    public short getCount() {
+        return count;
+    }
+
+    public void setCount(short count) {
+        this.count = count;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        GoodsEntity that = (GoodsEntity) o;
+        GoodsShoppingcartEntity that = (GoodsShoppingcartEntity) o;
 
         if (goodsId != that.goodsId) return false;
+        if (userId != that.userId) return false;
         if (goodsCategory != that.goodsCategory) return false;
         if (sellNum != that.sellNum) return false;
         if (sellStatus != that.sellStatus) return false;
         if (goodsFavorite != that.goodsFavorite) return false;
+        if (shoppingCartId != that.shoppingCartId) return false;
+        if (count != that.count) return false;
         if (goodsName != null ? !goodsName.equals(that.goodsName) : that.goodsName != null) return false;
         if (goodsPrice != null ? !goodsPrice.equals(that.goodsPrice) : that.goodsPrice != null) return false;
         if (goodsDate != null ? !goodsDate.equals(that.goodsDate) : that.goodsDate != null) return false;
@@ -148,6 +182,7 @@ public class GoodsEntity {
     @Override
     public int hashCode() {
         int result = (int) goodsId;
+        result = 31 * result + (int) userId;
         result = 31 * result + (int) goodsCategory;
         result = 31 * result + (goodsName != null ? goodsName.hashCode() : 0);
         result = 31 * result + (goodsPrice != null ? goodsPrice.hashCode() : 0);
@@ -157,16 +192,8 @@ public class GoodsEntity {
         result = 31 * result + (goodsIntroduction != null ? goodsIntroduction.hashCode() : 0);
         result = 31 * result + (int) goodsFavorite;
         result = 31 * result + (goodsUnit != null ? goodsUnit.hashCode() : 0);
+        result = 31 * result + (int) shoppingCartId;
+        result = 31 * result + (int) count;
         return result;
-    }
-
-    @Basic
-    @Column(name = "user_id")
-    public short getUserId() {
-        return userId;
-    }
-
-    public void setUserId(short userId) {
-        this.userId = userId;
     }
 }

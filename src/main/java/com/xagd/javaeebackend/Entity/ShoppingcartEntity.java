@@ -8,6 +8,7 @@ import javax.persistence.*;
 public class ShoppingcartEntity {
     private short shoppingCartId;
     private short goodsId;
+    private short count;
 
     @Id
     @Column(name = "shopping_cart_id")
@@ -47,5 +48,15 @@ public class ShoppingcartEntity {
         int result = (int) shoppingCartId;
         result = 31 * result + (int) goodsId;
         return result;
+    }
+
+    @Basic
+    @Column(name = "count")
+    public short getCount() {
+        return count;
+    }
+
+    public void setCount(short count) {
+        this.count = count;
     }
 }

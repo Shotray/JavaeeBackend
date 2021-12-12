@@ -4,9 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
 
-public class GoodsuserEntityPK implements Serializable {
+public class GoodsShoppingcartEntityPK implements Serializable {
     private short goodsId;
-    private short userId;
+    private short shoppingCartId;
 
     @Column(name = "goods_id")
     @Id
@@ -18,14 +18,14 @@ public class GoodsuserEntityPK implements Serializable {
         this.goodsId = goodsId;
     }
 
-    @Column(name = "user_id")
+    @Column(name = "shopping_cart_id")
     @Id
-    public short getUserId() {
-        return userId;
+    public short getshoppingCartId() {
+        return shoppingCartId;
     }
 
-    public void setUserId(short userId) {
-        this.userId = userId;
+    public void setshoppingCartId(short shoppingCartId) {
+        this.shoppingCartId = shoppingCartId;
     }
 
     @Override
@@ -33,10 +33,10 @@ public class GoodsuserEntityPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        GoodsuserEntityPK that = (GoodsuserEntityPK) o;
+        GoodsShoppingcartEntityPK that = (GoodsShoppingcartEntityPK) o;
 
         if (goodsId != that.goodsId) return false;
-        if (userId != that.userId) return false;
+        if (shoppingCartId != that.shoppingCartId) return false;
 
         return true;
     }
@@ -44,7 +44,7 @@ public class GoodsuserEntityPK implements Serializable {
     @Override
     public int hashCode() {
         int result = (int) goodsId;
-        result = 31 * result + (int) userId;
+        result = 31 * result + (int) shoppingCartId;
         return result;
     }
 }

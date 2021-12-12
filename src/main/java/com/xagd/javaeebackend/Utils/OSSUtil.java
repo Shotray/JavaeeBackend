@@ -56,6 +56,6 @@ public class OSSUtil {
         filename = pre + "." + fe;
         //调用OSS方法实现上传
         ossClient.putObject(bucketName, filename, inputStream);
-        return "https://"+bucketName+"."+endpoint+"/"+filename;
+        return "https://javaee-xjj.oss-cn-shanghai.aliyuncs.com//"+filename;
     }
 }
