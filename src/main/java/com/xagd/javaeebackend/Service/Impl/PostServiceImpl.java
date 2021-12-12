@@ -5,6 +5,9 @@ import com.xagd.javaeebackend.Entity.PostUserEntity;
 import com.xagd.javaeebackend.Repository.PostRepository;
 import com.xagd.javaeebackend.Repository.PostUserEntityRepository;
 import com.xagd.javaeebackend.Service.PostService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +30,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostUserEntity> getPosts() {
         return postUserEntityRepository.findAll(Sort.by(Sort.Direction.DESC, "postDate"));
+    }
+
+    @Override
+    public List<PostUserEntity> getPosts(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "postDate"));
+        return postUserEntityRepository.findAll(pageable).getContent();
     }
 }

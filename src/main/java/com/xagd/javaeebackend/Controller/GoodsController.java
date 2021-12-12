@@ -33,4 +33,15 @@ public class GoodsController {
             return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping(value = "classification/{category}")
+    public ResponseEntity getClassification(@PathVariable(value = "category") int category){
+        try{
+            return new ResponseEntity<>(goodsService.getGoodsByCategory((byte) category), HttpStatus.OK);
+        }
+        catch (Exception e){
+            System.out.println(e.toString());
+            return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
