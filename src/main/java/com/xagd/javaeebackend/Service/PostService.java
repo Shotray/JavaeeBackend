@@ -10,4 +10,6 @@ public interface PostService {
     PostEntity addPost(PostEntity post);
 
     List<PostUserEntity> getPosts();
+
+    List<PostUserEntity> getPosts(int pageNo, int pageSize);
 }

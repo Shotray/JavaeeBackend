@@ -57,22 +57,34 @@ public class PostController {
         }
     }
 
+//    @GetMapping("/posts")
+//    public ResponseEntity getPosts(@RequestParam int maxNumber, @RequestParam int pageNumber) {
+//        System.out.println("posts requests started");
+//        List<PostUserEntity> postUserEntity = new ArrayList<>();
+//        try {
+//            postUserEntity = postService.getPosts();
+//            List<PostUserEntity> pageElement = new ArrayList<>();
+//            int sta = maxNumber * (pageNumber - 1);
+//            for (int i = sta; i < sta + maxNumber; ++i) {
+//                pageElement.add(postUserEntity.get(i));
+//            }
+//            return new ResponseEntity<>(pageElement, HttpStatus.OK);
+//        }
+//        catch (Exception e) {
+//            System.out.println(e);
+//            return new ResponseEntity<>("get posts error", HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
     @GetMapping("/posts")
-    public ResponseEntity getPosts(@RequestParam int maxNumber, @RequestParam int pageNumber) {
-        System.out.println("posts requests started");
-        List<PostUserEntity> postUserEntity = new ArrayList<>();
-        try {
-            postUserEntity = postService.getPosts();
-            List<PostUserEntity> pageElement = new ArrayList<>();
-            int sta = maxNumber * (pageNumber - 1);
-            for (int i = sta; i < sta + maxNumber; ++i) {
-                pageElement.add(postUserEntity.get(i));
-            }
-            return new ResponseEntity<>(pageElement, HttpStatus.OK);
+    public ResponseEntity getPostsByNoAndSize(@RequestParam int maxNumber, @RequestParam int pageNumber){
+        try{
+            return new ResponseEntity<>(postService.getPosts(pageNumber, maxNumber), HttpStatus.OK);
         }
-        catch (Exception e) {
-            System.out.println(e);
+        catch (Exception e){
+            System.out.println(e.toString());
             return new ResponseEntity<>("get posts error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

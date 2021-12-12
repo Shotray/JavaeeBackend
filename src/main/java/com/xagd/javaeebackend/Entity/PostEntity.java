@@ -11,6 +11,7 @@ public class PostEntity {
     private Timestamp postDate;
     private String postIntroduction;
     private Short postPrice;
+    private String postTitle;
 
     @Id
     @Column(name = "post_id")
@@ -96,5 +97,15 @@ public class PostEntity {
                 ", postIntroduction='" + postIntroduction + '\'' +
                 ", postPrice=" + postPrice +
                 '}';
+    }
+
+    @Basic
+    @Column(name = "post_title")
+    public String getPostTitle() {
+        return postTitle;
+    }
+
+    public void setPostTitle(String postTitle) {
+        this.postTitle = postTitle;
     }
 }
