@@ -1,49 +1,31 @@
 package com.xagd.javaeebackend.InDto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class PostEditInDto {
-    String postId;
-    String userId;
-    String postName;
-    String postIntroduction;
-    String postPrice;
-
-    public void setPostId(String postId) {
-        this.postId = postId;
+    public String getSenderId() {
+        return senderId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public String getTitle() {
+        return title;
     }
 
-    public void setPostName(String postName) {
-        this.postName = postName;
+    public String getContent() {
+        return content;
     }
 
-    public void setPostIntroduction(String postIntroduction) {
-        this.postIntroduction = postIntroduction;
+    public String getPrice() {
+        return price;
     }
 
-    public void setPostPrice(String postPrice) {
-        this.postPrice = postPrice;
-    }
+//    public MultipartFile[] getPhotos() {
+//        return photos;
+//    }
 
-    public String getPostId() {
-        return postId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getPostName() {
-        return postName;
-    }
-
-    public String getPostIntroduction() {
-        return postIntroduction;
-    }
-
-    public String getPostPrice() {
-        return postPrice;
-    }
+    String senderId;
+    String title;
+    String content;
+    String price;
+//    MultipartFile[] photos;
 }
