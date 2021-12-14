@@ -14,6 +14,7 @@ public class PostEntity {
     private String postTitle;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     public short getPostId() {
         return postId;

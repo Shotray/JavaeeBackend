@@ -1,5 +1,7 @@
 package com.xagd.javaeebackend.Service.Impl;
 
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.internal.OSSUtils;
 import com.xagd.javaeebackend.Entity.GoodsEntity;
 import com.xagd.javaeebackend.Entity.GoodsShoppingcartEntity;
 import com.xagd.javaeebackend.Entity.GoodsUserEntity;
@@ -68,5 +70,8 @@ public class GoodsServiceImpl implements GoodsService {
         return res;
     }
 
-
+    @Override
+    public GoodsEntity[] getGoods(Short userId) {
+        return this.goodsRepository.getGoodsEntitiesByUserId(userId);
+    }
 }

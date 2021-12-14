@@ -3,13 +3,16 @@ package com.xagd.javaeebackend.Service;
 
 import com.xagd.javaeebackend.Entity.PostEntity;
 import com.xagd.javaeebackend.Entity.PostUserEntity;
+import com.xagd.javaeebackend.Entity.PostimageEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface PostService {
-    PostEntity addPost(PostEntity post);
+    public PostEntity addPost(PostEntity post, MultipartFile[] files);
 
-    List<PostUserEntity> getPosts();
+    public List<PostUserEntity> getPosts();
+    public PostEntity[] getPosts(Short userId);
 
-    List<PostUserEntity> getPosts(int pageNo, int pageSize);
+    public List<PostUserEntity> getPosts(int pageNo, int pageSize);
 }

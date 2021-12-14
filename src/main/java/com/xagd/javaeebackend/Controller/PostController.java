@@ -1,16 +1,21 @@
 package com.xagd.javaeebackend.Controller;
 
+import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.xagd.javaeebackend.Entity.PostEntity;
 import com.xagd.javaeebackend.Entity.PostUserEntity;
+import com.xagd.javaeebackend.Entity.PostimageEntity;
 import com.xagd.javaeebackend.InDto.PostEditInDto;
 import com.xagd.javaeebackend.InDto.PostsDto;
 import com.xagd.javaeebackend.Service.PostService;
+import com.xagd.javaeebackend.Utils.OSSUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,26 +28,16 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-
     @PostMapping(value = "/postEdit")
-    public ResponseEntity postEdit(@RequestBody PostEditInDto postEditInDto) {
-        System.out.println("postEdit started");
-        PostEntity post = new PostEntity();
-        post.setPostPrice(Short.parseShort(postEditInDto.getPostPrice()));
-        post.setUserId(Short.parseShort(postEditInDto.getUserId()));
-        post.setPostIntroduction(postEditInDto.getPostIntroduction());
-
-        System.out.println(post.toString());
-        System.out.println("----------------设置完成");
-
+    public ResponseEntity postEdit(@RequestPart("formData") PostEntity postEntity, @RequestPart("files") MultipartFile[] files) {
+        System.out.println("dnajskfka");
         try {
-            System.out.println("------------存入数据库");
-            PostEntity addedPost = postService.addPost(post);
-            return new ResponseEntity<>(addedPost, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
+            postEntity = postService.addPost(postEntity, files);
+            return new ResponseEntity<>(postEntity, HttpStatus.OK);
         }
-
+        catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping(value = "/postNumber")
