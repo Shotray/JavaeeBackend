@@ -1,7 +1,10 @@
 package com.xagd.javaeebackend.Repository;
 
-import com.xagd.javaeebackend.Entity.FavoriteEntity;
+import com.xagd.javaeebackend.Entity.FavoritesEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface FavoritesRepository extends JpaRepository<FavoriteEntity,Integer> {
+import java.util.ArrayList;
+
+public interface FavoritesRepository extends JpaRepository<FavoritesEntity,Short> {
+    ArrayList<FavoritesEntity> getFavoritesEntityByUserId(short userId);
 }

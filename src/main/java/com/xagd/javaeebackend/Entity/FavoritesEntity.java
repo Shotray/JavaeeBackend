@@ -2,15 +2,22 @@ package com.xagd.javaeebackend.Entity;
 
 import javax.persistence.*;
 
+/**
+ * TODO:此处写FavoritesEntity类的描述
+ *
+ * @author shotray
+ * @since 2021/12/12 16:02
+ */
+
 @Entity
-@Table(name = "favorite", schema = "db", catalog = "")
-public class FavoriteEntity {
+@Table(name = "favorites", schema = "db", catalog = "")
+public class FavoritesEntity {
     private short favoritesId;
     private String favoritesName;
+    private Short userId;
 
     @Id
     @Column(name = "favorites_id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public short getFavoritesId() {
         return favoritesId;
     }
@@ -34,7 +41,7 @@ public class FavoriteEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FavoriteEntity that = (FavoriteEntity) o;
+        FavoritesEntity that = (FavoritesEntity) o;
 
         if (favoritesId != that.favoritesId) return false;
         if (favoritesName != null ? !favoritesName.equals(that.favoritesName) : that.favoritesName != null)
@@ -49,4 +56,15 @@ public class FavoriteEntity {
         result = 31 * result + (favoritesName != null ? favoritesName.hashCode() : 0);
         return result;
     }
+
+    @Basic
+    @Column(name = "user_id")
+    public Short getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Short userId) {
+        this.userId = userId;
+    }
 }
+
