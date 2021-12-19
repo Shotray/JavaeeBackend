@@ -66,4 +66,11 @@ public class PostServiceImpl implements PostService {
     public PostEntity[] getPosts(Short userId) {
         return this.postRepository.getPostEntitiesByUserId(userId);
     }
+
+    @Override
+    public PostEntity deletePost(Short id) {
+        PostEntity post = this.postRepository.getById(id);
+        this.postRepository.deleteById(id);
+        return post;
+    }
 }

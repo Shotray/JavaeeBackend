@@ -15,4 +15,6 @@ public interface PostService {
     public PostEntity[] getPosts(Short userId);
 
     public List<PostUserEntity> getPosts(int pageNo, int pageSize);
+
+    public PostEntity deletePost(Short id);
 }

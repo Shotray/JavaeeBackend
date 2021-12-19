@@ -44,4 +44,15 @@ public class GoodsController {
             return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @DeleteMapping(value = "/delete")
+    public ResponseEntity deleteGood(@RequestParam Short id) {
+        try {
+            this.goodsService.deleteGood(id);
+            return new ResponseEntity<>("ok", HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

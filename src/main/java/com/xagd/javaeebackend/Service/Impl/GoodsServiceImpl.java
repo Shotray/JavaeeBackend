@@ -74,4 +74,11 @@ public class GoodsServiceImpl implements GoodsService {
     public GoodsEntity[] getGoods(Short userId) {
         return this.goodsRepository.getGoodsEntitiesByUserId(userId);
     }
+
+    @Override
+    public GoodsEntity deleteGood(Short id) {
+        GoodsEntity good = this.goodsRepository.getById(id);
+        this.goodsRepository.deleteById(id);
+        return good;
+    }
 }

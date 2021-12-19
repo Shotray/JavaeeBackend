@@ -1,8 +1,14 @@
 package com.xagd.javaeebackend.Service.Impl;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.stp.StpUtil;
+import com.xagd.javaeebackend.Entity.PostEntity;
+import com.xagd.javaeebackend.Entity.PostimageEntity;
 import com.xagd.javaeebackend.Entity.UserEntity;
 import com.xagd.javaeebackend.Repository.UserRepository;
 import com.xagd.javaeebackend.Service.MeService;
+import com.xagd.javaeebackend.Utils.OSSUtil;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
@@ -18,5 +24,21 @@ public class MeServiceImpl implements MeService {
         user2.setUserNickname(userNickName);
         userRepository.save(user2);
         return user2;
+    }
+
+    @SaCheckLogin
+    @Override
+    public UserEntity updateImage(MultipartFile file) {
+        UserEntity user = userRepository.findUserEntityByUserId((short)StpUtil.getLoginIdAsInt());
+        String url = OSSUtil.uploadFile(file, "user" + StpUtil.getLoginIdAsInt());
+        user.setUserImage(url);
+        return user;
+    }
+
+    @SaCheckLogin
+    @Override
+    public UserEntity updateInfo(UserEntity userEntity) {
+        this.userRepository.save(userEntity);
+        return userEntity;
     }
 }

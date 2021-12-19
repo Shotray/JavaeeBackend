@@ -14,4 +14,6 @@ public interface GoodsService {
     ArrayList<GoodsCategoryOutDto> getGoodsByCategory(byte category);
 
     GoodsEntity[] getGoods(Short userId);
+
+    GoodsEntity deleteGood(Short id);
 }
