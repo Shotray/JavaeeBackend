@@ -28,9 +28,9 @@ public class MeServiceImpl implements MeService {
 
     @SaCheckLogin
     @Override
-    public UserEntity updateImage(MultipartFile[] file) {
+    public UserEntity updateImage(MultipartFile[] files) {
         UserEntity user = userRepository.findUserEntityByUserId((short)StpUtil.getLoginIdAsInt());
-        String url = OSSUtil.uploadFile(file[0], "users" + StpUtil.getLoginIdAsInt());
+        String url = OSSUtil.uploadFile(files[0], "user" + StpUtil.getLoginIdAsInt());
         user.setUserImage(url);
         this.userRepository.save(user);
         return user;

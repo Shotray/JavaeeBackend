@@ -7,6 +7,7 @@ import com.xagd.javaeebackend.Entity.GoodsShoppingcartEntity;
 import com.xagd.javaeebackend.Entity.GoodsUserEntity;
 import com.xagd.javaeebackend.Entity.GoodsimageEntity;
 import com.xagd.javaeebackend.OutDto.GoodsCategoryOutDto;
+import com.xagd.javaeebackend.OutDto.MyGoodsOutDto;
 import com.xagd.javaeebackend.OutDto.ShoppingCartOutDto;
 import com.xagd.javaeebackend.Repository.GoodsImageRepository;
 import com.xagd.javaeebackend.Repository.GoodsRepository;
@@ -71,8 +72,17 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public GoodsEntity[] getGoods(Short userId) {
-        return this.goodsRepository.getGoodsEntitiesByUserId(userId);
+    public List<MyGoodsOutDto> getGoods(Short userId) {
+        List<MyGoodsOutDto> myGoods = new ArrayList<MyGoodsOutDto>();
+        GoodsEntity[] goods = this.goodsRepository.getGoodsEntitiesByUserId(userId);
+        for (GoodsEntity good: goods) {
+            List<GoodsimageEntity> goodsImage = this.goodsImageRepository.getGoodsimageEntitiesByGoodsId(good.getGoodsId());
+            MyGoodsOutDto tmp = new MyGoodsOutDto();
+            tmp.setImage(goodsImage.get(0).getImage());
+            tmp.setGoodsEntity(good);
+            myGoods.add(tmp);
+        }
+        return myGoods;
     }
 
     @Override
