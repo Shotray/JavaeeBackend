@@ -1,8 +1,10 @@
 package com.xagd.javaeebackend.Service;
 
 import com.xagd.javaeebackend.Entity.GoodsEntity;
+import com.xagd.javaeebackend.Entity.GoodsimageEntity;
 import com.xagd.javaeebackend.Entity.UserEntity;
 import com.xagd.javaeebackend.OutDto.GoodsCategoryOutDto;
+import com.xagd.javaeebackend.OutDto.MyGoodsOutDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ public interface GoodsService {
 
     ArrayList<GoodsCategoryOutDto> getGoodsByCategory(byte category);
 
-    GoodsEntity[] getGoods(Short userId);
+    List<MyGoodsOutDto> getGoods(Short userId);
 
     GoodsEntity deleteGood(Short id);
 }
