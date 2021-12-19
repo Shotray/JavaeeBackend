@@ -4,6 +4,10 @@ server:
     context-path: /
 
 spring:
+  data:
+    redis:
+      repositories:
+        enabled: false
   datasource:
     url: jdbc:mysql://8.136.17.54:3306/db?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true
     username: ajt
@@ -23,6 +27,7 @@ spring:
   redis:
     host: 8.136.17.54
     port: 6379
+
 
 
 # Sa-Token配置
