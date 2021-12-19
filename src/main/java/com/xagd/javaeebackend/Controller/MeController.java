@@ -62,7 +62,7 @@ public class MeController {
     }
 
     @PutMapping(value = "/image")
-    public ResponseEntity image(@RequestPart("files") MultipartFile file) {
+    public ResponseEntity image(@RequestPart("files") MultipartFile[] file) {
         try {
             UserEntity user = this.meService.updateImage(file);
             return new ResponseEntity<>(user, HttpStatus.OK);
