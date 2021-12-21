@@ -4,17 +4,14 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.GoodsEntity;
 import com.xagd.javaeebackend.Service.GoodsService;
-import com.xagd.javaeebackend.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Map;
-
 @RestController
-@RequestMapping(value = "/goods")
+@RequestMapping(value = "/commodity")
 public class GoodsController {
 
     @Autowired
@@ -52,6 +49,24 @@ public class GoodsController {
             return new ResponseEntity<>("ok", HttpStatus.OK);
         }
         catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("{type}")
+    public ResponseEntity searchGoodsByName(@PathVariable String type, @RequestParam String keyword){
+        try{
+            if (type.equals("keyword")) {
+                return ResponseEntity.ok(goodsService.getGoodsByName(keyword));
+            }
+            else if (type.equals("ownerName")){
+                return ResponseEntity.ok(goodsService.getGoodsByOwnerName(keyword));
+            }
+            else {
+                return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        catch (Exception e){
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

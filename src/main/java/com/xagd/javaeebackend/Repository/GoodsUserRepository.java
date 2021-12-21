@@ -8,5 +8,11 @@ import java.util.List;
 
 public interface GoodsUserRepository extends JpaRepository<GoodsUserEntity, Short>{
 
-    ArrayList<GoodsUserEntity> findAllByGoodsCategory(byte category);
+    List<GoodsUserEntity> findAllByGoodsCategory(byte category);
+
+    // goodsName包含关键词
+    List<GoodsUserEntity> findAllByGoodsNameIsContaining(String keyword);
+
+    // userNickName包含关键词
+    List<GoodsUserEntity> findAllByUserNicknameIsContaining(String ownerName);
 }
