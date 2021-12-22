@@ -2,6 +2,7 @@ package com.xagd.javaeebackend.OutDto;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * TODO:此处写FavoritesGoodsOutDto类的描述
@@ -13,7 +14,7 @@ import java.util.HashMap;
 public class FavoritesGoodsOutDto {
     public class GoodsOutDto{
         String favoritesName;
-        ArrayList<HashMap<String,String>> goods = new ArrayList<>();
+        List<HashMap<String,String>> goods = new ArrayList<>();
 
         public void setFavoritesName(String favoritesName){
             this.favoritesName = favoritesName;
@@ -21,9 +22,9 @@ public class FavoritesGoodsOutDto {
 
         public String getFavoritesName(){return this.favoritesName;}
 
-        public void setGoods(ArrayList<HashMap<String,String>> goods){this.goods = goods;}
+        public void setGoods(List<HashMap<String,String>> goods){this.goods = goods;}
 
-        public ArrayList<HashMap<String,String>> getGoods() {
+        public List<HashMap<String,String>> getGoods() {
             return this.goods;
         }
 
