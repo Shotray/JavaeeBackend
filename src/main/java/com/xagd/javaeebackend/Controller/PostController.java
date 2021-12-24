@@ -30,7 +30,6 @@ public class PostController {
 
     @PostMapping(value = "/postEdit")
     public ResponseEntity postEdit(@RequestPart("formData") PostEntity postEntity, @RequestPart("files") MultipartFile[] files) {
-        System.out.println("dnajskfka");
         try {
             postEntity = postService.addPost(postEntity, files);
             return new ResponseEntity<>(postEntity, HttpStatus.OK);
@@ -52,24 +51,15 @@ public class PostController {
         }
     }
 
-//    @GetMapping("/posts")
-//    public ResponseEntity getPosts(@RequestParam int maxNumber, @RequestParam int pageNumber) {
-//        System.out.println("posts requests started");
-//        List<PostUserEntity> postUserEntity = new ArrayList<>();
-//        try {
-//            postUserEntity = postService.getPosts();
-//            List<PostUserEntity> pageElement = new ArrayList<>();
-//            int sta = maxNumber * (pageNumber - 1);
-//            for (int i = sta; i < sta + maxNumber; ++i) {
-//                pageElement.add(postUserEntity.get(i));
-//            }
-//            return new ResponseEntity<>(pageElement, HttpStatus.OK);
-//        }
-//        catch (Exception e) {
-//            System.out.println(e);
-//            return new ResponseEntity<>("get posts error", HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @DeleteMapping(value = "/delete")
+    public ResponseEntity deletePost(@RequestParam Short id) {
+        try {
+            return new ResponseEntity<>("ok", HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @GetMapping("/posts")
     public ResponseEntity getPostsByNoAndSize(@RequestParam int maxNumber, @RequestParam int pageNumber){

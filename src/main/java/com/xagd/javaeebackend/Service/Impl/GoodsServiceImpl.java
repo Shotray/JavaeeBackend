@@ -7,6 +7,7 @@ import com.xagd.javaeebackend.Entity.GoodsShoppingcartEntity;
 import com.xagd.javaeebackend.Entity.GoodsUserEntity;
 import com.xagd.javaeebackend.Entity.GoodsimageEntity;
 import com.xagd.javaeebackend.OutDto.GoodsCategoryOutDto;
+import com.xagd.javaeebackend.OutDto.GoodsSearchOutDto;
 import com.xagd.javaeebackend.OutDto.ShoppingCartOutDto;
 import com.xagd.javaeebackend.Repository.GoodsImageRepository;
 import com.xagd.javaeebackend.Repository.GoodsRepository;
@@ -57,21 +58,61 @@ public class GoodsServiceImpl implements GoodsService {
     public ArrayList<GoodsCategoryOutDto> getGoodsByCategory(byte category) {
         ArrayList<GoodsCategoryOutDto> res = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
-        ArrayList<GoodsUserEntity> goodsUserEntityList =  goodsUserRepository.findAllByGoodsCategory(category);
+        List<GoodsUserEntity> goodsUserEntityList =  goodsUserRepository.findAllByGoodsCategory(category);
         for(GoodsUserEntity goodsUserEntity: goodsUserEntityList){
-            GoodsimageEntity goodsImage = new GoodsimageEntity();
-            goodsImage.setGoodsId(goodsUserEntity.getGoodsId());
-            Example<GoodsimageEntity> example = Example.of(goodsImage);
-            Optional<GoodsimageEntity> result = goodsImageRepository.findOne(example);
+            GoodsimageEntity goodsImage = getGoodsImageByGoodsId(goodsUserEntity.getGoodsId());
             GoodsCategoryOutDto goodsCategoryOutDto = modelMapper.map(goodsUserEntity, GoodsCategoryOutDto.class);
-            goodsCategoryOutDto.setImage(result.get().getImage());
+            goodsCategoryOutDto.setImage(goodsImage.getImage());
             res.add(goodsCategoryOutDto);
         }
         return res;
     }
 
     @Override
+    public ArrayList<GoodsSearchOutDto> getGoodsByName(String name) {
+        ArrayList<GoodsSearchOutDto> res = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
+        List<GoodsUserEntity> goodsUserEntityList = goodsUserRepository.findAllByGoodsNameIsContaining(name);
+        for (GoodsUserEntity goodsUserEntity: goodsUserEntityList){
+            GoodsimageEntity goodsImage = getGoodsImageByGoodsId(goodsUserEntity.getGoodsId());
+            GoodsSearchOutDto goodsSearchOutDto = modelMapper.map(goodsUserEntity, GoodsSearchOutDto.class);
+            goodsSearchOutDto.setImage(goodsImage.getImage());
+            res.add(goodsSearchOutDto);
+        }
+        return res;
+    }
+
+    @Override
+    public ArrayList<GoodsSearchOutDto> getGoodsByOwnerName(String ownerName) {
+        ArrayList<GoodsSearchOutDto> res = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
+        List<GoodsUserEntity> goodsUserEntityList = goodsUserRepository.findAllByUserNicknameIsContaining(ownerName);
+        for (GoodsUserEntity goodsUserEntity: goodsUserEntityList){
+            GoodsimageEntity goodsImage = getGoodsImageByGoodsId(goodsUserEntity.getGoodsId());
+            GoodsSearchOutDto goodsSearchOutDto = modelMapper.map(goodsUserEntity, GoodsSearchOutDto.class);
+            goodsSearchOutDto.setImage(goodsImage.getImage());
+            res.add(goodsSearchOutDto);
+        }
+        return res;
+    }
+
+    private GoodsimageEntity getGoodsImageByGoodsId(short goodsId){
+        GoodsimageEntity goodsImage = new GoodsimageEntity();
+        goodsImage.setGoodsId(goodsId);
+        Example<GoodsimageEntity> example = Example.of(goodsImage);
+        Optional<GoodsimageEntity> result = goodsImageRepository.findOne(example);
+        return result.get();
+    }
+
+    @Override
     public GoodsEntity[] getGoods(Short userId) {
         return this.goodsRepository.getGoodsEntitiesByUserId(userId);
+    }
+
+    @Override
+    public GoodsEntity deleteGood(Short id) {
+        GoodsEntity good = this.goodsRepository.getById(id);
+        this.goodsRepository.deleteById(id);
+        return good;
     }
 }

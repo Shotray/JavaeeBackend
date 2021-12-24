@@ -6,13 +6,13 @@ import com.xagd.javaeebackend.Entity.GoodsEntity;
 import com.xagd.javaeebackend.Entity.OrderEntity;
 import com.xagd.javaeebackend.Entity.PostEntity;
 import com.xagd.javaeebackend.Entity.UserEntity;
-import com.xagd.javaeebackend.InDto.MeEditDto;
-import com.xagd.javaeebackend.InDto.MeInfoDto;
 import com.xagd.javaeebackend.Service.*;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -33,7 +33,6 @@ public class MeController {
     @Autowired
     private PostService postService;
 
-    //    @SaCheckLogin
     @GetMapping(value = "/info")
     public ResponseEntity info() {
         Short userId = (short)StpUtil.getLoginIdAsInt();
@@ -60,5 +59,27 @@ public class MeController {
         Short userId = (short)StpUtil.getLoginIdAsInt();
         PostEntity[] posts = this.postService.getPosts(userId);
         return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/image")
+    public ResponseEntity image(@RequestPart("files") MultipartFile[] file) {
+        try {
+            UserEntity user = this.meService.updateImage(file);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping(value = "/info")
+    public ResponseEntity info(@RequestBody UserEntity newUser) {
+        try {
+            this.meService.updateInfo(newUser);
+            return new ResponseEntity<>(newUser, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
