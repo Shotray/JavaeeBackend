@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
 @RestController
 @RequestMapping(value = "/commodity")
 public class GoodsController {
@@ -23,25 +24,26 @@ public class GoodsController {
         try {
             Short userId = (short) StpUtil.getLoginIdAsInt();
             goodsService.addGoods(goodsEntity, files , userId);
-            return new ResponseEntity<>("hh", HttpStatus.OK);
+            return ResponseEntity.ok("hh");
         }
         catch (Exception e){
             System.out.println(e.toString());
-            return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
     @GetMapping(value = "classification/{category}")
     public ResponseEntity getClassification(@PathVariable(value = "category") int category){
         try{
-            return new ResponseEntity<>(goodsService.getGoodsByCategory((byte) category), HttpStatus.OK);
+            return ResponseEntity.ok(goodsService.getGoodsByCategory((byte) category));
         }
         catch (Exception e){
             System.out.println(e.toString());
-            return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
+    @SaCheckLogin
     @DeleteMapping(value = "/delete")
     public ResponseEntity deleteGood(@RequestParam Short id) {
         try {
@@ -63,11 +65,12 @@ public class GoodsController {
                 return ResponseEntity.ok(goodsService.getGoodsByOwnerName(keyword));
             }
             else {
-                return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
         }
         catch (Exception e){
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            System.out.println(e.toString());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

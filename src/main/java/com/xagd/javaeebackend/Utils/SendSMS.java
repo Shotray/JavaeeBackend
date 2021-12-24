@@ -38,8 +38,6 @@ public class SendSMS {
         param.put("method", "Submit");
         param.put("mobile", phone);
         param.put("content", SendSMS.content.replace("1254", content));
-        String resp = HttpClientUtil.doGet(Url, param);
-        return resp;
+        return HttpClientUtil.doGet(Url, param);
     }
-
 }
