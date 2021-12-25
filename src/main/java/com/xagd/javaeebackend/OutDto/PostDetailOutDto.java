@@ -10,6 +10,7 @@ import java.util.List;
 public class PostDetailOutDto {
     PostEntity post;
     List<PostimageEntity> postImages;
+    PostUserEntity postUser;
 
     public PostUserEntity getPostUser() {
         return postUser;
@@ -19,7 +20,7 @@ public class PostDetailOutDto {
         this.postUser = postUser;
     }
 
-    PostUserEntity postUser;
+
 
     public PostEntity getPost() {
         return post;
