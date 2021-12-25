@@ -1,8 +1,10 @@
 package com.xagd.javaeebackend.Service;
 
 import com.xagd.javaeebackend.Entity.GoodsEntity;
+import com.xagd.javaeebackend.Entity.ShoppingcartEntity;
 import com.xagd.javaeebackend.Entity.UserEntity;
 import com.xagd.javaeebackend.OutDto.GoodsCategoryOutDto;
+import com.xagd.javaeebackend.OutDto.GoodsDetailedDto;
 import com.xagd.javaeebackend.OutDto.GoodsSearchOutDto;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,4 +23,9 @@ public interface GoodsService {
     GoodsEntity[] getGoods(Short userId);
 
     GoodsEntity deleteGood(Short id);
+
+    GoodsDetailedDto getGoodsDetailed(Short goodsId);
+
+    ShoppingcartEntity addGoodsToShoppingCart(Short goodsId,Short count);
+
 }

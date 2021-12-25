@@ -73,4 +73,11 @@ public class GoodsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @GetMapping("/detailed")
+    public ResponseEntity getGoodDetailedInfo(
+            @RequestParam(value = "commodityId")Short goodsId
+    ){
+        return new ResponseEntity<>(goodsService.getGoodsDetailed(goodsId),HttpStatus.OK);
+    }
 }

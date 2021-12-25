@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface GoodsImageRepository extends JpaRepository<GoodsimageEntity, GoodsimageEntityPK> {
     @Override
     <S extends GoodsimageEntity> Optional<S> findOne(Example<S> example);
+
+    GoodsimageEntity getGoodsimageEntityByGoodsId(Short goodsId);
 }
