@@ -4,6 +4,10 @@ import com.xagd.javaeebackend.Entity.UserEntity;
 import com.xagd.javaeebackend.Repository.UserRepository;
 import com.xagd.javaeebackend.Service.UserService;
 import com.xagd.javaeebackend.Utils.SendSMS;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -53,11 +57,16 @@ public class UserServiceImpl implements UserService {
     public boolean sendSMS(String phone){
         String code = getCode();
         String resp = SendSMS.send(phone, code);
-
-
-        if(resp.contains("提交成功")){
-            redisTemplate.opsForValue().set(phone, code, 300, TimeUnit.SECONDS);
-            return true;
+        try{
+            Document doc = DocumentHelper.parseText(resp);
+            Element root = doc.getRootElement();
+            String respCode = root.element("code").getText();
+            if (respCode.equals("2")){
+                redisTemplate.opsForValue().set(phone, code, 300, TimeUnit.SECONDS);
+                return true;
+            }
+        } catch (DocumentException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -72,10 +81,9 @@ public class UserServiceImpl implements UserService {
     public String getCode(){
         Random random = new Random();
         StringBuilder result = new StringBuilder();
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < 6; i++) {
             result.append(random.nextInt(10));
         }
         return result.toString();
     }
-
 }

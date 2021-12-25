@@ -1,6 +1,5 @@
 package com.xagd.javaeebackend.InDto;
 
-import lombok.Data;
 
 public class LoginInfoInDto {
     String userName;

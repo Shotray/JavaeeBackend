@@ -8,10 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class JavaEeBackEndApplication {
 
     public static void main(String[] args) {
-
         SpringApplication.run(JavaEeBackEndApplication.class, args);
-
-        System.out.println("SA-Token: " + SaManager.getConfig());
     }
 
 }

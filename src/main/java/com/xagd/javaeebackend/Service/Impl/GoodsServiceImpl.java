@@ -1,18 +1,15 @@
 package com.xagd.javaeebackend.Service.Impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.internal.OSSUtils;
-import com.xagd.javaeebackend.Entity.GoodsEntity;
-import com.xagd.javaeebackend.Entity.GoodsShoppingcartEntity;
-import com.xagd.javaeebackend.Entity.GoodsUserEntity;
-import com.xagd.javaeebackend.Entity.GoodsimageEntity;
+import com.xagd.javaeebackend.Entity.*;
 import com.xagd.javaeebackend.OutDto.GoodsCategoryOutDto;
 import com.xagd.javaeebackend.OutDto.MyGoodsOutDto;
+import com.xagd.javaeebackend.OutDto.GoodsDetailedDto;
+import com.xagd.javaeebackend.OutDto.GoodsSearchOutDto;
 import com.xagd.javaeebackend.OutDto.ShoppingCartOutDto;
-import com.xagd.javaeebackend.Repository.GoodsImageRepository;
-import com.xagd.javaeebackend.Repository.GoodsRepository;
-import com.xagd.javaeebackend.Repository.GoodsUserRepository;
-import com.xagd.javaeebackend.Repository.UserRepository;
+import com.xagd.javaeebackend.Repository.*;
 import com.xagd.javaeebackend.Service.GoodsImageService;
 import com.xagd.javaeebackend.Service.GoodsService;
 import com.xagd.javaeebackend.Utils.OSSUtil;
@@ -38,6 +35,12 @@ public class GoodsServiceImpl implements GoodsService {
     @Resource
     private GoodsUserRepository goodsUserRepository;
 
+    @Resource
+    private UserRepository userRepository;
+
+    @Resource
+    private ShoppingCartRepository shoppingCartRepository;
+
 
     @Override
     public GoodsEntity addGoods(GoodsEntity goods, MultipartFile[] files, Short userId) {
@@ -58,14 +61,11 @@ public class GoodsServiceImpl implements GoodsService {
     public ArrayList<GoodsCategoryOutDto> getGoodsByCategory(byte category) {
         ArrayList<GoodsCategoryOutDto> res = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
-        ArrayList<GoodsUserEntity> goodsUserEntityList =  goodsUserRepository.findAllByGoodsCategory(category);
+        List<GoodsUserEntity> goodsUserEntityList =  goodsUserRepository.findAllByGoodsCategory(category);
         for(GoodsUserEntity goodsUserEntity: goodsUserEntityList){
-            GoodsimageEntity goodsImage = new GoodsimageEntity();
-            goodsImage.setGoodsId(goodsUserEntity.getGoodsId());
-            Example<GoodsimageEntity> example = Example.of(goodsImage);
-            Optional<GoodsimageEntity> result = goodsImageRepository.findOne(example);
+            GoodsimageEntity goodsImage = getGoodsImageByGoodsId(goodsUserEntity.getGoodsId());
             GoodsCategoryOutDto goodsCategoryOutDto = modelMapper.map(goodsUserEntity, GoodsCategoryOutDto.class);
-            goodsCategoryOutDto.setImage(result.get().getImage());
+            goodsCategoryOutDto.setImage(goodsImage.getImage());
             res.add(goodsCategoryOutDto);
         }
         return res;
@@ -75,7 +75,7 @@ public class GoodsServiceImpl implements GoodsService {
     public List<MyGoodsOutDto> getGoods(Short userId) {
         List<MyGoodsOutDto> myGoods = new ArrayList<MyGoodsOutDto>();
         GoodsEntity[] goods = this.goodsRepository.getGoodsEntitiesByUserId(userId);
-        for (GoodsEntity good: goods) {
+        for (GoodsEntity good : goods) {
             List<GoodsimageEntity> goodsImage = this.goodsImageRepository.getGoodsimageEntitiesByGoodsId(good.getGoodsId());
             MyGoodsOutDto tmp = new MyGoodsOutDto();
             tmp.setImage(goodsImage.get(0).getImage());
@@ -85,10 +85,81 @@ public class GoodsServiceImpl implements GoodsService {
         return myGoods;
     }
 
+    public ArrayList<GoodsSearchOutDto> getGoodsByName(String name) {
+        ArrayList<GoodsSearchOutDto> res = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
+        List<GoodsUserEntity> goodsUserEntityList = goodsUserRepository.findAllByGoodsNameIsContaining(name);
+        for (GoodsUserEntity goodsUserEntity: goodsUserEntityList){
+            GoodsimageEntity goodsImage = getGoodsImageByGoodsId(goodsUserEntity.getGoodsId());
+            GoodsSearchOutDto goodsSearchOutDto = modelMapper.map(goodsUserEntity, GoodsSearchOutDto.class);
+            goodsSearchOutDto.setImage(goodsImage.getImage());
+            res.add(goodsSearchOutDto);
+        }
+        return res;
+    }
+
+    @Override
+    public ArrayList<GoodsSearchOutDto> getGoodsByOwnerName(String ownerName) {
+        ArrayList<GoodsSearchOutDto> res = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
+        List<GoodsUserEntity> goodsUserEntityList = goodsUserRepository.findAllByUserNicknameIsContaining(ownerName);
+        for (GoodsUserEntity goodsUserEntity: goodsUserEntityList){
+            GoodsimageEntity goodsImage = getGoodsImageByGoodsId(goodsUserEntity.getGoodsId());
+            GoodsSearchOutDto goodsSearchOutDto = modelMapper.map(goodsUserEntity, GoodsSearchOutDto.class);
+            goodsSearchOutDto.setImage(goodsImage.getImage());
+            res.add(goodsSearchOutDto);
+        }
+        return res;
+    }
+
+    private GoodsimageEntity getGoodsImageByGoodsId(short goodsId){
+        GoodsimageEntity goodsImage = new GoodsimageEntity();
+        goodsImage.setGoodsId(goodsId);
+        Example<GoodsimageEntity> example = Example.of(goodsImage);
+        Optional<GoodsimageEntity> result = goodsImageRepository.findOne(example);
+        return result.get();
+    }
+
     @Override
     public GoodsEntity deleteGood(Short id) {
         GoodsEntity good = this.goodsRepository.getById(id);
         this.goodsRepository.deleteById(id);
         return good;
     }
+
+    @Override
+    public GoodsDetailedDto getGoodsDetailed(Short goodsId) {
+        return null;
+    }
+
+//    @Override
+//    public GoodsDetailedDto getGoodsDetailed(Short goodsId) {
+//        GoodsDetailedDto goodsDetailedDto = new GoodsDetailedDto();
+//
+//        GoodsEntity goodsEntity = goodsRepository.getById(goodsId);
+//        UserEntity userEntity = userRepository.getById(goodsEntity.getUserId());
+//        GoodsimageEntity goodsimageEntity = goodsImageRepository.getGoodsimageEntityByGoodsId(goodsId);
+//        goodsDetailedDto.setUserName(userEntity.getUserName());
+//        goodsDetailedDto.setUserImage(userEntity.getUserImage());
+//        goodsDetailedDto.setGoodsName(goodsEntity.getGoodsName());
+//        goodsDetailedDto.setPrice(goodsEntity.getGoodsPrice());
+//        goodsDetailedDto.setLikes(goodsEntity.getGoodsFavorite());
+//        goodsDetailedDto.setDescription(goodsEntity.getGoodsIntroduction());
+//        goodsDetailedDto.setCategory(goodsEntity.getGoodsCategory());
+//        goodsDetailedDto.setGoodsImage(goodsimageEntity.getImage());
+//
+//        return goodsDetailedDto;
+//    }
+
+    @Override
+    public ShoppingcartEntity addGoodsToShoppingCart(Short goodsId,Short count) {
+        Short userId = (short) StpUtil.getLoginIdAsInt();
+        ShoppingcartEntity shoppingcartEntity = new ShoppingcartEntity();
+        shoppingcartEntity.setShoppingCartId(userId);
+        shoppingcartEntity.setGoodsId(goodsId);
+        shoppingcartEntity.setCount(count);
+        return shoppingCartRepository.save(shoppingcartEntity);
+    }
+
+
 }
