@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Date;
 
 public interface PostUserEntityRepository extends JpaRepository<PostUserEntity, Short> {
-
+    PostUserEntity getByPostId(Short postId);
 }

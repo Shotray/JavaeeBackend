@@ -74,7 +74,7 @@ public class PostController {
     }
 
     @GetMapping(value = "/detail")
-    public ResponseEntity getPostDetail(@RequestParam short postId) {
+    public ResponseEntity getPostDetail(@RequestParam Short postId) {
         try  {
             return new ResponseEntity<>(postService.getPostDetailById(postId), HttpStatus.OK);
         }

@@ -5,6 +5,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.PostEntity;
 import com.xagd.javaeebackend.Entity.PostUserEntity;
 import com.xagd.javaeebackend.Entity.PostimageEntity;
+import com.xagd.javaeebackend.Entity.UserEntity;
 import com.xagd.javaeebackend.OutDto.PostDetailOutDto;
 import com.xagd.javaeebackend.Repository.PostRepository;
 import com.xagd.javaeebackend.Repository.PostUserEntityRepository;
@@ -39,6 +40,8 @@ public class PostServiceImpl implements PostService {
     public PostEntity addPost(PostEntity postEntity, MultipartFile[] files) {
         postEntity.setUserId((short) StpUtil.getLoginIdAsInt());
         System.out.println(postEntity);
+        Timestamp time = new Timestamp(System.currentTimeMillis());
+        postEntity.setPostDate(time);
         PostEntity postEntity1 = postRepository.save(postEntity);
         System.out.println(postEntity1);
 
@@ -77,9 +80,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDetailOutDto getPostDetailById(Short postId) {
-        PostEntity post = this.postRepository.getById(postId);
+        PostEntity post = this.postRepository.getPostEntityByPostId(postId);
         List<PostimageEntity> postImages = this.postImageRepository.getAllByPostId(postId);
+        PostUserEntity postUser = this.postUserEntityRepository.getByPostId(postId);
         PostDetailOutDto postDetail = new PostDetailOutDto();
+        postDetail.setPostUser(postUser);
         postDetail.setPost(post);
         postDetail.setPostImages(postImages);
         return postDetail;
