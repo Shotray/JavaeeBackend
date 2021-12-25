@@ -73,4 +73,14 @@ public class PostController {
         }
     }
 
+    @GetMapping(value = "/detail")
+    public ResponseEntity getPostDetail(@RequestParam short postId) {
+        try  {
+            return new ResponseEntity<>(postService.getPostDetailById(postId), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

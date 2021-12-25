@@ -5,6 +5,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.PostEntity;
 import com.xagd.javaeebackend.Entity.PostUserEntity;
 import com.xagd.javaeebackend.Entity.PostimageEntity;
+import com.xagd.javaeebackend.OutDto.PostDetailOutDto;
 import com.xagd.javaeebackend.Repository.PostRepository;
 import com.xagd.javaeebackend.Repository.PostUserEntityRepository;
 import com.xagd.javaeebackend.Repository.PostimageEntityRepository;
@@ -72,5 +73,15 @@ public class PostServiceImpl implements PostService {
         PostEntity post = this.postRepository.getById(id);
         this.postRepository.deleteById(id);
         return post;
+    }
+
+    @Override
+    public PostDetailOutDto getPostDetailById(Short postId) {
+        PostEntity post = this.postRepository.getById(postId);
+        List<PostimageEntity> postImages = this.postImageRepository.getAllByPostId(postId);
+        PostDetailOutDto postDetail = new PostDetailOutDto();
+        postDetail.setPost(post);
+        postDetail.setPostImages(postImages);
+        return postDetail;
     }
 }
