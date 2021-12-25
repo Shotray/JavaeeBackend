@@ -20,8 +20,6 @@ public class PostDetailOutDto {
         this.postUser = postUser;
     }
 
-
-
     public PostEntity getPost() {
         return post;
     }
