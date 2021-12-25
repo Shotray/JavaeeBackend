@@ -42,8 +42,7 @@ public class PostController {
     @GetMapping(value = "/postNumber")
     public ResponseEntity getPostNumber() {
         try {
-            String num = Integer.toString(postService.getPosts().size());
-            return new ResponseEntity(num, HttpStatus.OK);
+            return new ResponseEntity(postService.getPosts().size(), HttpStatus.OK);
         }
         catch (Exception e) {
             System.out.println(e);
