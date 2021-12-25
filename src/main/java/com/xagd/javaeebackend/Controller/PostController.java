@@ -54,6 +54,7 @@ public class PostController {
     @DeleteMapping(value = "/delete")
     public ResponseEntity deletePost(@RequestParam Short id) {
         try {
+            this.postService.deletePost(id);
             return new ResponseEntity<>("ok", HttpStatus.OK);
         }
         catch (Exception e) {
