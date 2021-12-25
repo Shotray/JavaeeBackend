@@ -1,6 +1,8 @@
 package com.xagd.javaeebackend.Service;
 
 import com.xagd.javaeebackend.Entity.FavoritesEntity;
+import com.xagd.javaeebackend.InDto.FavoritesInDto;
+import com.xagd.javaeebackend.OutDto.FavoritesGoodsOutDto;
 import com.xagd.javaeebackend.Repository.FavoritesRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,10 @@ import java.util.ArrayList;
  */
 
 public interface FavoritesService {
-    FavoritesEntity addFavorites(FavoritesEntity favoritesEntity,short userId);
+    FavoritesEntity addFavorites(FavoritesInDto favoritesInDto);
 
     ArrayList<FavoritesEntity> getFavoritesEntityByUserId(short userId);
+
+    FavoritesGoodsOutDto getFavoritesGoods();
 }
 
