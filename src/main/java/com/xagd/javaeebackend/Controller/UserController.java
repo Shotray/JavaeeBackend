@@ -5,6 +5,7 @@ import com.xagd.javaeebackend.Entity.UserEntity;
 import com.xagd.javaeebackend.InDto.LoginInfoInDto;
 import com.xagd.javaeebackend.InDto.RegisterInfoInDto;
 import com.xagd.javaeebackend.Service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,11 +31,8 @@ public class UserController {
     }
 
     @PostMapping(value = "/autoLogin")
-    public ResponseEntity autoLogin(@RequestHeader Map<String, String> headers) {
+    public ResponseEntity autoLogin() {
         System.out.println(StpUtil.isLogin());
-        headers.forEach((key, value) -> {
-            System.out.println((String.format("Header '%s' = %s", key, value)));
-        });
         if (StpUtil.isLogin()){
             Short userId = (short)StpUtil.getLoginIdAsInt();
             UserEntity user = userService.findUserEntityByUserId(userId);
@@ -44,7 +42,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity login(@RequestBody LoginInfoInDto loginInfoInDto, @RequestHeader Map<String, String> headers){
+    public ResponseEntity login(@RequestBody LoginInfoInDto loginInfoInDto){
         System.out.println(StpUtil.isLogin());
         if (StpUtil.isLogin()){
             Short userId = (short)StpUtil.getLoginIdAsInt();
@@ -71,11 +69,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Verification code error");
         }
 
-        UserEntity user = new UserEntity();
-        user.setUserName(registerInfoInDto.getUserName());
-        user.setUserNickname(registerInfoInDto.getUserNickname());
-        user.setUserPhone(registerInfoInDto.getUserPhone());
-        user.setUserPassword(registerInfoInDto.getUserPassword());
+        ModelMapper modelMapper = new ModelMapper();
+        UserEntity user = modelMapper.map(registerInfoInDto, UserEntity.class);
 
         try {
             UserEntity addedUser =  userService.addUser(user);
