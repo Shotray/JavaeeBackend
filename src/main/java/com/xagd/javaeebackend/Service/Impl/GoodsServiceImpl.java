@@ -127,29 +127,30 @@ public class GoodsServiceImpl implements GoodsService {
         return good;
     }
 
+
     @Override
     public GoodsDetailedDto getGoodsDetailed(Short goodsId) {
-        return null;
-    }
+        GoodsDetailedDto goodsDetailedDto = new GoodsDetailedDto();
 
-//    @Override
-//    public GoodsDetailedDto getGoodsDetailed(Short goodsId) {
-//        GoodsDetailedDto goodsDetailedDto = new GoodsDetailedDto();
-//
-//        GoodsEntity goodsEntity = goodsRepository.getById(goodsId);
-//        UserEntity userEntity = userRepository.getById(goodsEntity.getUserId());
-//        GoodsimageEntity goodsimageEntity = goodsImageRepository.getGoodsimageEntityByGoodsId(goodsId);
-//        goodsDetailedDto.setUserName(userEntity.getUserName());
-//        goodsDetailedDto.setUserImage(userEntity.getUserImage());
-//        goodsDetailedDto.setGoodsName(goodsEntity.getGoodsName());
-//        goodsDetailedDto.setPrice(goodsEntity.getGoodsPrice());
-//        goodsDetailedDto.setLikes(goodsEntity.getGoodsFavorite());
-//        goodsDetailedDto.setDescription(goodsEntity.getGoodsIntroduction());
-//        goodsDetailedDto.setCategory(goodsEntity.getGoodsCategory());
-//        goodsDetailedDto.setGoodsImage(goodsimageEntity.getImage());
-//
-//        return goodsDetailedDto;
-//    }
+        GoodsEntity goodsEntity = goodsRepository.getById(goodsId);
+        UserEntity userEntity = userRepository.getById(goodsEntity.getUserId());
+        List<GoodsimageEntity> goodsimageEntity = goodsImageRepository.getGoodsimageEntitiesByGoodsId(goodsId);
+        List<String> url = new ArrayList<>();
+        for(GoodsimageEntity item: goodsimageEntity){
+            url.add(item.getImage());
+        }
+
+        goodsDetailedDto.setUserName(userEntity.getUserName());
+        goodsDetailedDto.setUserImage(userEntity.getUserImage());
+        goodsDetailedDto.setGoodsName(goodsEntity.getGoodsName());
+        goodsDetailedDto.setPrice(goodsEntity.getGoodsPrice());
+        goodsDetailedDto.setLikes(goodsEntity.getGoodsFavorite());
+        goodsDetailedDto.setDescription(goodsEntity.getGoodsIntroduction());
+        goodsDetailedDto.setCategory(goodsEntity.getGoodsCategory());
+        goodsDetailedDto.setGoodsImage(url);
+
+        return goodsDetailedDto;
+    }
 
     @Override
     public ShoppingcartEntity addGoodsToShoppingCart(Short goodsId,Short count) {
