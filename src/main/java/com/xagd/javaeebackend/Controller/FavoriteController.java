@@ -1,5 +1,6 @@
 package com.xagd.javaeebackend.Controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.FavoritesEntity;
 import com.xagd.javaeebackend.Entity.FavoritesGoodsViewEntity;
@@ -34,6 +35,7 @@ public class FavoriteController {
     @Autowired
     FavoritesGoodsViewService favoritesGoodsViewService;
 
+    @SaCheckLogin
     @PostMapping("createFavorites")
     public ResponseEntity createFavorites(@RequestBody FavoritesInDto favoritesInDto) {
         FavoritesEntity favoritesEntity = new FavoritesEntity();
@@ -49,6 +51,7 @@ public class FavoriteController {
         }
     }
 
+    @SaCheckLogin
     @GetMapping("getFavorites")
     public ResponseEntity getFavoritesGoods() {
         try {
