@@ -27,27 +27,12 @@ public class FavoritesGoodsOutDto {
         public List<HashMap<String,String>> getGoods() {
             return this.goods;
         }
-
-        @Override
-        public String toString() {
-            return "GoodsOutDto{" +
-                    "favoritesName=" + favoritesName +
-                    ", goods=" + goods +
-                    '}';
-        }
     }
 
-    private ArrayList<GoodsOutDto> favoritesGoods = new ArrayList<>();
+    private List<GoodsOutDto> favoritesGoods = new ArrayList<>();
 
     public void addFavoritesGoods(GoodsOutDto favoritesGoods){this.favoritesGoods.add(favoritesGoods);}
 
-    public ArrayList<GoodsOutDto> getFavoritesGoods(){return this.favoritesGoods;}
-
-    @Override
-    public String toString() {
-        return "FavoritesGoodsOutDto{" +
-                "favoritesGoods=" + favoritesGoods +
-                '}';
-    }
+    public List<GoodsOutDto> getFavoritesGoods(){return this.favoritesGoods;}
 }
 

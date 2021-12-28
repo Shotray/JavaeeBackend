@@ -38,12 +38,8 @@ public class FavoriteController {
     @SaCheckLogin
     @PostMapping("createFavorites")
     public ResponseEntity createFavorites(@RequestBody FavoritesInDto favoritesInDto) {
-        FavoritesEntity favoritesEntity = new FavoritesEntity();
-        favoritesEntity.setFavoritesName(favoritesInDto.getFavoritesName());
-        Short userId = (short) StpUtil.getLoginIdAsInt();
-
         try {
-            FavoritesEntity ret = favoritesService.addFavorites(favoritesEntity, userId);
+            FavoritesEntity ret = favoritesService.addFavorites(favoritesInDto);
             return new ResponseEntity<>(ret, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -55,33 +51,7 @@ public class FavoriteController {
     @GetMapping("getFavorites")
     public ResponseEntity getFavoritesGoods() {
         try {
-            Short userId = (short) StpUtil.getLoginIdAsInt();
-
-            FavoritesGoodsOutDto favoritesGoodsOutDto = new FavoritesGoodsOutDto();
-
-            ArrayList<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId(userId);
-            for (FavoritesEntity item : favoritesEntities) {
-                ArrayList<FavoritesGoodsViewEntity> favoritesGoodsViewEntities = favoritesGoodsViewService.getGoodsInfoByFavoritesId(item.getFavoritesId());
-                ArrayList<HashMap<String, String>> goods = new ArrayList<>();
-                Integer count = 0;
-                for (FavoritesGoodsViewEntity good : favoritesGoodsViewEntities) {
-                    HashMap<String, String> goodMap = new HashMap<>();
-                    goodMap.put("goodsId", String.valueOf(good.getGoodsId()));
-                    goodMap.put("name", good.getGoodsName());
-                    goodMap.put("price", good.getGoodsPrice().toString());
-                    if (count == 0) {
-                        goodMap.put("offset", "0");
-                    } else {
-                        goodMap.put("offset", "1");
-                    }
-                    count++;
-                    goods.add(goodMap);
-                }
-                FavoritesGoodsOutDto.GoodsOutDto goodsDto = favoritesGoodsOutDto.new GoodsOutDto();
-                goodsDto.setFavoritesName(item.getFavoritesName());
-                goodsDto.setGoods(goods);
-                favoritesGoodsOutDto.addFavoritesGoods(goodsDto);
-            }
+            FavoritesGoodsOutDto favoritesGoodsOutDto = favoritesService.getFavoritesGoods();
             return new ResponseEntity<>(favoritesGoodsOutDto, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.toString());

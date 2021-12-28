@@ -1,6 +1,7 @@
 package com.xagd.javaeebackend.OutDto;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * TODO:此处写GoodsDetailedDto类的描述
@@ -17,7 +18,7 @@ public class GoodsDetailedDto {
     Short likes;
     String description;
     Byte category;
-    String goodsImage;
+    List<String> goodsImage;
 
     public void setUserName(String userName){this.userName = userName;}
     public void setUserImage(String userImage){this.userImage = userImage;}
@@ -26,7 +27,7 @@ public class GoodsDetailedDto {
     public void setLikes(Short likes){this.likes = likes;}
     public void setDescription(String description){this.description = description;}
     public void setCategory(Byte category){this.category = category;}
-    public void setGoodsImage(String goodsImage){this.goodsImage = goodsImage;}
+    public void setGoodsImage(List<String> goodsImage){this.goodsImage = goodsImage;}
     public String getUserName(){return this.userName;}
     public String getUserImage(){return this.userImage;}
     public String getGoodsName(){return this.goodsName;}
@@ -34,7 +35,7 @@ public class GoodsDetailedDto {
     public Short getLikes(){return this.likes;}
     public String getDescription(){return this.description;}
     public Byte getCategory(){return this.category;}
-    public String getGoodsImage(){return this.goodsImage;}
+    public List<String> getGoodsImage(){return this.goodsImage;}
 
 }
 
