@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * TODO:此处写FavoriteService类的描述
@@ -19,10 +21,12 @@ import java.util.ArrayList;
 public interface FavoritesService {
     FavoritesEntity addFavorites(FavoritesInDto favoritesInDto);
 
-    ArrayList<FavoritesEntity> getFavoritesEntityByUserId(short userId);
+    List<FavoritesEntity> getFavoritesEntityByUserId(short userId);
 
     FavoritesGoodsOutDto getFavoritesGoods();
 
     void deleteFavorites(short favoriteId);
+
+
 }
 

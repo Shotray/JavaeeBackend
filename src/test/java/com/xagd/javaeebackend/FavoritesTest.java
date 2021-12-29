@@ -52,7 +52,7 @@ public class FavoritesTest {
 
     @Test
     public void getFavoritesEntity(){
-        ArrayList<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId((short)20);
+        List<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId((short)20);
         for(FavoritesEntity item :favoritesEntities){
             System.out.println("----------");
             System.out.println(item.getFavoritesId());
@@ -67,7 +67,7 @@ public class FavoritesTest {
     public void testDto(){
         FavoritesGoodsOutDto favoritesGoodsOutDto = new FavoritesGoodsOutDto();
 
-        ArrayList<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId((short)20);
+        List<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId((short)20);
         System.out.println(favoritesEntities.size());
         for(FavoritesEntity item : favoritesEntities){
             System.out.println(item);

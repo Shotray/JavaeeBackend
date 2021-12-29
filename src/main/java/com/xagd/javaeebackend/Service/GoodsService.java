@@ -1,6 +1,7 @@
 package com.xagd.javaeebackend.Service;
 
 import com.xagd.javaeebackend.Entity.GoodsEntity;
+import com.xagd.javaeebackend.InDto.GoodsShoppingCartInDto;
 import com.xagd.javaeebackend.OutDto.GoodsCategoryOutDto;
 import com.xagd.javaeebackend.OutDto.MyGoodsOutDto;
 import com.xagd.javaeebackend.Entity.ShoppingcartEntity;
@@ -25,6 +26,6 @@ public interface GoodsService {
 
     GoodsDetailedDto getGoodsDetailed(Short goodsId);
 
-    ShoppingcartEntity addGoodsToShoppingCart(Short goodsId,Short count);
+    ShoppingcartEntity addGoodsToShoppingCart(GoodsShoppingCartInDto goodsShoppingCartInDto);
 
 }

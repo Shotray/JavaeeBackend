@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.internal.OSSUtils;
 import com.xagd.javaeebackend.Entity.*;
+import com.xagd.javaeebackend.InDto.GoodsShoppingCartInDto;
 import com.xagd.javaeebackend.OutDto.GoodsCategoryOutDto;
 import com.xagd.javaeebackend.OutDto.MyGoodsOutDto;
 import com.xagd.javaeebackend.OutDto.GoodsDetailedDto;
@@ -153,12 +154,12 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public ShoppingcartEntity addGoodsToShoppingCart(Short goodsId,Short count) {
+    public ShoppingcartEntity addGoodsToShoppingCart(GoodsShoppingCartInDto goodsShoppingCartInDto) {
         Short userId = (short) StpUtil.getLoginIdAsInt();
         ShoppingcartEntity shoppingcartEntity = new ShoppingcartEntity();
         shoppingcartEntity.setShoppingCartId(userId);
-        shoppingcartEntity.setGoodsId(goodsId);
-        shoppingcartEntity.setCount(count);
+        shoppingcartEntity.setGoodsId(goodsShoppingCartInDto.getGoodsId());
+        shoppingcartEntity.setCount(goodsShoppingCartInDto.getCount());
         return shoppingCartRepository.save(shoppingcartEntity);
     }
 

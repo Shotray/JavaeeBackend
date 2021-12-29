@@ -48,8 +48,8 @@ public class FavoritesServiceImpl implements FavoritesService {
     }
 
     @Override
-    public ArrayList<FavoritesEntity> getFavoritesEntityByUserId(short userId) {
-        ArrayList<FavoritesEntity> favoritesEntities = new ArrayList<>();
+    public List<FavoritesEntity> getFavoritesEntityByUserId(short userId) {
+        List<FavoritesEntity> favoritesEntities = new ArrayList<>();
         favoritesEntities = favoritesRepository.getFavoritesEntityByUserId(userId);
         return favoritesEntities;
     }

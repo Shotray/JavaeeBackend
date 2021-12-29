@@ -49,6 +49,12 @@ public class FavoriteController {
 
     @SaCheckLogin
     @GetMapping("getFavorites")
+    public ResponseEntity getFavorites(){
+        return null;
+    }
+
+    @SaCheckLogin
+    @GetMapping("getFavorites/goods")
     public ResponseEntity getFavoritesGoods() {
         try {
             FavoritesGoodsOutDto favoritesGoodsOutDto = favoritesService.getFavoritesGoods();

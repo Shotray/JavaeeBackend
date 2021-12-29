@@ -3,6 +3,7 @@ package com.xagd.javaeebackend.Controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.GoodsEntity;
+import com.xagd.javaeebackend.InDto.GoodsShoppingCartInDto;
 import com.xagd.javaeebackend.Service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -79,5 +80,12 @@ public class GoodsController {
             @RequestParam(value = "commodityId")Short goodsId
     ){
         return new ResponseEntity<>(goodsService.getGoodsDetailed(goodsId),HttpStatus.OK);
+    }
+
+    @PostMapping("/add/shoppingCart")
+    public ResponseEntity addGoodToShoppingCart(
+            @RequestBody GoodsShoppingCartInDto goodsShoppingCartInDto
+    ){
+        return new ResponseEntity<>(goodsService.addGoodsToShoppingCart(goodsShoppingCartInDto),HttpStatus.OK);
     }
 }
