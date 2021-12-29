@@ -31,6 +31,20 @@ public class ShoppingCartController {
     }
 
     @SaCheckLogin
+    @PutMapping("changeCount")
+    public ResponseEntity changeCount(@RequestParam short goodsId, @RequestParam short count){
+        try {
+            short userId = (short) StpUtil.getLoginIdAsInt();
+            shoppingCartService.changeCount(userId, goodsId, count);
+            return ResponseEntity.ok("ok");
+        }
+        catch (Exception e){
+            System.out.println(e.toString());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @SaCheckLogin
     @DeleteMapping
     public ResponseEntity delete(@RequestParam short goodsId){
         try {
