@@ -42,8 +42,7 @@ public class PostController {
     @GetMapping(value = "/postNumber")
     public ResponseEntity getPostNumber() {
         try {
-            String num = Integer.toString(postService.getPosts().size());
-            return new ResponseEntity(num, HttpStatus.OK);
+            return new ResponseEntity(postService.getPosts().size(), HttpStatus.OK);
         }
         catch (Exception e) {
             System.out.println(e);
@@ -54,6 +53,7 @@ public class PostController {
     @DeleteMapping(value = "/delete")
     public ResponseEntity deletePost(@RequestParam Short id) {
         try {
+            this.postService.deletePost(id);
             return new ResponseEntity<>("ok", HttpStatus.OK);
         }
         catch (Exception e) {
@@ -69,6 +69,16 @@ public class PostController {
         catch (Exception e){
             System.out.println(e.toString());
             return new ResponseEntity<>("get posts error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(value = "/{postId}")
+    public ResponseEntity getPostDetail(@PathVariable(value = "postId") Short postId) {
+        try  {
+            return new ResponseEntity<>(postService.getPostDetailById(postId), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

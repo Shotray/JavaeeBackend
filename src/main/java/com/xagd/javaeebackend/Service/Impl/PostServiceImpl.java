@@ -5,6 +5,8 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.PostEntity;
 import com.xagd.javaeebackend.Entity.PostUserEntity;
 import com.xagd.javaeebackend.Entity.PostimageEntity;
+import com.xagd.javaeebackend.Entity.UserEntity;
+import com.xagd.javaeebackend.OutDto.PostDetailOutDto;
 import com.xagd.javaeebackend.Repository.PostRepository;
 import com.xagd.javaeebackend.Repository.PostUserEntityRepository;
 import com.xagd.javaeebackend.Repository.PostimageEntityRepository;
@@ -38,6 +40,8 @@ public class PostServiceImpl implements PostService {
     public PostEntity addPost(PostEntity postEntity, MultipartFile[] files) {
         postEntity.setUserId((short) StpUtil.getLoginIdAsInt());
         System.out.println(postEntity);
+        Timestamp time = new Timestamp(System.currentTimeMillis());
+        postEntity.setPostDate(time);
         PostEntity postEntity1 = postRepository.save(postEntity);
         System.out.println(postEntity1);
 
@@ -69,8 +73,32 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostEntity deletePost(Short id) {
+        List<PostimageEntity> postImages = this.postImageRepository.getAllByPostId(id);
+        for (PostimageEntity postImage: postImages) {
+            this.postImageRepository.delete(postImage);
+        }
         PostEntity post = this.postRepository.getById(id);
         this.postRepository.deleteById(id);
         return post;
+    }
+
+    @Override
+    public PostDetailOutDto getPostDetailById(Short postId) {
+        PostEntity post = this.postRepository.getPostEntityByPostId(postId);
+        System.out.println(post);
+        List<PostimageEntity> postImages = this.postImageRepository.getAllByPostId(postId);
+        System.out.println(postImages.size());
+        List<PostUserEntity> postUsers = postUserEntityRepository.findAll(Sort.by(Sort.Direction.DESC, "postDate"));
+        PostDetailOutDto postDetail = new PostDetailOutDto();
+        for (PostUserEntity postUser: postUsers) {
+            if (postUser.getPostId() == (int)postId) {
+                postDetail.setPostUser(postUser);
+                break;
+            }
+        }
+        postDetail.setPost(post);
+        postDetail.setPostImages(postImages);
+        System.out.println(postDetail);
+        return postDetail;
     }
 }

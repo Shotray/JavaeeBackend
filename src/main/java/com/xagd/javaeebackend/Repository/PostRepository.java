@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface PostRepository extends JpaRepository<PostEntity, Short>, JpaSpecificationExecutor<PostEntity> {
     PostEntity[] getPostEntitiesByUserId(Short userId);
+    PostEntity getPostEntityByPostId(Short postId);
 }
