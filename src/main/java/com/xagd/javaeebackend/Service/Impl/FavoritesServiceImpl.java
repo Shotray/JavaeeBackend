@@ -2,21 +2,23 @@ package com.xagd.javaeebackend.Service.Impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.FavoritesEntity;
+import com.xagd.javaeebackend.Entity.FavoritesGoodsEntity;
 import com.xagd.javaeebackend.Entity.FavoritesGoodsViewEntity;
+import com.xagd.javaeebackend.Entity.GoodsEntity;
+import com.xagd.javaeebackend.InDto.FavoritesGoodsInDto;
 import com.xagd.javaeebackend.InDto.FavoritesInDto;
 import com.xagd.javaeebackend.OutDto.FavoritesGoodsOutDto;
 import com.xagd.javaeebackend.Repository.FavoritesGoodsRepository;
 import com.xagd.javaeebackend.Repository.FavoritesGoodsViewRepository;
 import com.xagd.javaeebackend.Repository.FavoritesRepository;
+import com.xagd.javaeebackend.Repository.GoodsRepository;
 import com.xagd.javaeebackend.Service.FavoritesService;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * TODO:此处写FavoritesServiceImpl类的描述
@@ -27,6 +29,9 @@ import java.util.List;
 
 @Service
 public class FavoritesServiceImpl implements FavoritesService {
+    @Resource
+    private GoodsRepository goodsRepository;
+
     @Resource
     private FavoritesRepository favoritesRepository;
 
@@ -48,9 +53,9 @@ public class FavoritesServiceImpl implements FavoritesService {
     }
 
     @Override
-    public List<FavoritesEntity> getFavoritesEntityByUserId(short userId) {
-        List<FavoritesEntity> favoritesEntities = new ArrayList<>();
-        favoritesEntities = favoritesRepository.getFavoritesEntityByUserId(userId);
+    public List<FavoritesEntity> getFavoritesEntityByUserId() {
+        Short userId = (short) StpUtil.getLoginIdAsInt();
+        List<FavoritesEntity> favoritesEntities = favoritesRepository.getFavoritesEntityByUserId(userId);
         return favoritesEntities;
     }
 
@@ -93,5 +98,76 @@ public class FavoritesServiceImpl implements FavoritesService {
         favoritesGoodsRepository.deleteFavoritesGoodsEntitiesByFavoritesId(favoriteId);
         favoritesRepository.deleteFavoritesEntityByFavoritesId(favoriteId);
     }
+
+    @Override
+    public List<HashMap<String, String>> getFavorites() {
+        Short userId = (short) StpUtil.getLoginIdAsInt();
+        List<FavoritesEntity> favoritesEntities = favoritesRepository.getFavoritesEntityByUserId(userId);
+        List<HashMap<String,String>> favorites = new ArrayList<>();
+        for(FavoritesEntity favoritesEntity : favoritesEntities){
+            HashMap<String,String> favorite = new HashMap<>();
+            String favoriteName = favoritesEntity.getFavoritesName();
+            String favoriteId = String.valueOf(favoritesEntity.getFavoritesId());
+            favorite.put("favoriteId",favoriteId);
+            favorite.put("favoriteName",favoriteName);
+            favorites.add(favorite);
+        }
+        return favorites;
+    }
+
+    @Override
+    public FavoritesGoodsEntity addFavoritesGoods(FavoritesGoodsInDto favoritesGoodsInDto) {
+        FavoritesGoodsEntity favoritesGoods = new FavoritesGoodsEntity();
+        favoritesGoods.setFavoritesId(favoritesGoodsInDto.getFavoriteId());
+        favoritesGoods.setGoodsId(favoritesGoodsInDto.getGoodsId());
+        FavoritesGoodsEntity favoritesGoodsEntity = favoritesGoodsRepository.save(favoritesGoods);
+        GoodsEntity goodsEntity = goodsRepository.getGoodsEntityByGoodsId(favoritesGoodsInDto.getGoodsId());
+        goodsEntity.setGoodsFavorite((short) (goodsEntity.getGoodsFavorite()+1));
+        goodsRepository.save(goodsEntity);
+        return favoritesGoodsEntity;
+    }
+
+    @Override
+    @Transactional
+    @Modifying
+    public void deleteFavoritesGoods(Short goodsId) {
+        Short userId = (short) StpUtil.getLoginIdAsInt();
+        List<FavoritesEntity> favoritesEntities = favoritesRepository.getFavoritesEntityByUserId(userId);
+        Set<Short> favoritesSet = new HashSet<>();
+        for(FavoritesEntity favoritesEntity:favoritesEntities){
+            favoritesSet.add(favoritesEntity.getFavoritesId());
+        }
+        List<FavoritesGoodsEntity> favoritesGoodsEntities = favoritesGoodsRepository.getFavoritesGoodsEntitiesByGoodsId(goodsId);
+        for(FavoritesGoodsEntity favoritesGoodsEntity:favoritesGoodsEntities){
+            if(favoritesSet.contains(favoritesGoodsEntity.getFavoritesId())){
+                favoritesGoodsRepository.deleteFavoritesGoodsEntityByFavoritesIdAndGoodsId(
+                        favoritesGoodsEntity.getFavoritesId(),
+                        goodsId
+                );
+                GoodsEntity goodsEntity = goodsRepository.getGoodsEntityByGoodsId(goodsId);
+                goodsEntity.setGoodsFavorite((short) (goodsEntity.getGoodsFavorite()-1));
+                goodsRepository.save(goodsEntity);
+            }
+        }
+    }
+
+    @Override
+    public Boolean checkFavoritesGoods(Short goodsId) {
+        Short userId = (short) StpUtil.getLoginIdAsInt();
+        List<FavoritesEntity> favoritesEntities = favoritesRepository.getFavoritesEntityByUserId(userId);
+        Set<Short> favoritesSet = new HashSet<>();
+        for(FavoritesEntity favoritesEntity:favoritesEntities){
+            favoritesSet.add(favoritesEntity.getFavoritesId());
+        }
+        List<FavoritesGoodsEntity> favoritesGoodsEntities = favoritesGoodsRepository.getFavoritesGoodsEntitiesByGoodsId(goodsId);
+        for(FavoritesGoodsEntity favoritesGoodsEntity:favoritesGoodsEntities){
+            if(favoritesSet.contains(favoritesGoodsEntity.getFavoritesId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }
 

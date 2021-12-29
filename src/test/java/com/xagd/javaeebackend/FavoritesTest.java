@@ -1,7 +1,10 @@
 package com.xagd.javaeebackend;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.FavoritesEntity;
+import com.xagd.javaeebackend.Entity.FavoritesGoodsEntity;
 import com.xagd.javaeebackend.Entity.FavoritesGoodsViewEntity;
+import com.xagd.javaeebackend.InDto.FavoritesGoodsInDto;
 import com.xagd.javaeebackend.OutDto.FavoritesGoodsOutDto;
 import com.xagd.javaeebackend.Repository.FavoritesGoodsViewRepository;
 import com.xagd.javaeebackend.Repository.FavoritesRepository;
@@ -11,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
@@ -27,6 +31,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ContextConfiguration(locations = {"classpath:application.yml"})
 public class FavoritesTest {
     @Resource
     private FavoritesRepository favoritesRepository;
@@ -52,7 +57,7 @@ public class FavoritesTest {
 
     @Test
     public void getFavoritesEntity(){
-        List<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId((short)20);
+        List<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId();
         for(FavoritesEntity item :favoritesEntities){
             System.out.println("----------");
             System.out.println(item.getFavoritesId());
@@ -67,7 +72,7 @@ public class FavoritesTest {
     public void testDto(){
         FavoritesGoodsOutDto favoritesGoodsOutDto = new FavoritesGoodsOutDto();
 
-        List<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId((short)20);
+        List<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId();
         System.out.println(favoritesEntities.size());
         for(FavoritesEntity item : favoritesEntities){
             System.out.println(item);
@@ -104,11 +109,26 @@ public class FavoritesTest {
 
     @Test
     public void testDeleteFavorites(){
-        List<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId((short)20);
+        List<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId();
         System.out.println(favoritesEntities);
         favoritesService.deleteFavorites((short)3);
-        List<FavoritesEntity> favoritesEntityList = favoritesService.getFavoritesEntityByUserId((short)20);
+        List<FavoritesEntity> favoritesEntityList = favoritesService.getFavoritesEntityByUserId();
         System.out.println(favoritesEntityList);
+    }
+
+    @Test
+    public void testGetFavorites(){
+        List<HashMap<String,String>> favorites = favoritesService.getFavorites();
+        System.out.println(favorites);
+    }
+
+    @Test
+    public void testAddFavoritesGoods(){
+        FavoritesGoodsInDto favoritesGoodsInDto = new FavoritesGoodsInDto();
+        favoritesGoodsInDto.setGoodsId((short) 1);
+        favoritesGoodsInDto.setFavoriteId((short) 4);
+        FavoritesGoodsEntity favoritesGoodsEntity = favoritesService.addFavoritesGoods(favoritesGoodsInDto);
+        System.out.println(favoritesGoodsEntity);
     }
 }
 

@@ -25,9 +25,10 @@ public class FavoritesGoodsViewImpl implements FavoritesGoodsViewService {
 
     @Override
     public ArrayList<FavoritesGoodsViewEntity> getGoodsInfoByFavoritesId(short favoritesId) {
-        ArrayList<FavoritesGoodsViewEntity> favoritesGoodsViewEntities = new ArrayList<>();
-        favoritesGoodsViewEntities = favoritesGoodsViewRepository.findFavoritesGoodsViewEntityByFavoritesId(favoritesId);
+        ArrayList<FavoritesGoodsViewEntity> favoritesGoodsViewEntities = favoritesGoodsViewRepository.findFavoritesGoodsViewEntityByFavoritesId(favoritesId);
         return favoritesGoodsViewEntities;
     }
+
+
 }
 
