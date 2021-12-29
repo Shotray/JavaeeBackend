@@ -5,5 +5,5 @@ import com.xagd.javaeebackend.Entity.OrderEntity;
 import java.util.List;
 
 public interface OrderService {
-    public OrderEntity[] getOrders(Short userId);
+    public List<OrderEntity> getOrders(Short userId);
 }

@@ -46,7 +46,7 @@ public class MeController {
     @GetMapping(value = "/order")
     public ResponseEntity order() {
         Short userId = (short)StpUtil.getLoginIdAsInt();
-        OrderEntity[] orders = this.orderService.getOrders(userId);
+        List<OrderEntity> orders = this.orderService.getOrders(userId);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 

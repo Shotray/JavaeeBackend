@@ -10,10 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import javax.annotation.Resource;
-import java.util.List;
 
-@SpringBootTest
-public class PostTests {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class PostTest {
 
     @Resource
     private PostRepository postRepository;

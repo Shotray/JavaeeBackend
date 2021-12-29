@@ -18,7 +18,7 @@ spring:
       maximum-pool-size: 10
       minimum-idle: 3
   jpa:
-    show-sql: true
+    show-sql: false
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     open-in-view: true

@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
-@SpringBootTest
-class RedisSpringbootApplicationTests {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class RedisSpringbootApplicationTest {
     @Autowired
     private RedisTemplate redisTemplate;
     @Test

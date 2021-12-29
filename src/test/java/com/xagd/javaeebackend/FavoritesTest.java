@@ -10,8 +10,8 @@ import com.xagd.javaeebackend.Repository.FavoritesGoodsViewRepository;
 import com.xagd.javaeebackend.Repository.FavoritesRepository;
 import com.xagd.javaeebackend.Service.FavoritesGoodsViewService;
 import com.xagd.javaeebackend.Service.FavoritesService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,9 +29,7 @@ import java.util.List;
  * @since 2021/12/13 13:32
  */
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration(locations = {"classpath:application.yml"})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FavoritesTest {
     @Resource
     private FavoritesRepository favoritesRepository;
