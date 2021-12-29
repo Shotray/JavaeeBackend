@@ -3,18 +3,24 @@ package com.xagd.javaeebackend.Controller.WebSocket;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.xagd.javaeebackend.Entity.MessageEntity;
+import com.xagd.javaeebackend.Repository.MessageEntityRepository;
 import com.xagd.javaeebackend.Repository.UserRepository;
 import com.xagd.javaeebackend.Service.ChatService;
+import org.hibernate.annotations.Source;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.Mapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @RestController
@@ -49,18 +55,13 @@ public class WebSocket {
         System.out.println(msg);
         for (WebSocket item: webSocketSet) {
             try {
-                System.out.println("in try");
-                if (item.userId.equals((short) Integer.parseInt(msg.getString("userID")))) {
-                    System.out.println(message);
-
+                if (item.userId.equals((short) Integer.parseInt(msg.getString("messageToUserId")))) {
                     MessageEntity messageEntity = new MessageEntity();
                     messageEntity.setMessageDate(new Timestamp(System.currentTimeMillis()));
-                    messageEntity.setMessageContent(msg.getString("message"));
+                    messageEntity.setMessageContent(msg.getString("messageContent"));
                     messageEntity.setMessageType((byte) 1);
-                    messageEntity.setMessageToUserId((short) Integer.parseInt(msg.getString("userID")));
-                    messageEntity.setMessageFromUserId((short) Integer.parseInt(msg.getString("meID")));
-                    chatService.addMessage(messageEntity);
-
+                    messageEntity.setMessageToUserId((short) Integer.parseInt(msg.getString("messageToUserId")));
+                    messageEntity.setMessageFromUserId((short) Integer.parseInt(msg.getString("messageFromUserId")));
                     item.sendMessage(messageEntity);
                 }
             }

@@ -27,13 +27,13 @@ public class ChatController {
         }
     }
 
-//    @PostMapping(value = "/add")
-//    public ResponseEntity addChatMessage(@RequestBody MessageEntity message) {
-//        try {
-//            return new ResponseEntity<>(this.chatService.addMessage(message), HttpStatus.OK);
-//        }
-//        catch (Exception e) {
-//            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @PostMapping(value = "/add")
+    public ResponseEntity addChatMessage(@RequestBody MessageEntity message) {
+        try {
+            return new ResponseEntity<>(this.chatService.addMessage(message), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
