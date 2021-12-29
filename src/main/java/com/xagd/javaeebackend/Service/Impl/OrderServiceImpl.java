@@ -14,7 +14,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderEntityRepository orderEntityRepository;
 
     @Override
-    public OrderEntity[] getOrders(Short userId) {
+    public List<OrderEntity> getOrders(Short userId) {
         return this.orderEntityRepository.getOrderEntitiesByUserId(userId);
     }
 }
