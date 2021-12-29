@@ -1,15 +1,23 @@
 package com.xagd.javaeebackend.Entity;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import java.io.Serializable;
+import javax.persistence.*;
 
-public class FavoritesgoodsEntityPK implements Serializable {
+/**
+ * TODO:此处写FavoritesGoodsEntity类的描述
+ *
+ * @author shotray
+ * @since 2021/12/29 20:52
+ */
+
+@Entity
+@Table(name = "favorites_goods", schema = "db", catalog = "")
+@IdClass(FavoritesGoodsEntityPK.class)
+public class FavoritesGoodsEntity {
     private short favoritesId;
     private short goodsId;
 
-    @Column(name = "favorites_id")
     @Id
+    @Column(name = "favorites_id")
     public short getFavoritesId() {
         return favoritesId;
     }
@@ -18,8 +26,8 @@ public class FavoritesgoodsEntityPK implements Serializable {
         this.favoritesId = favoritesId;
     }
 
-    @Column(name = "goods_id")
     @Id
+    @Column(name = "goods_id")
     public short getGoodsId() {
         return goodsId;
     }
@@ -33,7 +41,7 @@ public class FavoritesgoodsEntityPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FavoritesgoodsEntityPK that = (FavoritesgoodsEntityPK) o;
+        FavoritesGoodsEntity that = (FavoritesGoodsEntity) o;
 
         if (favoritesId != that.favoritesId) return false;
         if (goodsId != that.goodsId) return false;
@@ -48,3 +56,4 @@ public class FavoritesgoodsEntityPK implements Serializable {
         return result;
     }
 }
+

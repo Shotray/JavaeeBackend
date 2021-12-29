@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * TODO:此处写FavoritesTest类的描述
@@ -99,6 +100,15 @@ public class FavoritesTest {
             System.out.println(favoritesGoodsOutDto);
             System.out.println("-----------");
         }
+    }
+
+    @Test
+    public void testDeleteFavorites(){
+        List<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId((short)20);
+        System.out.println(favoritesEntities);
+        favoritesService.deleteFavorites((short)3);
+        List<FavoritesEntity> favoritesEntityList = favoritesService.getFavoritesEntityByUserId((short)20);
+        System.out.println(favoritesEntityList);
     }
 }
 

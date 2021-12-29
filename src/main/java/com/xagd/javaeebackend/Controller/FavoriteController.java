@@ -60,5 +60,19 @@ public class FavoriteController {
     }
 
 
+    @SaCheckLogin
+    @DeleteMapping("deleteFavorites/{favoritesId}")
+    public ResponseEntity deleteFavorites(
+            @PathVariable(value = "favoritesId")short favoritesId
+    ) {
+        try {
+            favoritesService.deleteFavorites(favoritesId);
+            return new ResponseEntity<>("ok", HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
 
