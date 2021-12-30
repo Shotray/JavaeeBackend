@@ -1,17 +1,11 @@
 package com.xagd.javaeebackend.Service.Impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.xagd.javaeebackend.Entity.FavoritesEntity;
-import com.xagd.javaeebackend.Entity.FavoritesGoodsEntity;
-import com.xagd.javaeebackend.Entity.FavoritesGoodsViewEntity;
-import com.xagd.javaeebackend.Entity.GoodsEntity;
+import com.xagd.javaeebackend.Entity.*;
 import com.xagd.javaeebackend.InDto.FavoritesGoodsInDto;
 import com.xagd.javaeebackend.InDto.FavoritesInDto;
 import com.xagd.javaeebackend.OutDto.FavoritesGoodsOutDto;
-import com.xagd.javaeebackend.Repository.FavoritesGoodsRepository;
-import com.xagd.javaeebackend.Repository.FavoritesGoodsViewRepository;
-import com.xagd.javaeebackend.Repository.FavoritesRepository;
-import com.xagd.javaeebackend.Repository.GoodsRepository;
+import com.xagd.javaeebackend.Repository.*;
 import com.xagd.javaeebackend.Service.FavoritesService;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -31,6 +25,9 @@ import java.util.*;
 public class FavoritesServiceImpl implements FavoritesService {
     @Resource
     private GoodsRepository goodsRepository;
+
+    @Resource
+    private GoodsImageRepository goodsImageRepository;
 
     @Resource
     private FavoritesRepository favoritesRepository;
@@ -71,10 +68,12 @@ public class FavoritesServiceImpl implements FavoritesService {
             List<HashMap<String, String>> goods = new ArrayList<>();
             int count = 0;
             for (FavoritesGoodsViewEntity good : favoritesGoodsViewEntities) {
+                List<GoodsimageEntity> goodsImageEntity = goodsImageRepository.getGoodsimageEntitiesByGoodsId(good.getGoodsId());
                 HashMap<String, String> goodMap = new HashMap<>();
                 goodMap.put("goodsId", String.valueOf(good.getGoodsId()));
                 goodMap.put("name", good.getGoodsName());
                 goodMap.put("price", good.getGoodsPrice().toString());
+                goodMap.put("picture",goodsImageEntity.get(0).getImage());
                 if (count == 0) {
                     goodMap.put("offset", "0");
                 } else {
@@ -85,6 +84,7 @@ public class FavoritesServiceImpl implements FavoritesService {
             }
             FavoritesGoodsOutDto.GoodsOutDto goodsDto = favoritesGoodsOutDto.new GoodsOutDto();
             goodsDto.setFavoritesName(item.getFavoritesName());
+            goodsDto.setFavoritesId(item.getFavoritesId());
             goodsDto.setGoods(goods);
             favoritesGoodsOutDto.addFavoritesGoods(goodsDto);
         }
@@ -95,6 +95,12 @@ public class FavoritesServiceImpl implements FavoritesService {
     @Transactional
     @Modifying
     public void deleteFavorites(short favoriteId) {
+        List<FavoritesGoodsEntity> favoritesGoodsEntities = favoritesGoodsRepository.getFavoritesGoodsEntitiesByFavoritesId(favoriteId);
+        for(FavoritesGoodsEntity favoritesGoodsEntity:favoritesGoodsEntities){
+            GoodsEntity goodsEntity = goodsRepository.getGoodsEntityByGoodsId(favoritesGoodsEntity.getGoodsId());
+            goodsEntity.setGoodsFavorite((short) (goodsEntity.getGoodsFavorite()-1));
+            goodsRepository.save(goodsEntity);
+        }
         favoritesGoodsRepository.deleteFavoritesGoodsEntitiesByFavoritesId(favoriteId);
         favoritesRepository.deleteFavoritesEntityByFavoritesId(favoriteId);
     }

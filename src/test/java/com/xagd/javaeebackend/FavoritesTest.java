@@ -4,16 +4,20 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.FavoritesEntity;
 import com.xagd.javaeebackend.Entity.FavoritesGoodsEntity;
 import com.xagd.javaeebackend.Entity.FavoritesGoodsViewEntity;
+import com.xagd.javaeebackend.Entity.GoodsEntity;
 import com.xagd.javaeebackend.InDto.FavoritesGoodsInDto;
 import com.xagd.javaeebackend.OutDto.FavoritesGoodsOutDto;
+import com.xagd.javaeebackend.Repository.FavoritesGoodsRepository;
 import com.xagd.javaeebackend.Repository.FavoritesGoodsViewRepository;
 import com.xagd.javaeebackend.Repository.FavoritesRepository;
+import com.xagd.javaeebackend.Repository.GoodsRepository;
 import com.xagd.javaeebackend.Service.FavoritesGoodsViewService;
 import com.xagd.javaeebackend.Service.FavoritesService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -38,10 +42,16 @@ public class FavoritesTest {
     private FavoritesService favoritesService;
 
     @Resource
+    private FavoritesGoodsRepository favoritesGoodsRepository;
+
+    @Resource
     private FavoritesGoodsViewRepository favoritesGoodsViewRepository;
 
     @Autowired
     private FavoritesGoodsViewService favoritesGoodsViewService;
+
+    @Autowired
+    private GoodsRepository goodsRepository;
 
     @Test
     public void testView(){
@@ -127,6 +137,27 @@ public class FavoritesTest {
         favoritesGoodsInDto.setFavoriteId((short) 4);
         FavoritesGoodsEntity favoritesGoodsEntity = favoritesService.addFavoritesGoods(favoritesGoodsInDto);
         System.out.println(favoritesGoodsEntity);
+    }
+
+    @Test
+    @Rollback(value = true)
+    public void testDeleteFavtorites(){
+        List<FavoritesGoodsEntity> favoritesEntities = favoritesGoodsRepository.getFavoritesGoodsEntitiesByGoodsId((short) 4);
+        for(FavoritesGoodsEntity favoritesGoodsEntity:favoritesEntities){
+            GoodsEntity goodsEntity = goodsRepository.getGoodsEntityByGoodsId(favoritesGoodsEntity.getGoodsId());
+            System.out.println(goodsEntity.getGoodsName());
+            System.out.println(goodsEntity.getGoodsFavorite());
+        }
+
+        favoritesService.deleteFavorites((short)4);
+
+        favoritesEntities = favoritesGoodsRepository.getFavoritesGoodsEntitiesByGoodsId((short) 4);
+        for(FavoritesGoodsEntity favoritesGoodsEntity:favoritesEntities){
+            GoodsEntity goodsEntity = goodsRepository.getGoodsEntityByGoodsId(favoritesGoodsEntity.getGoodsId());
+            System.out.println(goodsEntity.getGoodsName());
+            System.out.println(goodsEntity.getGoodsFavorite());
+        }
+
     }
 }
 
