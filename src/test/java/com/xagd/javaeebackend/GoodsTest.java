@@ -1,5 +1,6 @@
 package com.xagd.javaeebackend;
 
+import com.xagd.javaeebackend.Controller.GoodsController;
 import com.xagd.javaeebackend.Entity.GoodsEntity;
 import com.xagd.javaeebackend.InDto.GoodsShoppingCartInDto;
 import com.xagd.javaeebackend.OutDto.GoodsCategoryOutDto;
@@ -12,6 +13,7 @@ import com.xagd.javaeebackend.Service.GoodsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,6 +39,9 @@ public class GoodsTest {
 
     @Autowired
     private GoodsRepository goodsRepository;
+
+    @Autowired
+    private GoodsController goodsController;
 
     @Test
     @Transactional
@@ -91,5 +96,16 @@ public class GoodsTest {
         System.out.println(goodsDetailedDto);
     }
 
+    @Test
+    public void getGoodsByClassification(){
+        ResponseEntity responseEntity = goodsController.getClassification(1);
+        assertNotNull(responseEntity.getBody());
+    }
+
+    @Test
+    public void searchGoodsByName(){
+        ResponseEntity responseEntity = goodsController.searchGoodsByName( "keyword", "test");
+        assertNotNull(responseEntity.getBody());
+    }
 }
 
