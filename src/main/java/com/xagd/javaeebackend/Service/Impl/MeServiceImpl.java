@@ -23,9 +23,11 @@ public class MeServiceImpl implements MeService {
         user.setUserPhone(meEditDto.getUserPhone());
         user.setUserName(meEditDto.getUserName());
         user.setUserSex(meEditDto.getUserSex());
-        MultipartFile file = files[0];
-        String url = OSSUtil.uploadFile(file, "userimage" + user.getUserId());
-        user.setUserImage(url);
+        if (files.length > 0) {
+            MultipartFile file = files[0];
+            String url = OSSUtil.uploadFile(file, "userimage" + user.getUserId());
+            user.setUserImage(url);
+        }
         this.userRepository.save(user);
         return user;
     }
