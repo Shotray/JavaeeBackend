@@ -1,17 +1,13 @@
 package com.xagd.javaeebackend.Service.Impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.internal.OSSUtils;
 import com.xagd.javaeebackend.Entity.*;
 import com.xagd.javaeebackend.InDto.GoodsShoppingCartInDto;
 import com.xagd.javaeebackend.OutDto.GoodsCategoryOutDto;
 import com.xagd.javaeebackend.OutDto.MyGoodsOutDto;
 import com.xagd.javaeebackend.OutDto.GoodsDetailedDto;
 import com.xagd.javaeebackend.OutDto.GoodsSearchOutDto;
-import com.xagd.javaeebackend.OutDto.ShoppingCartOutDto;
 import com.xagd.javaeebackend.Repository.*;
-import com.xagd.javaeebackend.Service.GoodsImageService;
 import com.xagd.javaeebackend.Service.GoodsService;
 import com.xagd.javaeebackend.Utils.OSSUtil;
 import org.modelmapper.ModelMapper;
@@ -122,10 +118,9 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public GoodsEntity deleteGood(Short id) {
+    public void deleteGood(Short id) {
         GoodsEntity good = this.goodsRepository.getById(id);
         this.goodsRepository.deleteById(id);
-        return good;
     }
 
 
