@@ -162,6 +162,4 @@ public class GoodsServiceImpl implements GoodsService {
         shoppingcartEntity.setCount(goodsShoppingCartInDto.getCount());
         return shoppingCartRepository.save(shoppingcartEntity);
     }
-
-
 }
