@@ -2,13 +2,13 @@ package com.xagd.javaeebackend.OutDto;
 
 import com.xagd.javaeebackend.Entity.PostEntity;
 import com.xagd.javaeebackend.Entity.PostUserEntity;
-import com.xagd.javaeebackend.Entity.PostimageEntity;
+import com.xagd.javaeebackend.Entity.PostImageEntity;
 
 import java.util.List;
 
 public class PostDetailOutDto {
     PostEntity post;
-    List<PostimageEntity> postImages;
+    List<PostImageEntity> postImages;
     PostUserEntity postUser;
 
     public PostUserEntity getPostUser() {
@@ -23,7 +23,7 @@ public class PostDetailOutDto {
         return post;
     }
 
-    public List<PostimageEntity> getPostImages() {
+    public List<PostImageEntity> getPostImages() {
         return postImages;
     }
 
@@ -31,7 +31,7 @@ public class PostDetailOutDto {
         this.post = post;
     }
 
-    public void setPostImages(List<PostimageEntity> postImages) {
+    public void setPostImages(List<PostImageEntity> postImages) {
         this.postImages = postImages;
     }
 }
