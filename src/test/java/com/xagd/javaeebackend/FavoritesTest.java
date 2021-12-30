@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * TODO:此处写FavoritesTest类的描述
  *
@@ -58,5 +59,25 @@ public class FavoritesTest {
         favoritesInDto.setFavoritesName("test");
     }
 
+    @Test
+    public void testFavoritesGoodsView(){
+        int size = favoritesGoodsRepository.getFavoritesGoodsEntitiesByFavoritesId((short) 1).size();
+        int serveSize = favoritesGoodsViewService.getGoodsInfoByFavoritesId((short) 1).size();
+        assertEquals(size,serveSize);
+    }
+
+
+    @Test
+    @Transactional
+    public void testAddFavoritesGoods(){
+        FavoritesGoodsInDto favoritesGoodsInDto = new FavoritesGoodsInDto();
+        favoritesGoodsInDto.setFavoriteId((short)1);
+        favoritesGoodsInDto.setGoodsId((short) 3);
+
+        long before = favoritesGoodsRepository.getFavoritesGoodsEntitiesByFavoritesId((short)1).size();
+        favoritesService.addFavoritesGoods(favoritesGoodsInDto);
+        long after = favoritesGoodsRepository.getFavoritesGoodsEntitiesByFavoritesId((short)1).size();
+        assertEquals(before+1,after);
+    }
 }
 
