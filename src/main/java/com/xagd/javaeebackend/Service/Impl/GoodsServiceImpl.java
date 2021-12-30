@@ -149,6 +149,7 @@ public class GoodsServiceImpl implements GoodsService {
         goodsDetailedDto.setDescription(goodsEntity.getGoodsIntroduction());
         goodsDetailedDto.setCategory(goodsEntity.getGoodsCategory());
         goodsDetailedDto.setGoodsImage(url);
+        goodsDetailedDto.setStock(goodsEntity.getSellNum());
 
         return goodsDetailedDto;
     }
@@ -162,4 +163,5 @@ public class GoodsServiceImpl implements GoodsService {
         shoppingcartEntity.setCount(goodsShoppingCartInDto.getCount());
         return shoppingCartRepository.save(shoppingcartEntity);
     }
+    
 }
