@@ -50,13 +50,6 @@ public class FavoritesServiceImpl implements FavoritesService {
     }
 
     @Override
-    public List<FavoritesEntity> getFavoritesEntityByUserId() {
-        Short userId = (short) StpUtil.getLoginIdAsInt();
-        List<FavoritesEntity> favoritesEntities = favoritesRepository.getFavoritesEntityByUserId(userId);
-        return favoritesEntities;
-    }
-
-    @Override
     public FavoritesGoodsOutDto getFavoritesGoods() {
         Short userId = (short) StpUtil.getLoginIdAsInt();
 

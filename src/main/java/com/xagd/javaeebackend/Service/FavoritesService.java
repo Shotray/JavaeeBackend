@@ -19,8 +19,6 @@ import java.util.List;
 public interface FavoritesService {
     FavoritesEntity addFavorites(FavoritesInDto favoritesInDto);
 
-    List<FavoritesEntity> getFavoritesEntityByUserId();
-
     FavoritesGoodsOutDto getFavoritesGoods();
 
     void deleteFavorites(short favoriteId);
