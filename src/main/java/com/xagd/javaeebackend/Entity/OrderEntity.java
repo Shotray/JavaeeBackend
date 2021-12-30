@@ -103,6 +103,37 @@ public class OrderEntity {
         this.status = status;
     }
 
+    @Basic
+    @Column(name = "total_price")
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    @Basic
+    @Column(name = "order_date")
+    public Timestamp getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Timestamp orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    @Basic
+    @Column(name = "location")
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
