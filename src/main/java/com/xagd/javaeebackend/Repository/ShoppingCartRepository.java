@@ -14,4 +14,6 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingcartEntity
     @Override
     void delete(ShoppingcartEntity entity);
 
+    List<ShoppingcartEntity> findAllByShoppingCartId (short shoppingCartId);
+
 }
