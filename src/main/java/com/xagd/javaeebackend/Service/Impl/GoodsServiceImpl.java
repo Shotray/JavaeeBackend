@@ -49,7 +49,7 @@ public class GoodsServiceImpl implements GoodsService {
 
         for (MultipartFile file : files){
             String url = OSSUtil.uploadFile(file, "goodsimage" + addedGoods.getGoodsId());
-            GoodsimageEntity goodsImageEntity = new GoodsimageEntity();
+            GoodsImageEntity goodsImageEntity = new GoodsImageEntity();
             goodsImageEntity.setGoodsId(addedGoods.getGoodsId());
             goodsImageEntity.setImage(url);
             goodsImageRepository.save(goodsImageEntity);
@@ -63,7 +63,7 @@ public class GoodsServiceImpl implements GoodsService {
         ModelMapper modelMapper = new ModelMapper();
         List<GoodsUserEntity> goodsUserEntityList =  goodsUserRepository.findAllByGoodsCategory(category);
         for(GoodsUserEntity goodsUserEntity: goodsUserEntityList){
-            GoodsimageEntity goodsImage = getGoodsImageByGoodsId(goodsUserEntity.getGoodsId());
+            GoodsImageEntity goodsImage = getGoodsImageByGoodsId(goodsUserEntity.getGoodsId());
             GoodsCategoryOutDto goodsCategoryOutDto = modelMapper.map(goodsUserEntity, GoodsCategoryOutDto.class);
             goodsCategoryOutDto.setImage(goodsImage.getImage());
             res.add(goodsCategoryOutDto);
@@ -76,7 +76,7 @@ public class GoodsServiceImpl implements GoodsService {
         List<MyGoodsOutDto> myGoods = new ArrayList<MyGoodsOutDto>();
         GoodsEntity[] goods = this.goodsRepository.getGoodsEntitiesByUserId(userId);
         for (GoodsEntity good : goods) {
-            List<GoodsimageEntity> goodsImage = this.goodsImageRepository.getGoodsimageEntitiesByGoodsId(good.getGoodsId());
+            List<GoodsImageEntity> goodsImage = this.goodsImageRepository.getGoodsimageEntitiesByGoodsId(good.getGoodsId());
             MyGoodsOutDto tmp = new MyGoodsOutDto();
             tmp.setImage(goodsImage.get(0).getImage());
             tmp.setGoodsEntity(good);
@@ -90,7 +90,7 @@ public class GoodsServiceImpl implements GoodsService {
         ModelMapper modelMapper = new ModelMapper();
         List<GoodsUserEntity> goodsUserEntityList = goodsUserRepository.findAllByGoodsNameIsContaining(name);
         for (GoodsUserEntity goodsUserEntity: goodsUserEntityList){
-            GoodsimageEntity goodsImage = getGoodsImageByGoodsId(goodsUserEntity.getGoodsId());
+            GoodsImageEntity goodsImage = getGoodsImageByGoodsId(goodsUserEntity.getGoodsId());
             GoodsSearchOutDto goodsSearchOutDto = modelMapper.map(goodsUserEntity, GoodsSearchOutDto.class);
             goodsSearchOutDto.setImage(goodsImage.getImage());
             res.add(goodsSearchOutDto);
@@ -104,7 +104,7 @@ public class GoodsServiceImpl implements GoodsService {
         ModelMapper modelMapper = new ModelMapper();
         List<GoodsUserEntity> goodsUserEntityList = goodsUserRepository.findAllByUserNicknameIsContaining(ownerName);
         for (GoodsUserEntity goodsUserEntity: goodsUserEntityList){
-            GoodsimageEntity goodsImage = getGoodsImageByGoodsId(goodsUserEntity.getGoodsId());
+            GoodsImageEntity goodsImage = getGoodsImageByGoodsId(goodsUserEntity.getGoodsId());
             GoodsSearchOutDto goodsSearchOutDto = modelMapper.map(goodsUserEntity, GoodsSearchOutDto.class);
             goodsSearchOutDto.setImage(goodsImage.getImage());
             res.add(goodsSearchOutDto);
@@ -112,11 +112,11 @@ public class GoodsServiceImpl implements GoodsService {
         return res;
     }
 
-    private GoodsimageEntity getGoodsImageByGoodsId(short goodsId){
-        GoodsimageEntity goodsImage = new GoodsimageEntity();
+    private GoodsImageEntity getGoodsImageByGoodsId(short goodsId){
+        GoodsImageEntity goodsImage = new GoodsImageEntity();
         goodsImage.setGoodsId(goodsId);
-        Example<GoodsimageEntity> example = Example.of(goodsImage);
-        Optional<GoodsimageEntity> result = goodsImageRepository.findOne(example);
+        Example<GoodsImageEntity> example = Example.of(goodsImage);
+        Optional<GoodsImageEntity> result = goodsImageRepository.findOne(example);
         return result.get();
     }
 
@@ -135,9 +135,9 @@ public class GoodsServiceImpl implements GoodsService {
 
         GoodsEntity goodsEntity = goodsRepository.getById(goodsId);
         UserEntity userEntity = userRepository.getById(goodsEntity.getUserId());
-        List<GoodsimageEntity> goodsimageEntity = goodsImageRepository.getGoodsimageEntitiesByGoodsId(goodsId);
+        List<GoodsImageEntity> goodsimageEntity = goodsImageRepository.getGoodsimageEntitiesByGoodsId(goodsId);
         List<String> url = new ArrayList<>();
-        for(GoodsimageEntity item: goodsimageEntity){
+        for(GoodsImageEntity item: goodsimageEntity){
             url.add(item.getImage());
         }
 

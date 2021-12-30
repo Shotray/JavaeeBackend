@@ -4,9 +4,9 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "browsehistory", schema = "db", catalog = "")
-@IdClass(BrowsehistoryEntityPK.class)
-public class BrowsehistoryEntity {
+@Table(name = "browse_history", schema = "db", catalog = "")
+@IdClass(BrowseHistoryEntityPK.class)
+public class BrowseHistoryEntity {
     private short userId;
     private short goodsId;
     private Timestamp time;
@@ -46,7 +46,7 @@ public class BrowsehistoryEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        BrowsehistoryEntity that = (BrowsehistoryEntity) o;
+        BrowseHistoryEntity that = (BrowseHistoryEntity) o;
 
         if (userId != that.userId) return false;
         if (goodsId != that.goodsId) return false;

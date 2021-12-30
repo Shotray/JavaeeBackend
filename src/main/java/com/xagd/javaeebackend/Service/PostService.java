@@ -4,12 +4,10 @@ package com.xagd.javaeebackend.Service;
 import com.xagd.javaeebackend.Entity.CommentEntity;
 import com.xagd.javaeebackend.Entity.PostEntity;
 import com.xagd.javaeebackend.Entity.PostUserEntity;
-import com.xagd.javaeebackend.Entity.PostimageEntity;
 import com.xagd.javaeebackend.OutDto.PostCommentOutDto;
 import com.xagd.javaeebackend.OutDto.PostDetailOutDto;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface PostService {

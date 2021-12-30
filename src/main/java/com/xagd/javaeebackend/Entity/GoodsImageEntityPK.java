@@ -1,16 +1,15 @@
 package com.xagd.javaeebackend.Entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import java.io.Serializable;
 
-@Entity
-@Table(name = "goodsimage", schema = "db", catalog = "")
-@IdClass(GoodsimageEntityPK.class)
-public class GoodsimageEntity {
+public class GoodsImageEntityPK implements Serializable {
     private short goodsId;
     private String image;
 
-    @Id
     @Column(name = "goods_id")
+    @Id
     public short getGoodsId() {
         return goodsId;
     }
@@ -19,8 +18,8 @@ public class GoodsimageEntity {
         this.goodsId = goodsId;
     }
 
-    @Id
     @Column(name = "image")
+    @Id
     public String getImage() {
         return image;
     }
@@ -34,7 +33,7 @@ public class GoodsimageEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        GoodsimageEntity that = (GoodsimageEntity) o;
+        GoodsImageEntityPK that = (GoodsImageEntityPK) o;
 
         if (goodsId != that.goodsId) return false;
         if (image != null ? !image.equals(that.image) : that.image != null) return false;

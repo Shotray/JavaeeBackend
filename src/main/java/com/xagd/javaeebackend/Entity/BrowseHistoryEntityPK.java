@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class BrowsehistoryEntityPK implements Serializable {
+public class BrowseHistoryEntityPK implements Serializable {
     private short userId;
     private short goodsId;
     private Timestamp time;
@@ -45,7 +45,7 @@ public class BrowsehistoryEntityPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        BrowsehistoryEntityPK that = (BrowsehistoryEntityPK) o;
+        BrowseHistoryEntityPK that = (BrowseHistoryEntityPK) o;
 
         if (userId != that.userId) return false;
         if (goodsId != that.goodsId) return false;

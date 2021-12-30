@@ -1,11 +1,9 @@
 package com.xagd.javaeebackend.Service.Impl;
 
 import com.xagd.javaeebackend.Entity.GoodsEntity;
-import com.xagd.javaeebackend.Entity.GoodsUserEntity;
-import com.xagd.javaeebackend.Entity.GoodsimageEntity;
+import com.xagd.javaeebackend.Entity.GoodsImageEntity;
 import com.xagd.javaeebackend.Entity.OrderEntity;
 import com.xagd.javaeebackend.InDto.OrderInDto;
-import com.xagd.javaeebackend.OutDto.GoodsSearchOutDto;
 import com.xagd.javaeebackend.OutDto.OrderGoodsOutDto;
 import com.xagd.javaeebackend.Repository.GoodsImageRepository;
 import com.xagd.javaeebackend.Repository.GoodsRepository;
@@ -40,10 +38,10 @@ public class OrderServiceImpl implements OrderService {
         for(OrderEntity orderEntity :orderEntities){
             ModelMapper modelMapper = new ModelMapper();
             OrderGoodsOutDto orderGoodsOutDto = modelMapper.map(orderEntity, OrderGoodsOutDto.class);
-            GoodsimageEntity goodsImage = new GoodsimageEntity();
+            GoodsImageEntity goodsImage = new GoodsImageEntity();
             goodsImage.setGoodsId(orderEntity.getGoodsId());
-            Example<GoodsimageEntity> example = Example.of(goodsImage);
-            Optional<GoodsimageEntity> image = goodsImageRepository.findOne(example);
+            Example<GoodsImageEntity> example = Example.of(goodsImage);
+            Optional<GoodsImageEntity> image = goodsImageRepository.findOne(example);
             orderGoodsOutDto.setGoodsImage(image.get().getImage());
             GoodsEntity goodsEntity = goodsRepository.getById(orderEntity.getGoodsId());
             orderGoodsOutDto.setGoodsPrice(goodsEntity.getGoodsPrice());

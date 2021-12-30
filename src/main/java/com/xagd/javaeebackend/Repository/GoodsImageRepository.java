@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface GoodsImageRepository extends JpaRepository<GoodsimageEntity, GoodsimageEntityPK> {
+public interface GoodsImageRepository extends JpaRepository<GoodsImageEntity, GoodsImageEntityPK> {
     @Override
-    <S extends GoodsimageEntity> Optional<S> findOne(Example<S> example);
+    <S extends GoodsImageEntity> Optional<S> findOne(Example<S> example);
 
-    List<GoodsimageEntity> getGoodsimageEntitiesByGoodsId(Short goodId);
+    List<GoodsImageEntity> getGoodsimageEntitiesByGoodsId(Short goodId);
 }
