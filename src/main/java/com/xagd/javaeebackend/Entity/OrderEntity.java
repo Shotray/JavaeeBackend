@@ -1,6 +1,8 @@
 package com.xagd.javaeebackend.Entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "`order`", schema = "db", catalog = "")
@@ -8,7 +10,10 @@ public class OrderEntity {
     private short orderId;
     private short goodsId;
     private short userId;
-    private short receiveId;
+    private short count;
+    private BigDecimal totalPrice;
+    private Timestamp orderDate;
+    private String location;
 
     @Id
     @Column(name = "order_id")
@@ -41,14 +46,45 @@ public class OrderEntity {
     }
 
     @Basic
-    @Column(name = "receive_id")
-    public short getReceiveId() {
-        return receiveId;
+    @Column(name = "count")
+    public short getCount() {
+        return count;
     }
 
-    public void setReceiveId(short receiveId) {
-        this.receiveId = receiveId;
+    public void setCount(short count) {
+        this.count = count;
     }
+
+    @Basic
+    @Column(name = "total_price")
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    @Basic
+    @Column(name = "order_date")
+    public Timestamp getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Timestamp orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    @Basic
+    @Column(name = "location")
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -60,8 +96,10 @@ public class OrderEntity {
         if (orderId != that.orderId) return false;
         if (goodsId != that.goodsId) return false;
         if (userId != that.userId) return false;
-        if (receiveId != that.receiveId) return false;
-
+        if (count != that.count) return false;
+        if (totalPrice != null ? !totalPrice.equals(that.totalPrice) : that.totalPrice != null) return false;
+        if (orderDate != null ? !orderDate.equals(that.orderDate) : that.orderDate != null) return false;
+        if (location != null ? !location.equals(that.location) : that.location != null) return false;
         return true;
     }
 
@@ -70,7 +108,10 @@ public class OrderEntity {
         int result = (int) orderId;
         result = 31 * result + (int) goodsId;
         result = 31 * result + (int) userId;
-        result = 31 * result + (int) receiveId;
+        result = 31 * result + (int) count;
+        result = 31 * result + (totalPrice != null ? totalPrice.hashCode() : 0);
+        result = 31 * result + (orderDate != null ? orderDate.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
         return result;
     }
 }
