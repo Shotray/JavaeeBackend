@@ -36,21 +36,21 @@ public class ShoppingCartTest {
 
     @Test
     public void findByShoppingCartId(){
-        ArrayList<ShoppingCartOutDto> list = shoppingCartService.findAllByShoppingCartId((short) 1);
+        ArrayList<ShoppingCartOutDto> list = shoppingCartService.findAllByShoppingCartId((short) 3);
         assertNotNull(list);
     }
 
     @Test
     @Transactional
     public void addAndDelete(){
-        List<ShoppingcartEntity> shoppingCartEntityList = shoppingCartRepository.findAllByShoppingCartId((short) 1);
+        List<ShoppingcartEntity> shoppingCartEntityList = shoppingCartRepository.findAllByShoppingCartId((short) 3);
         ShoppingcartEntity shoppingcartEntity = shoppingCartEntityList.get(0);
         int goodsNumOld = shoppingCartEntityList.size();
         shoppingCartService.deleteGoods(shoppingcartEntity);
-        int goodsNumDeleted = shoppingCartRepository.findAllByShoppingCartId((short) 1).size();
+        int goodsNumDeleted = shoppingCartRepository.findAllByShoppingCartId((short) 3).size();
         assertEquals(1, goodsNumOld - goodsNumDeleted);
         shoppingCartService.addGoods(shoppingcartEntity);
-        int goodsNumAdded = shoppingCartRepository.findAllByShoppingCartId((short) 1).size();
+        int goodsNumAdded = shoppingCartRepository.findAllByShoppingCartId((short) 3).size();
         assertEquals(1, goodsNumAdded - goodsNumDeleted);
         shoppingCartService.changeCount(shoppingcartEntity.getShoppingCartId(), shoppingcartEntity.getGoodsId(), (short) 3);
         ShoppingcartEntityPK shoppingCartEntityPK = new ShoppingcartEntityPK();

@@ -50,7 +50,7 @@ public class GoodsTest {
         goodsEntity.setGoodsUnit("件");
         MultipartFile[] multipartFiles = new MultipartFile[0];
         int goodsNum = goodsRepository.findAll().size();
-        GoodsEntity addedGoodsEntity = goodsService .addGoods(goodsEntity, multipartFiles, (short) 1);
+        GoodsEntity addedGoodsEntity = goodsService .addGoods(goodsEntity, multipartFiles, (short) 3);
         int goodsNumAdded = goodsRepository.findAll().size();
         assertEquals(1, goodsNumAdded - goodsNum);
 
@@ -67,7 +67,7 @@ public class GoodsTest {
 
     @Test
     public void getGoodsByUserId(){
-        List<MyGoodsOutDto> list = goodsService.getGoods((short) 1);
+        List<MyGoodsOutDto> list = goodsService.getGoods((short) 3);
         assertNotNull(list);
     }
 
