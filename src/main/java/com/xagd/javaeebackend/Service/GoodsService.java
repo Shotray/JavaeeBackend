@@ -23,7 +23,7 @@ public interface GoodsService {
 
     ArrayList<GoodsSearchOutDto> getGoodsByOwnerName(String ownerName);
 
-    GoodsEntity deleteGood(Short id);
+    void deleteGood(Short id);
 
     GoodsDetailedDto getGoodsDetailed(Short goodsId);
 

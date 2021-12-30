@@ -134,5 +134,19 @@ public class OrderEntity {
         result = 31 * result + (int) status;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "OrderEntity{" +
+                "orderId=" + orderId +
+                ", goodsId=" + goodsId +
+                ", userId=" + userId +
+                ", count=" + count +
+                ", totalPrice=" + totalPrice +
+                ", orderDate=" + orderDate +
+                ", location='" + location + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }
 
