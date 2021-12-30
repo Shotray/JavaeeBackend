@@ -2,39 +2,40 @@ package com.xagd.javaeebackend.InDto;
 
 public class MeEditDto {
     String userNickName;
-    String userRealName;
+    String userName;
     String userPhone;
-    byte userGender;
+    byte userSex;
 
     public String getUserNickName() {
         return userNickName;
     }
 
-    public String getUserRealName() {
-        return userRealName;
+    public String getUserName() {
+        return userName;
     }
 
     public String getUserPhone() {
         return userPhone;
     }
 
-    public byte getUserGender() {
-        return userGender;
+    public byte getUserSex() {
+        return userSex;
     }
 
     public void setUserNickName(String userNickName) {
         this.userNickName = userNickName;
     }
 
-    public void setUserRealName(String userRealName) {
-        this.userRealName = userRealName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setUserPhone(String userPhone) {
         this.userPhone = userPhone;
     }
 
-    public void setUserGender(byte userGender) {
-        this.userGender = userGender;
+    public void setUserSex(byte userSex) {
+        this.userSex = userSex;
     }
+
 }

@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import com.xagd.javaeebackend.Entity.PostimageEntity;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
@@ -48,7 +49,7 @@ public class PostServiceImpl implements PostService {
 
         for (MultipartFile file: files) {
             String url = OSSUtil.uploadFile(file, "postimage" + postEntity1.getPostId());
-            PostImageEntity postimageEntity = new PostImageEntity();
+            PostimageEntity postimageEntity = new PostimageEntity();
             postimageEntity.setPostId(postEntity1.getPostId());
             postimageEntity.setImageUrl(url);
             postImageRepository.save(postimageEntity);
@@ -74,8 +75,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostEntity deletePost(Short id) {
-        List<PostImageEntity> postImages = this.postImageRepository.getAllByPostId(id);
-        for (PostImageEntity postImage: postImages) {
+        List<PostimageEntity> postImages = this.postImageRepository.getAllByPostId(id);
+        for (PostimageEntity postImage: postImages) {
             this.postImageRepository.delete(postImage);
         }
         PostEntity post = this.postRepository.getById(id);
@@ -87,7 +88,7 @@ public class PostServiceImpl implements PostService {
     public PostDetailOutDto getPostDetailById(Short postId) {
         PostEntity post = this.postRepository.getPostEntityByPostId(postId);
         System.out.println(post);
-        List<PostImageEntity> postImages = this.postImageRepository.getAllByPostId(postId);
+        List<PostimageEntity> postImages = this.postImageRepository.getAllByPostId(postId);
         System.out.println(postImages.size());
         List<PostUserEntity> postUsers = postUserEntityRepository.findAll(Sort.by(Sort.Direction.DESC, "postDate"));
         PostDetailOutDto postDetail = new PostDetailOutDto();

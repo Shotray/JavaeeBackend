@@ -3,6 +3,7 @@ package com.xagd.javaeebackend.OutDto;
 import com.xagd.javaeebackend.Entity.PostEntity;
 import com.xagd.javaeebackend.Entity.PostUserEntity;
 import com.xagd.javaeebackend.Entity.PostImageEntity;
+import com.xagd.javaeebackend.Entity.PostimageEntity;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class PostDetailOutDto {
         this.post = post;
     }
 
-    public void setPostImages(List<PostImageEntity> postImages) {
+    public void setPostImages(List<PostimageEntity> postImages) {
         this.postImages = postImages;
     }
 }

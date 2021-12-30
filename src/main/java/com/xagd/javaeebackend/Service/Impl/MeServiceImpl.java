@@ -21,8 +21,8 @@ public class MeServiceImpl implements MeService {
         UserEntity user = this.userRepository.findUserEntityByUserId((short) StpUtil.getLoginIdAsInt());
         user.setUserNickname(meEditDto.getUserNickName());
         user.setUserPhone(meEditDto.getUserPhone());
-        user.setUserName(meEditDto.getUserRealName());
-        user.setUserSex(meEditDto.getUserGender());
+        user.setUserName(meEditDto.getUserName());
+        user.setUserSex(meEditDto.getUserSex());
         MultipartFile file = files[0];
         String url = OSSUtil.uploadFile(file, "userimage" + user.getUserId());
         user.setUserImage(url);
