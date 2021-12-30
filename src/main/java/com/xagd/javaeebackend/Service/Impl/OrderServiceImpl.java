@@ -16,6 +16,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderGoodsOutDto> getOrders(Short userId) {
+        List<OrderGoodsOutDto> orderGoodsOutDtos = new ArrayList<>();
         List<OrderEntity> orderEntities = orderEntityRepository.getOrderEntitiesByUserId(userId);
         for(OrderEntity orderEntity :orderEntities){
             ModelMapper modelMapper = new ModelMapper();
@@ -43,8 +45,12 @@ public class OrderServiceImpl implements OrderService {
             Example<GoodsimageEntity> example = Example.of(goodsImage);
             Optional<GoodsimageEntity> image = goodsImageRepository.findOne(example);
             orderGoodsOutDto.setGoodsImage(image.get().getImage());
+            GoodsEntity goodsEntity = goodsRepository.getById(orderEntity.getGoodsId());
+            orderGoodsOutDto.setGoodsPrice(goodsEntity.getGoodsPrice());
+            orderGoodsOutDto.setGoodsName(goodsEntity.getGoodsName());
+            orderGoodsOutDtos.add(orderGoodsOutDto);
         }
-        return null;
+        return orderGoodsOutDtos;
     }
 
     @Override
