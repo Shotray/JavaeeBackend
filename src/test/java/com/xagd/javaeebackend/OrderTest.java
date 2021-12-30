@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * TODO:此处写OrderTest类的描述
@@ -33,8 +33,8 @@ public class OrderTest {
 
     @Test
     public void testGetOrders(){
-        List<OrderGoodsOutDto> orderGoodsOutDtos = orderService.getOrders((short)1);
-        assertNotNull(orderGoodsOutDtos);
+        List<OrderGoodsOutDto> orderGoodsOutDtos = orderService.getOrders((short)1000);
+        assertNull(orderGoodsOutDtos);
     }
 
     @Test
@@ -49,7 +49,6 @@ public class OrderTest {
         long before = orderEntityRepository.getOrderEntitiesByUserId((short)1).size();
         orderService.addOrder(orderInDto,(short)1);
         long after = orderEntityRepository.getOrderEntitiesByUserId((short)1).size();
-
         assertEquals(before+1,after);
     }
 
