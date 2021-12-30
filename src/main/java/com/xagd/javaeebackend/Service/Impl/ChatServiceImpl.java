@@ -15,7 +15,12 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public List<MessageEntity> getHistoryMessage(Short fromUserId, Short toUserId) {
-        return this.messageRepository.getMessageEntitiesByMessageFromUserIdOrMessageToUserId(fromUserId, toUserId);
+        List<MessageEntity> lst1 = this.messageRepository.getMessageEntitiesByMessageFromUserIdAndMessageToUserId(fromUserId, toUserId);
+        List<MessageEntity> lst2 = this.messageRepository.getMessageEntitiesByMessageFromUserIdAndMessageToUserId(toUserId, fromUserId);
+        for (MessageEntity msg: lst2) {
+            lst1.add(msg);
+        }
+        return lst1;
     }
 
     @Override
