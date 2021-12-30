@@ -19,6 +19,7 @@ public class GoodsDetailedDto {
     String description;
     Byte category;
     List<String> goodsImage;
+    Short stock;
 
     public void setUserName(String userName){this.userName = userName;}
     public void setUserImage(String userImage){this.userImage = userImage;}
@@ -28,6 +29,11 @@ public class GoodsDetailedDto {
     public void setDescription(String description){this.description = description;}
     public void setCategory(Byte category){this.category = category;}
     public void setGoodsImage(List<String> goodsImage){this.goodsImage = goodsImage;}
+
+    public void setStock(Short stock) {
+        this.stock = stock;
+    }
+
     public String getUserName(){return this.userName;}
     public String getUserImage(){return this.userImage;}
     public String getGoodsName(){return this.goodsName;}
@@ -37,5 +43,8 @@ public class GoodsDetailedDto {
     public Byte getCategory(){return this.category;}
     public List<String> getGoodsImage(){return this.goodsImage;}
 
+    public Short getStock() {
+        return this.stock;
+    }
 }
 
