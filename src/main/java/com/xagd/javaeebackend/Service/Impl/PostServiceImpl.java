@@ -2,14 +2,10 @@ package com.xagd.javaeebackend.Service.Impl;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
-import com.xagd.javaeebackend.Entity.PostEntity;
-import com.xagd.javaeebackend.Entity.PostUserEntity;
-import com.xagd.javaeebackend.Entity.PostimageEntity;
-import com.xagd.javaeebackend.Entity.UserEntity;
+import com.xagd.javaeebackend.Entity.*;
+import com.xagd.javaeebackend.OutDto.PostCommentOutDto;
 import com.xagd.javaeebackend.OutDto.PostDetailOutDto;
-import com.xagd.javaeebackend.Repository.PostRepository;
-import com.xagd.javaeebackend.Repository.PostUserEntityRepository;
-import com.xagd.javaeebackend.Repository.PostimageEntityRepository;
+import com.xagd.javaeebackend.Repository.*;
 import com.xagd.javaeebackend.Service.PostService;
 import com.xagd.javaeebackend.Utils.OSSUtil;
 import org.springframework.data.domain.Page;
@@ -21,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +31,12 @@ public class PostServiceImpl implements PostService {
 
     @Resource
     private PostUserEntityRepository postUserEntityRepository;
+
+    @Resource
+    private CommentRepository commentRepository;
+
+    @Resource
+    private UserRepository userRepository;
 
     @SaCheckLogin
     @Override
@@ -100,5 +103,29 @@ public class PostServiceImpl implements PostService {
         postDetail.setPostImages(postImages);
         System.out.println(postDetail);
         return postDetail;
+    }
+
+    @Override
+    public CommentEntity addComment(short postId, short userId, String comment) {
+        CommentEntity commentEntity = new CommentEntity();
+        commentEntity.setPostId(postId);
+        commentEntity.setUserId(userId);
+        commentEntity.setCommentContent(comment);
+        return commentRepository.save(commentEntity);
+    }
+
+    @Override
+    public List<PostCommentOutDto> getPostComment(short postId) {
+        List<CommentEntity> list = commentRepository.findAllByPostIdOrderByCommentDateDesc(postId);
+        List<PostCommentOutDto> postCommentOutDtoList = new ArrayList<>();
+        for (CommentEntity commentEntity: list){
+            PostCommentOutDto postCommentOutDto = new PostCommentOutDto();
+            UserEntity user = userRepository.findUserEntityByUserId(commentEntity.getUserId());
+            postCommentOutDto.setUserName(user.getUserNickname());
+            postCommentOutDto.setUserImage(user.getUserImage());
+            postCommentOutDto.setComment(commentEntity.getCommentContent());
+            postCommentOutDtoList.add(postCommentOutDto);
+        }
+        return postCommentOutDtoList;
     }
 }

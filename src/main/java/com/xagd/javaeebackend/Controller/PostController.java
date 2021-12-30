@@ -1,6 +1,9 @@
 package com.xagd.javaeebackend.Controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.stp.StpUtil;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
+import com.xagd.javaeebackend.Entity.CommentEntity;
 import com.xagd.javaeebackend.Entity.PostEntity;
 import com.xagd.javaeebackend.Entity.PostUserEntity;
 import com.xagd.javaeebackend.Entity.PostimageEntity;
@@ -19,6 +22,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -76,6 +80,32 @@ public class PostController {
     public ResponseEntity getPostDetail(@PathVariable(value = "postId") Short postId) {
         try  {
             return new ResponseEntity<>(postService.getPostDetailById(postId), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @SaCheckLogin
+    @PostMapping(value = "/comment")
+    public ResponseEntity addPostComment(@RequestBody HashMap<String, String> info){
+        try{
+            System.out.println(info.toString());
+            short userId = (short) StpUtil.getLoginIdAsInt();
+            String content = info.get("content");
+            short postId = Short.parseShort(info.get("id"));
+            CommentEntity commentEntity = postService.addComment(postId, userId, content);
+            return ResponseEntity.ok(commentEntity);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(value = "/comment/{postId}")
+    public ResponseEntity getPostComment(@PathVariable(value = "postId") Short postId){
+        try  {
+            return ResponseEntity.ok(postService.getPostComment(postId));
         }
         catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);

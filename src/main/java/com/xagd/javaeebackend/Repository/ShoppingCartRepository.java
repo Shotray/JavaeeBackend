@@ -16,4 +16,6 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingcartEntity
 
     List<ShoppingcartEntity> findAllByShoppingCartId (short shoppingCartId);
 
+    void deleteAllByGoodsId(short id);
+
 }
