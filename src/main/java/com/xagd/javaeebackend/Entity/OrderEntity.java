@@ -3,7 +3,7 @@ package com.xagd.javaeebackend.Entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "order", schema = "db", catalog = "")
+@Table(name = "`order`", schema = "db", catalog = "")
 public class OrderEntity {
     private short orderId;
     private short goodsId;
