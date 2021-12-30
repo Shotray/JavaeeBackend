@@ -5,6 +5,7 @@ import com.xagd.javaeebackend.Entity.OrderEntity;
 import com.xagd.javaeebackend.Entity.PostEntity;
 import com.xagd.javaeebackend.Entity.UserEntity;
 import com.xagd.javaeebackend.OutDto.MyGoodsOutDto;
+import com.xagd.javaeebackend.OutDto.OrderGoodsOutDto;
 import com.xagd.javaeebackend.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,7 +42,7 @@ public class MeController {
     @GetMapping(value = "/order")
     public ResponseEntity order() {
         Short userId = (short)StpUtil.getLoginIdAsInt();
-        List<OrderEntity> orders = this.orderService.getOrders(userId);
+        List<OrderGoodsOutDto> orders = this.orderService.getOrders(userId);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 

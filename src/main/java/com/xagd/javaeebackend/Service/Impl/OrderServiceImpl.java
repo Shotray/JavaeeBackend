@@ -7,14 +7,18 @@ import com.xagd.javaeebackend.Entity.OrderEntity;
 import com.xagd.javaeebackend.InDto.OrderInDto;
 import com.xagd.javaeebackend.OutDto.GoodsSearchOutDto;
 import com.xagd.javaeebackend.OutDto.OrderGoodsOutDto;
+import com.xagd.javaeebackend.Repository.GoodsImageRepository;
 import com.xagd.javaeebackend.Repository.GoodsRepository;
 import com.xagd.javaeebackend.Repository.OrderEntityRepository;
 import com.xagd.javaeebackend.Service.OrderService;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -24,9 +28,23 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private GoodsRepository goodsRepository;
 
+    @Resource
+    private GoodsImageRepository goodsImageRepository;
+
+
     @Override
-    public List<OrderEntity> getOrders(Short userId) {
-        return this.orderEntityRepository.getOrderEntitiesByUserId(userId);
+    public List<OrderGoodsOutDto> getOrders(Short userId) {
+        List<OrderEntity> orderEntities = orderEntityRepository.getOrderEntitiesByUserId(userId);
+        for(OrderEntity orderEntity :orderEntities){
+            ModelMapper modelMapper = new ModelMapper();
+            OrderGoodsOutDto orderGoodsOutDto = modelMapper.map(orderEntity, OrderGoodsOutDto.class);
+            GoodsimageEntity goodsImage = new GoodsimageEntity();
+            goodsImage.setGoodsId(orderEntity.getGoodsId());
+            Example<GoodsimageEntity> example = Example.of(goodsImage);
+            Optional<GoodsimageEntity> image = goodsImageRepository.findOne(example);
+            orderGoodsOutDto.setGoodsImage(image.get().getImage());
+        }
+        return null;
     }
 
     @Override

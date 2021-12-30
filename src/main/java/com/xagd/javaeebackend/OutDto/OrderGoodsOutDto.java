@@ -17,6 +17,7 @@ public class OrderGoodsOutDto {
     private short sellNum;
     private byte sellStatus;
     private String goodsIntroduction;
+    private String goodsImage;
 
     public short getOrderId() {
         return orderId;
@@ -112,5 +113,13 @@ public class OrderGoodsOutDto {
 
     public void setGoodsIntroduction(String goodsIntroduction) {
         this.goodsIntroduction = goodsIntroduction;
+    }
+
+    public String getGoodsImage() {
+        return goodsImage;
+    }
+
+    public void setGoodsImage(String goodsImage) {
+        this.goodsImage = goodsImage;
     }
 }

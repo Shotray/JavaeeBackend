@@ -7,7 +7,7 @@ import com.xagd.javaeebackend.OutDto.OrderGoodsOutDto;
 import java.util.List;
 
 public interface OrderService {
-    List<OrderEntity> getOrders(Short userId);
+    List<OrderGoodsOutDto> getOrders(Short userId);
 
     OrderEntity addOrder(OrderInDto orderInDto, short userId);
 
