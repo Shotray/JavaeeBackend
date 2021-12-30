@@ -1,5 +1,6 @@
 package com.xagd.javaeebackend;
 
+import com.xagd.javaeebackend.Entity.OrderEntity;
 import com.xagd.javaeebackend.InDto.OrderInDto;
 import com.xagd.javaeebackend.OutDto.OrderGoodsOutDto;
 import com.xagd.javaeebackend.Repository.OrderEntityRepository;
@@ -59,6 +60,14 @@ public class OrderTest {
         long after = orderEntityRepository.getOrderEntitiesByUserId((short)1).size();
 
         assertEquals(before+1,after);
+    }
+
+    @Test
+    @Transactional
+    public void testPutOrder(){
+        orderService.putOrderDetail((short)1);
+        OrderEntity orderEntity = orderEntityRepository.getById((short)1);
+        assertEquals(orderEntity.getStatus(),(short)1);
     }
 
 }
