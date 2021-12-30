@@ -22,6 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -140,7 +141,7 @@ public class FavoritesTest {
     }
 
     @Test
-    @Rollback(value = true)
+    @Transactional
     public void testDeleteFavtorites(){
         List<FavoritesGoodsEntity> favoritesEntities = favoritesGoodsRepository.getFavoritesGoodsEntitiesByGoodsId((short) 4);
         for(FavoritesGoodsEntity favoritesGoodsEntity:favoritesEntities){
