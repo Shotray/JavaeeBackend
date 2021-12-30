@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  * TODO:此处写OrderEntity类的描述
  *
  * @author shotray
- * @since 2021/12/30 18:22
+ * @since 2021/12/30 18:27
  */
 
 @Entity
@@ -102,37 +102,6 @@ public class OrderEntity {
     public void setStatus(short status) {
         this.status = status;
     }
-
-    @Basic
-    @Column(name = "total_price")
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    @Basic
-    @Column(name = "order_date")
-    public Timestamp getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(Timestamp orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    @Basic
-    @Column(name = "location")
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
 
     @Override
     public boolean equals(Object o) {
