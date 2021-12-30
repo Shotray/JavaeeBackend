@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface PostService {
-    PostEntity addPost(PostEntity post, MultipartFile[] files);
+    PostEntity addPost(PostEntity post, MultipartFile[] files, Short userId);
 
     List<PostUserEntity> getPosts();
     PostEntity[] getPosts(Short userId);

@@ -37,10 +37,9 @@ public class PostServiceImpl implements PostService {
     @Resource
     private UserRepository userRepository;
 
-    @SaCheckLogin
     @Override
-    public PostEntity addPost(PostEntity postEntity, MultipartFile[] files) {
-        postEntity.setUserId((short) StpUtil.getLoginIdAsInt());
+    public PostEntity addPost(PostEntity postEntity, MultipartFile[] files, Short userId) {
+        postEntity.setUserId(userId);
         System.out.println(postEntity);
         Timestamp time = new Timestamp(System.currentTimeMillis());
         postEntity.setPostDate(time);

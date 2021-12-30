@@ -63,23 +63,23 @@ public class PostTest {
         assertNotNull(posts);
     }
 
-//    @Test
-//    @Transactional
-//    public void addAndDeletePost() {
-//        PostEntity post = new PostEntity();
-//        post.setPostDate(new Timestamp(System.currentTimeMillis()));
-//        post.setPostId((short) 1001);
-//        post.setPostPrice((short) 100);
-//        post.setPostTitle("test title");
-//        post.setPostIntroduction("test intro");
-//        post.setUserId((short) 3);
-//        MultipartFile[] multipartFiles = new MultipartFile[0];
-//        int prePostNum = this.postRepository.findAll().size();
-//        PostEntity addedPost = this.postService.addPost(post, multipartFiles);
-//        int addedPostNum = this.postRepository.findAll().size();
-//        assertEquals(1, addedPostNum - prePostNum);
-//        this.postService.deletePost(addedPost.getPostId());
-//        int deletedPostNum = this.postRepository.findAll().size();
-//        assertEquals(1, addedPostNum - deletedPostNum);
-//    }
+    @Test
+    @Transactional
+    public void addAndDeletePost() {
+        PostEntity post = new PostEntity();
+        post.setPostDate(new Timestamp(System.currentTimeMillis()));
+        post.setPostId((short) 1001);
+        post.setPostPrice((short) 100);
+        post.setPostTitle("test title");
+        post.setPostIntroduction("test intro");
+        post.setUserId((short) 3);
+        MultipartFile[] multipartFiles = new MultipartFile[0];
+        int prePostNum = this.postRepository.findAll().size();
+        PostEntity addedPost = this.postService.addPost(post, multipartFiles, (short) 3);
+        int addedPostNum = this.postRepository.findAll().size();
+        assertEquals(1, addedPostNum - prePostNum);
+        this.postService.deletePost(addedPost.getPostId());
+        int deletedPostNum = this.postRepository.findAll().size();
+        assertEquals(1, addedPostNum - deletedPostNum);
+    }
 }

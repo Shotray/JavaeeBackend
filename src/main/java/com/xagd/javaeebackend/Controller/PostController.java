@@ -20,10 +20,11 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @SaCheckLogin
     @PostMapping(value = "/postEdit")
     public ResponseEntity postEdit(@RequestPart("formData") PostEntity postEntity, @RequestPart("files") MultipartFile[] files) {
         try {
-            postEntity = postService.addPost(postEntity, files);
+            postEntity = postService.addPost(postEntity, files, (short) StpUtil.getLoginIdAsInt());
             return new ResponseEntity<>(postEntity, HttpStatus.OK);
         }
         catch (Exception e) {
