@@ -1,54 +1,40 @@
 package com.xagd.javaeebackend.InDto;
 
 public class MeEditDto {
-    String userImageUrl;
-    String userRealName;
     String userNickName;
-    String userGrade;
-    String userMajor;
-    String userId;
+    String userRealName;
+    String userPhone;
+    byte userGender;
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserImageUrl(String userImageUrl) {
-        this.userImageUrl = userImageUrl;
-    }
-
-    public void setUserRealName(String userRealName) {
-        this.userRealName = userRealName;
-    }
-
-    public void setUserNickName(String userNickName) {
-        this.userNickName = userNickName;
-    }
-
-    public void setUserGrade(String userGrade) {
-        this.userGrade = userGrade;
-    }
-
-    public void setUserMajor(String userMajor) {
-        this.userMajor = userMajor;
-    }
-
-    public String getUserImageUrl() {
-        return userImageUrl;
+    public String getUserNickName() {
+        return userNickName;
     }
 
     public String getUserRealName() {
         return userRealName;
     }
 
-    public String getUserNickName() {
-        return userNickName;
+    public String getUserPhone() {
+        return userPhone;
     }
 
-    public String getUserGrade() {
-        return userGrade;
+    public byte getUserGender() {
+        return userGender;
     }
 
-    public String getUserMajor() {
-        return userMajor;
+    public void setUserNickName(String userNickName) {
+        this.userNickName = userNickName;
+    }
+
+    public void setUserRealName(String userRealName) {
+        this.userRealName = userRealName;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+
+    public void setUserGender(byte userGender) {
+        this.userGender = userGender;
     }
 }

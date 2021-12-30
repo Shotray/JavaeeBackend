@@ -5,13 +5,10 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.PostEntity;
 import com.xagd.javaeebackend.Entity.PostimageEntity;
 import com.xagd.javaeebackend.Entity.UserEntity;
+import com.xagd.javaeebackend.InDto.MeEditDto;
 import com.xagd.javaeebackend.Utils.OSSUtil;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface MeService {
-    UserEntity updateUserEntity(String userId, String userRealName, String userNickName, String userImageUrl, String userGrade, String userMajor);
-
-    UserEntity updateImage(MultipartFile[] files);
-
-    UserEntity updateInfo(UserEntity userEntity);
+    UserEntity updateInfo(MeEditDto meEditDto, MultipartFile[] files);
 }

@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.OrderEntity;
 import com.xagd.javaeebackend.Entity.PostEntity;
 import com.xagd.javaeebackend.Entity.UserEntity;
+import com.xagd.javaeebackend.InDto.MeEditDto;
 import com.xagd.javaeebackend.OutDto.MyGoodsOutDto;
 import com.xagd.javaeebackend.OutDto.OrderGoodsOutDto;
 import com.xagd.javaeebackend.Service.*;
@@ -60,22 +61,10 @@ public class MeController {
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/image")
-    public ResponseEntity image(@RequestPart("files") MultipartFile[] files) {
-        try {
-            UserEntity user = this.meService.updateImage(files);
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        }
-        catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @PutMapping(value = "/info")
-    public ResponseEntity info(@RequestBody UserEntity newUser) {
+    public ResponseEntity info(@RequestPart("info") MeEditDto meEditDto, @RequestPart("image") MultipartFile[] files) {
         try {
-            this.meService.updateInfo(newUser);
-            return new ResponseEntity<>(newUser, HttpStatus.OK);
+            return new ResponseEntity<>(this.meService.updateInfo(meEditDto, files), HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
