@@ -90,5 +90,6 @@ public class GoodsTest {
         GoodsDetailedDto goodsDetailedDto = goodsService.getGoodsDetailed((short)1);
         System.out.println(goodsDetailedDto);
     }
+
 }
 

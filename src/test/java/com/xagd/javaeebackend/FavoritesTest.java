@@ -79,5 +79,7 @@ public class FavoritesTest {
         long after = favoritesGoodsRepository.getFavoritesGoodsEntitiesByFavoritesId((short)1).size();
         assertEquals(before+1,after);
     }
+
+
 }
 
