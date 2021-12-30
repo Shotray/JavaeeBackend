@@ -12,4 +12,6 @@ public interface FavoritesGoodsRepository extends JpaRepository<FavoritesGoodsEn
     void deleteFavoritesGoodsEntityByFavoritesIdAndGoodsId(short favoritesId,short goodsId);
 
     List<FavoritesGoodsEntity> getFavoritesGoodsEntitiesByGoodsId(short goodsId);
+
+    List<FavoritesGoodsEntity> getFavoritesGoodsEntitiesByFavoritesId(short favoriteId);
 }

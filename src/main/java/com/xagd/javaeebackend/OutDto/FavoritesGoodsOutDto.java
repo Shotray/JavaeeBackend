@@ -14,7 +14,18 @@ import java.util.List;
 public class FavoritesGoodsOutDto {
     public class GoodsOutDto{
         String favoritesName;
+
+        Short favoritesId;
+
         List<HashMap<String,String>> goods = new ArrayList<>();
+
+        public void setFavoritesId(Short favoritesId) {
+            this.favoritesId = favoritesId;
+        }
+
+        public Short getFavoritesId() {
+            return this.favoritesId;
+        }
 
         public void setFavoritesName(String favoritesName){
             this.favoritesName = favoritesName;
