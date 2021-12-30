@@ -10,6 +10,8 @@ import com.xagd.javaeebackend.Service.ShoppingCartService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +41,11 @@ public class ShoppingCartTest {
     }
 
     @Test
+    @Transactional
     public void addAndDelete(){
-        List<ShoppingcartEntity> shoppingcartEntityList = shoppingCartRepository.findAllByShoppingCartId((short) 22);
-        ShoppingcartEntity shoppingcartEntity = shoppingcartEntityList.get(0);
-        int goodsNumOld = shoppingcartEntityList.size();
+        List<ShoppingcartEntity> shoppingCartEntityList = shoppingCartRepository.findAllByShoppingCartId((short) 22);
+        ShoppingcartEntity shoppingcartEntity = shoppingCartEntityList.get(0);
+        int goodsNumOld = shoppingCartEntityList.size();
         shoppingCartService.deleteGoods(shoppingcartEntity);
         int goodsNumDeleted = shoppingCartRepository.findAllByShoppingCartId((short) 22).size();
         assertEquals(1, goodsNumOld - goodsNumDeleted);
