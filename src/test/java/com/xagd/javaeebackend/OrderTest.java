@@ -31,15 +31,6 @@ public class OrderTest {
     @Resource
     private OrderService orderService;
 
-//    @Test
-//    public void testGetOrders(){
-//        List<OrderGoodsOutDto> orderGoodsOutDtos = orderService.getOrders((short)22);
-//        for(OrderGoodsOutDto orderGoodsOutDto:orderGoodsOutDtos){
-//            System.out.println(orderGoodsOutDto);
-//        }
-//
-//    }
-
     @Test
     public void testGetOrders(){
         List<OrderGoodsOutDto> orderGoodsOutDtos = orderService.getOrders((short)1);
@@ -69,6 +60,8 @@ public class OrderTest {
         OrderEntity orderEntity = orderEntityRepository.getById((short)1);
         assertEquals(orderEntity.getStatus(),(short)1);
     }
+
+
 
 }
 
