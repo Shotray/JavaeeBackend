@@ -7,6 +7,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public interface MessageEntityRepository extends JpaRepository<MessageEntity, Timestamp> {
-    List<MessageEntity> getMessageEntitiesByMessageFromUserIdOrMessageToUserId(Short fromUserId, Short toUserId);
+    List<MessageEntity> getMessageEntitiesByMessageToUserId(Short userId);
     List<MessageEntity> getMessageEntitiesByMessageFromUserIdAndMessageToUserId(Short fromUserId, Short toUserId);
 }

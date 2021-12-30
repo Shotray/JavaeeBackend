@@ -1,7 +1,9 @@
 package com.xagd.javaeebackend.Service.Impl;
 
 import com.xagd.javaeebackend.Entity.MessageEntity;
+import com.xagd.javaeebackend.Entity.UserEntity;
 import com.xagd.javaeebackend.Repository.MessageEntityRepository;
+import com.xagd.javaeebackend.Repository.UserRepository;
 import com.xagd.javaeebackend.Service.ChatService;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ import java.util.List;
 public class ChatServiceImpl implements ChatService {
     @Resource
     private MessageEntityRepository messageRepository;
+
+    @Resource
+    private UserRepository userRepository;
 
     @Override
     public List<MessageEntity> getHistoryMessage(Short fromUserId, Short toUserId) {
@@ -47,5 +52,16 @@ public class ChatServiceImpl implements ChatService {
     public MessageEntity addMessage(MessageEntity message) {
         this.messageRepository.save(message);
         return message;
+    }
+
+    @Override
+    public List<UserEntity> getChattedPeople(Short userId) {
+        List<MessageEntity> msgs = this.messageRepository.getMessageEntitiesByMessageToUserId(userId);
+        List<UserEntity> users = new ArrayList<UserEntity>();
+        for (MessageEntity msg: msgs) {
+            UserEntity user = this.userRepository.findUserEntityByUserId(msg.getMessageFromUserId());
+            users.add(user);
+        }
+        return users;
     }
 }
