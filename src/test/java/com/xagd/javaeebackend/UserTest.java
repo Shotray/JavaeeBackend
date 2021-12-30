@@ -99,43 +99,43 @@ public class UserTest {
         assertTrue(flag);
     }
 
-    @Test
-    public void checkSMS(){
-        String resp = SendSMS.send("17692419697", "1234");
-        try{
-            Document doc = DocumentHelper.parseText(resp);
-            Element root = doc.getRootElement();
-            String respCode = root.element("code").getText();
-            if (respCode.equals("2")){
-                System.out.println("true");
-            }
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-    }
+//    @Test
+//    public void checkSMS(){
+//        String resp = SendSMS.send("17692419697", "1234");
+//        try{
+//            Document doc = DocumentHelper.parseText(resp);
+//            Element root = doc.getRootElement();
+//            String respCode = root.element("code").getText();
+//            if (respCode.equals("2")){
+//                System.out.println("true");
+//            }
+//        } catch (DocumentException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Test
     public void checkProfile() {
         UserEntity user = this.userRepository.findUserEntityByUserId((short) 10);
-        assertNotNull(user);
+        assertEquals(user.getUserId(), (short) 10);
     }
 
     @Test
     public void checkSelfPosts() {
         PostEntity[] lst = this.postService.getPosts((short) 10);
-        assertNotNull(lst);
+        assertEquals(lst.length, 0);
     }
 
     @Test
     public void checkSelfGoods() {
         List<MyGoodsOutDto> lst = this.goodsService.getGoods((short) 10);
-        assertNotNull(lst);
+        assertEquals(lst.size(), 0);
     }
 
     @Test
     public void checkSelfOrder() {
         List<OrderGoodsOutDto> lst = this.orderService.getOrders((short) 10);
-        assertNotNull(lst);
+        assertEquals(lst.size(), 0);
     }
 
     @Test

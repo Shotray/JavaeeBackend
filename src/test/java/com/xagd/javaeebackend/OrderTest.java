@@ -34,7 +34,7 @@ public class OrderTest {
     @Test
     public void testGetOrders(){
         List<OrderGoodsOutDto> orderGoodsOutDtos = orderService.getOrders((short)1000);
-        assertNull(orderGoodsOutDtos);
+        assertEquals(orderGoodsOutDtos.size(), 0);
     }
 
     @Test
