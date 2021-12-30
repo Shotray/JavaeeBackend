@@ -6,6 +6,7 @@ import com.xagd.javaeebackend.Service.ChatService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
@@ -24,14 +25,16 @@ public class ChatTest {
     private ChatService chatService;
 
     @Test
+    @Transactional
     public void addMessage() {
         int preMessageNum = this.messageEntityRepository.findAll().size();
         MessageEntity messageEntity = new MessageEntity();
         messageEntity.setMessageType((byte) 0);
         messageEntity.setMessageDate(new Timestamp(System.currentTimeMillis()));
-        messageEntity.setMessageFromUserId((short) 23);
+        messageEntity.setMessageFromUserId((short) 3);
         messageEntity.setMessageContent("test content");
-        messageEntity.setMessageToUserId((short) 22);
+        messageEntity.setMessageToUserId((short) 3);
+        this.messageEntityRepository.save(messageEntity);
         int addedMessageNum = this.messageEntityRepository.findAll().size();
         assertEquals(1, addedMessageNum - preMessageNum);
     }
