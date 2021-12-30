@@ -17,4 +17,5 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderEntity> getOrders(Short userId) {
         return this.orderEntityRepository.getOrderEntitiesByUserId(userId);
     }
+    
 }

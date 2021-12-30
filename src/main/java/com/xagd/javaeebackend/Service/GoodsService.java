@@ -28,4 +28,5 @@ public interface GoodsService {
 
     ShoppingcartEntity addGoodsToShoppingCart(GoodsShoppingCartInDto goodsShoppingCartInDto);
 
+    OrderEntity purchaseGoods();
 }
