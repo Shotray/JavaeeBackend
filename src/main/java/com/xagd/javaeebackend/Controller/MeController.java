@@ -1,5 +1,6 @@
 package com.xagd.javaeebackend.Controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.OrderEntity;
 import com.xagd.javaeebackend.Entity.PostEntity;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/me")
 public class MeController {
+    @Autowired
     private MeService meService;
 
     @Autowired
@@ -33,6 +35,7 @@ public class MeController {
     @Autowired
     private PostService postService;
 
+    @SaCheckLogin
     @GetMapping(value = "/info")
     public ResponseEntity info() {
         Short userId = (short)StpUtil.getLoginIdAsInt();
@@ -61,10 +64,20 @@ public class MeController {
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/info")
-    public ResponseEntity info(@RequestPart("info") MeEditDto meEditDto, @RequestPart("image") MultipartFile[] files) {
+    @PostMapping(value = "/edit")
+    public ResponseEntity info(@RequestBody MeEditDto meEditDto) {
         try {
-            return new ResponseEntity<>(this.meService.updateInfo(meEditDto, files), HttpStatus.OK);
+            return new ResponseEntity<>(this.meService.updateInfo(meEditDto), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping(value = "/image")
+    public ResponseEntity image(@RequestPart("image") MultipartFile[] files) {
+        try {
+            return new ResponseEntity<>(this.meService.updateImage(files), HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
