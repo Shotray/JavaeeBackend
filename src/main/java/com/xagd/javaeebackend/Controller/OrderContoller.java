@@ -2,6 +2,7 @@ package com.xagd.javaeebackend.Controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
+import com.xagd.javaeebackend.Entity.OrderEntity;
 import com.xagd.javaeebackend.Entity.UserEntity;
 import com.xagd.javaeebackend.InDto.OrderInDto;
 import com.xagd.javaeebackend.Service.OrderService;
@@ -22,8 +23,8 @@ public class OrderContoller {
     public ResponseEntity addOrder(@RequestBody OrderInDto orderInDto){
         try {
             short userId = (short) StpUtil.getLoginIdAsInt();
-            orderService.addOrder(orderInDto, userId);
-            return ResponseEntity.ok("ok");
+            OrderEntity orderEntity = orderService.addOrder(orderInDto, userId);
+            return ResponseEntity.ok(orderEntity);
         }
         catch (Exception e) {
             System.out.println(e.toString());
@@ -36,6 +37,18 @@ public class OrderContoller {
     public ResponseEntity getOrderDetail(@PathVariable short orderId){
         try{
             return ResponseEntity.ok(orderService.getOrderDetail(orderId));
+        }
+        catch (Exception e){
+            System.out.println(e.toString());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @SaCheckLogin
+    @PutMapping("{orderId}")
+    public ResponseEntity putOrderDetail(@PathVariable short orderId){
+        try{
+            return ResponseEntity.ok(orderService.putOrderDetail(orderId));
         }
         catch (Exception e){
             System.out.println(e.toString());

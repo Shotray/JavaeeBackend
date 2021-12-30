@@ -1,6 +1,7 @@
 package com.xagd.javaeebackend.OutDto;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 public class OrderGoodsOutDto {
     private short orderId;
@@ -12,6 +13,7 @@ public class OrderGoodsOutDto {
     private short status;
     private String goodsName;
     private BigDecimal goodsPrice;
+    private Timestamp orderDate;
     private short sellNum;
     private byte sellStatus;
     private String goodsIntroduction;

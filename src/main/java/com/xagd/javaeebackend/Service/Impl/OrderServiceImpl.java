@@ -46,7 +46,16 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity orderEntity = orderEntityRepository.getById(orderId);
         OrderGoodsOutDto orderGoodsOutDto = modelMapper.map(orderEntity, OrderGoodsOutDto.class);
         GoodsEntity goodsEntity = goodsRepository.getById(orderEntity.getGoodsId());
-        orderGoodsOutDto = modelMapper.map(goodsEntity, OrderGoodsOutDto.class);
+//        orderGoodsOutDto = modelMapper.map(goodsEntity, OrderGoodsOutDto.class);
+        orderGoodsOutDto.setGoodsName(goodsEntity.getGoodsName());
+        orderGoodsOutDto.setGoodsPrice(goodsEntity.getGoodsPrice());
         return orderGoodsOutDto;
+    }
+
+    @Override
+    public OrderEntity putOrderDetail(short orderId) {
+        OrderEntity orderEntity = orderEntityRepository.getById(orderId);
+        orderEntity.setStatus((short) 1);
+        return orderEntityRepository.save(orderEntity);
     }
 }

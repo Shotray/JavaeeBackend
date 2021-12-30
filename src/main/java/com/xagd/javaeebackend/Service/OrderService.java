@@ -12,4 +12,6 @@ public interface OrderService {
     OrderEntity addOrder(OrderInDto orderInDto, short userId);
 
     OrderGoodsOutDto getOrderDetail(short orderId);
+
+    OrderEntity putOrderDetail(short orderId);
 }

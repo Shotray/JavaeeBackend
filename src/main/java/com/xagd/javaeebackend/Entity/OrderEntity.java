@@ -1,5 +1,7 @@
 package com.xagd.javaeebackend.Entity;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -12,7 +14,8 @@ import java.sql.Timestamp;
  */
 
 @Entity
-@Table(name = "order", schema = "db", catalog = "")
+@DynamicInsert
+@Table(name = "`order`", schema = "db", catalog = "")
 public class OrderEntity {
     private short orderId;
     private short goodsId;
@@ -24,6 +27,7 @@ public class OrderEntity {
     private short status;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     public short getOrderId() {
         return orderId;
