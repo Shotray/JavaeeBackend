@@ -8,7 +8,6 @@ import com.xagd.javaeebackend.OutDto.PostDetailOutDto;
 import com.xagd.javaeebackend.Repository.*;
 import com.xagd.javaeebackend.Service.PostService;
 import com.xagd.javaeebackend.Utils.OSSUtil;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -50,7 +48,7 @@ public class PostServiceImpl implements PostService {
 
         for (MultipartFile file: files) {
             String url = OSSUtil.uploadFile(file, "postimage" + postEntity1.getPostId());
-            PostimageEntity postimageEntity = new PostimageEntity();
+            PostImageEntity postimageEntity = new PostImageEntity();
             postimageEntity.setPostId(postEntity1.getPostId());
             postimageEntity.setImageUrl(url);
             postImageRepository.save(postimageEntity);
@@ -76,8 +74,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostEntity deletePost(Short id) {
-        List<PostimageEntity> postImages = this.postImageRepository.getAllByPostId(id);
-        for (PostimageEntity postImage: postImages) {
+        List<PostImageEntity> postImages = this.postImageRepository.getAllByPostId(id);
+        for (PostImageEntity postImage: postImages) {
             this.postImageRepository.delete(postImage);
         }
         PostEntity post = this.postRepository.getById(id);
@@ -89,7 +87,7 @@ public class PostServiceImpl implements PostService {
     public PostDetailOutDto getPostDetailById(Short postId) {
         PostEntity post = this.postRepository.getPostEntityByPostId(postId);
         System.out.println(post);
-        List<PostimageEntity> postImages = this.postImageRepository.getAllByPostId(postId);
+        List<PostImageEntity> postImages = this.postImageRepository.getAllByPostId(postId);
         System.out.println(postImages.size());
         List<PostUserEntity> postUsers = postUserEntityRepository.findAll(Sort.by(Sort.Direction.DESC, "postDate"));
         PostDetailOutDto postDetail = new PostDetailOutDto();

@@ -1,7 +1,7 @@
 package com.xagd.javaeebackend.Service.Impl;
 
 import com.xagd.javaeebackend.Entity.GoodsShoppingcartEntity;
-import com.xagd.javaeebackend.Entity.GoodsimageEntity;
+import com.xagd.javaeebackend.Entity.GoodsImageEntity;
 import com.xagd.javaeebackend.Entity.ShoppingcartEntity;
 import com.xagd.javaeebackend.Entity.ShoppingcartEntityPK;
 import com.xagd.javaeebackend.OutDto.ShoppingCartOutDto;
@@ -40,10 +40,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ModelMapper modelMapper = new ModelMapper();
         List<GoodsShoppingcartEntity> goodsShoppingCartArrayList =  goodsShoppingCartRepository.findAllByShoppingCartId(shoppingCartId);
         for(GoodsShoppingcartEntity goodsShoppingCart: goodsShoppingCartArrayList){
-            GoodsimageEntity goodsImage = new GoodsimageEntity();
+            GoodsImageEntity goodsImage = new GoodsImageEntity();
             goodsImage.setGoodsId(goodsShoppingCart.getGoodsId());
-            Example<GoodsimageEntity> example = Example.of(goodsImage);
-            Optional<GoodsimageEntity> result = goodsImageRepository.findOne(example);
+            Example<GoodsImageEntity> example = Example.of(goodsImage);
+            Optional<GoodsImageEntity> result = goodsImageRepository.findOne(example);
             ShoppingCartOutDto shoppingCartOutDto = modelMapper.map(goodsShoppingCart, ShoppingCartOutDto.class);
             result.ifPresent(goodsimageEntity -> shoppingCartOutDto.setImage(goodsimageEntity.getImage()));
             res.add(shoppingCartOutDto);

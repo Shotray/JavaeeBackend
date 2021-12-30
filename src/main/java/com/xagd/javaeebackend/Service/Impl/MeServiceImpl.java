@@ -2,8 +2,6 @@ package com.xagd.javaeebackend.Service.Impl;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
-import com.xagd.javaeebackend.Entity.PostEntity;
-import com.xagd.javaeebackend.Entity.PostimageEntity;
 import com.xagd.javaeebackend.Entity.UserEntity;
 import com.xagd.javaeebackend.InDto.MeEditDto;
 import com.xagd.javaeebackend.Repository.UserRepository;

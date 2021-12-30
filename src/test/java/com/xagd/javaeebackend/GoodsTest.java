@@ -42,7 +42,6 @@ public class GoodsTest {
     @Transactional
     public void addGoods(){
         GoodsEntity goodsEntity = new GoodsEntity();
-        goodsEntity.setGoodsId((short) 22);
         goodsEntity.setGoodsCategory((byte) 2);
         goodsEntity.setGoodsName("testGoodsName");
         goodsEntity.setGoodsPrice(new BigDecimal("9.9"));
@@ -51,7 +50,7 @@ public class GoodsTest {
         goodsEntity.setGoodsUnit("件");
         MultipartFile[] multipartFiles = new MultipartFile[0];
         int goodsNum = goodsRepository.findAll().size();
-        GoodsEntity addedGoodsEntity = goodsService .addGoods(goodsEntity, multipartFiles, (short) 22);
+        GoodsEntity addedGoodsEntity = goodsService .addGoods(goodsEntity, multipartFiles, (short) 3);
         int goodsNumAdded = goodsRepository.findAll().size();
         assertEquals(1, goodsNumAdded - goodsNum);
 
@@ -68,19 +67,19 @@ public class GoodsTest {
 
     @Test
     public void getGoodsByUserId(){
-        List<MyGoodsOutDto> list = goodsService.getGoods((short) 22);
+        List<MyGoodsOutDto> list = goodsService.getGoods((short) 3);
         assertNotNull(list);
     }
 
     @Test
     public void getGoodsByName(){
-        ArrayList<GoodsSearchOutDto> arrayList = goodsService.getGoodsByName("11");
+        ArrayList<GoodsSearchOutDto> arrayList = goodsService.getGoodsByName("test");
         assertNotNull(arrayList);
     }
 
     @Test
     public void getGoodsByOwnerName(){
-        ArrayList<GoodsSearchOutDto> arrayList = goodsService.getGoodsByOwnerName("11");
+        ArrayList<GoodsSearchOutDto> arrayList = goodsService.getGoodsByOwnerName("test");
         assertNotNull(arrayList);
     }
 

@@ -61,11 +61,8 @@ public class UserTest {
 
     @Test
     public void checkExistUserName(){
-        String userName = "111a1";
+        String userName = "0303030";
         boolean flag = userService.existsUserEntityByUserName(userName);
-        assertTrue(flag);
-        userName = "0303030";
-        flag = userService.existsUserEntityByUserName(userName);
         assertFalse(flag);
     }
 
@@ -74,9 +71,6 @@ public class UserTest {
         String phone = "123";
         boolean flag = userService.existsUserEntityByUserPhone(phone);
         assertFalse(flag);
-        phone = "17692419697";
-        flag = userService.existsUserEntityByUserPhone(phone);
-        assertTrue(flag);
     }
 
     @Test

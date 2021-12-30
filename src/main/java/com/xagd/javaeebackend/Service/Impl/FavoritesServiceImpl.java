@@ -68,7 +68,7 @@ public class FavoritesServiceImpl implements FavoritesService {
             List<HashMap<String, String>> goods = new ArrayList<>();
             int count = 0;
             for (FavoritesGoodsViewEntity good : favoritesGoodsViewEntities) {
-                List<GoodsimageEntity> goodsImageEntity = goodsImageRepository.getGoodsimageEntitiesByGoodsId(good.getGoodsId());
+                List<GoodsImageEntity> goodsImageEntity = goodsImageRepository.getGoodsimageEntitiesByGoodsId(good.getGoodsId());
                 HashMap<String, String> goodMap = new HashMap<>();
                 goodMap.put("goodsId", String.valueOf(good.getGoodsId()));
                 goodMap.put("name", good.getGoodsName());
