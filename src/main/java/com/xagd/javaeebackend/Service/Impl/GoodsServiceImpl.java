@@ -38,6 +38,9 @@ public class GoodsServiceImpl implements GoodsService {
     @Resource
     private ShoppingCartRepository shoppingCartRepository;
 
+    @Resource
+    private FavoritesGoodsRepository favoritesGoodsRepository;
+
 
     @Override
     public GoodsEntity addGoods(GoodsEntity goods, MultipartFile[] files, Short userId) {
@@ -120,7 +123,9 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void deleteGood(Short id) {
         GoodsEntity good = this.goodsRepository.getById(id);
-        this.goodsRepository.deleteById(id);
+        shoppingCartRepository.deleteAllByGoodsId(id);
+        favoritesGoodsRepository.deleteAllByGoodsId(id);
+        goodsRepository.deleteById(id);
     }
 
 

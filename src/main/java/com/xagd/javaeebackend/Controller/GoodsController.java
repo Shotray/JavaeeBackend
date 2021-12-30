@@ -46,7 +46,7 @@ public class GoodsController {
 
     @SaCheckLogin
     @DeleteMapping(value = "/delete")
-    public ResponseEntity deleteGood(@RequestParam Short id) {
+    public ResponseEntity deleteGood(@RequestParam short id) {
         try {
             this.goodsService.deleteGood(id);
             return new ResponseEntity<>("ok", HttpStatus.OK);

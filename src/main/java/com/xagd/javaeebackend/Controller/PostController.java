@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -76,6 +77,19 @@ public class PostController {
     public ResponseEntity getPostDetail(@PathVariable(value = "postId") Short postId) {
         try  {
             return new ResponseEntity<>(postService.getPostDetailById(postId), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping(value = "/{postId}/comment")
+    public ResponseEntity addPostComment(@PathVariable(value = "postId") short postId, @RequestBody HashMap<String, String> info){
+        try{
+            Short userId = Short.valueOf(info.get("senderId"));
+            String content = info.get("content");
+            return ResponseEntity.ok("hh");
+
         }
         catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
