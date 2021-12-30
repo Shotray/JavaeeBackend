@@ -46,9 +46,10 @@ public class GoodsServiceImpl implements GoodsService {
     public GoodsEntity addGoods(GoodsEntity goods, MultipartFile[] files, Short userId) {
         goods.setUserId(userId);
         GoodsEntity addedGoods = goodsRepository.save(goods);
-
+        int i = 0;
         for (MultipartFile file : files){
-            String url = OSSUtil.uploadFile(file, "goodsimage" + addedGoods.getGoodsId());
+            i += 1;
+            String url = OSSUtil.uploadFile(file, "goodsimage" + addedGoods.getGoodsId() + "#" + i);
             GoodsImageEntity goodsImageEntity = new GoodsImageEntity();
             goodsImageEntity.setGoodsId(addedGoods.getGoodsId());
             goodsImageEntity.setImage(url);
