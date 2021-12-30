@@ -1,5 +1,7 @@
 package com.xagd.javaeebackend.Entity;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -11,6 +13,7 @@ import java.sql.Timestamp;
  */
 
 @Entity
+@DynamicInsert
 @Table(name = "comment", schema = "db", catalog = "")
 public class CommentEntity {
     private short commentId;
@@ -20,6 +23,7 @@ public class CommentEntity {
     private Timestamp commentDate;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     public short getCommentId() {
         return commentId;
