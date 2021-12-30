@@ -1,16 +1,22 @@
 package com.xagd.javaeebackend.Entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import java.io.Serializable;
 
-@Entity
-@Table(name = "userfavorite", schema = "db", catalog = "")
-@IdClass(UserfavoriteEntityPK.class)
-public class UserfavoriteEntity {
+/**
+ * TODO:此处写FavoritesGoodsEntityPK类的描述
+ *
+ * @author shotray
+ * @since 2021/12/29 20:52
+ */
+
+public class FavoritesGoodsEntityPK implements Serializable {
     private short favoritesId;
-    private short userId;
+    private short goodsId;
 
-    @Id
     @Column(name = "favorites_id")
+    @Id
     public short getFavoritesId() {
         return favoritesId;
     }
@@ -19,14 +25,14 @@ public class UserfavoriteEntity {
         this.favoritesId = favoritesId;
     }
 
+    @Column(name = "goods_id")
     @Id
-    @Column(name = "user_id")
-    public short getUserId() {
-        return userId;
+    public short getGoodsId() {
+        return goodsId;
     }
 
-    public void setUserId(short userId) {
-        this.userId = userId;
+    public void setGoodsId(short goodsId) {
+        this.goodsId = goodsId;
     }
 
     @Override
@@ -34,10 +40,10 @@ public class UserfavoriteEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserfavoriteEntity that = (UserfavoriteEntity) o;
+        FavoritesGoodsEntityPK that = (FavoritesGoodsEntityPK) o;
 
         if (favoritesId != that.favoritesId) return false;
-        if (userId != that.userId) return false;
+        if (goodsId != that.goodsId) return false;
 
         return true;
     }
@@ -45,7 +51,8 @@ public class UserfavoriteEntity {
     @Override
     public int hashCode() {
         int result = (int) favoritesId;
-        result = 31 * result + (int) userId;
+        result = 31 * result + (int) goodsId;
         return result;
     }
 }
+

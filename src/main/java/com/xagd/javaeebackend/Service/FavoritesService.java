@@ -22,5 +22,7 @@ public interface FavoritesService {
     ArrayList<FavoritesEntity> getFavoritesEntityByUserId(short userId);
 
     FavoritesGoodsOutDto getFavoritesGoods();
+
+    void deleteFavorites(short favoriteId);
 }
 

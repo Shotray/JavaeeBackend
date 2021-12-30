@@ -5,10 +5,13 @@ import com.xagd.javaeebackend.Entity.FavoritesEntity;
 import com.xagd.javaeebackend.Entity.FavoritesGoodsViewEntity;
 import com.xagd.javaeebackend.InDto.FavoritesInDto;
 import com.xagd.javaeebackend.OutDto.FavoritesGoodsOutDto;
+import com.xagd.javaeebackend.Repository.FavoritesGoodsRepository;
 import com.xagd.javaeebackend.Repository.FavoritesGoodsViewRepository;
 import com.xagd.javaeebackend.Repository.FavoritesRepository;
 import com.xagd.javaeebackend.Service.FavoritesService;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -26,6 +29,9 @@ import java.util.List;
 public class FavoritesServiceImpl implements FavoritesService {
     @Resource
     private FavoritesRepository favoritesRepository;
+
+    @Resource
+    private FavoritesGoodsRepository favoritesGoodsRepository;
 
     @Resource
     private FavoritesGoodsViewRepository favoritesGoodsViewRepository;
@@ -78,6 +84,14 @@ public class FavoritesServiceImpl implements FavoritesService {
             favoritesGoodsOutDto.addFavoritesGoods(goodsDto);
         }
         return favoritesGoodsOutDto;
+    }
+
+    @Override
+    @Transactional
+    @Modifying
+    public void deleteFavorites(short favoriteId) {
+        favoritesGoodsRepository.deleteFavoritesGoodsEntitiesByFavoritesId(favoriteId);
+        favoritesRepository.deleteFavoritesEntityByFavoritesId(favoriteId);
     }
 }
 
