@@ -2,16 +2,25 @@ package com.xagd.javaeebackend.Controller.WebSocket;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.xagd.javaeebackend.Entity.MessageEntity;
+import com.xagd.javaeebackend.Repository.MessageEntityRepository;
 import com.xagd.javaeebackend.Repository.UserRepository;
+import com.xagd.javaeebackend.Service.ChatService;
+import org.hibernate.annotations.Source;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.Mapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @RestController
@@ -23,13 +32,13 @@ public class WebSocket {
     private static CopyOnWriteArraySet<WebSocket> webSocketSet = new CopyOnWriteArraySet<WebSocket>();
     private Session session;
     private Short userId;
+
     @Autowired
-    private UserRepository userRepository;
+    private ChatService chatService;
 
     @PostConstruct
     public void init() {
         webSocket = this;
-        webSocket.userRepository = this.userRepository;
     }
 
     @OnOpen
@@ -43,10 +52,17 @@ public class WebSocket {
     @OnMessage
     public void onMessage(String message, Session session) {
         JSONObject msg = JSON.parseObject(message);
+        System.out.println(msg);
         for (WebSocket item: webSocketSet) {
             try {
-                if (item.userId.equals(msg.getShort("userId"))) {
-                    item.sendMessage(message);
+                if (item.userId.equals((short) Integer.parseInt(msg.getString("messageToUserId")))) {
+                    MessageEntity messageEntity = new MessageEntity();
+                    messageEntity.setMessageDate(new Timestamp(System.currentTimeMillis()));
+                    messageEntity.setMessageContent(msg.getString("messageContent"));
+                    messageEntity.setMessageType((byte) 1);
+                    messageEntity.setMessageToUserId((short) Integer.parseInt(msg.getString("messageToUserId")));
+                    messageEntity.setMessageFromUserId((short) Integer.parseInt(msg.getString("messageFromUserId")));
+                    item.sendMessage(messageEntity);
                 }
             }
             catch (Exception e) {
@@ -66,8 +82,14 @@ public class WebSocket {
         error.printStackTrace();
     }
 
-    public void sendMessage(String message) throws IOException {
-        this.session.getBasicRemote().sendText(message);
+    public void sendMessage(MessageEntity message) throws IOException {
+        JSONObject msg = new JSONObject();
+        msg.put("messageDate", message.getMessageDate());
+        msg.put("messageContent", message.getMessageContent());
+        msg.put("messageType", message.getMessageType());
+        msg.put("messageFromUserId", message.getMessageFromUserId());
+        msg.put("messageToUserId", message.getMessageToUserId());
+        this.session.getBasicRemote().sendText(msg.toString());
     }
 
     public static synchronized void addOnlineCount() {
