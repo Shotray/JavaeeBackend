@@ -36,4 +36,15 @@ public class ChatController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @SaCheckLogin
+    @GetMapping(value = "/friend")
+    public ResponseEntity getChattedPeople() {
+        try {
+            return new ResponseEntity<>(this.chatService.getChattedPeople((short) StpUtil.getLoginIdAsInt()), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
