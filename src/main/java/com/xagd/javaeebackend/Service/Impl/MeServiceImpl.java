@@ -17,10 +17,9 @@ public class MeServiceImpl implements MeService {
     @Resource
     private UserRepository userRepository;
 
-    @SaCheckLogin
     @Override
-    public UserEntity updateInfo(MeEditDto meEditDto) {
-        UserEntity user = this.userRepository.findUserEntityByUserId((short) StpUtil.getLoginIdAsInt());
+    public UserEntity updateInfo(MeEditDto meEditDto, Short userId) {
+        UserEntity user = this.userRepository.findUserEntityByUserId(userId);
         user.setUserNickname(meEditDto.getUserNickname());
         user.setUserPhone(meEditDto.getUserPhone());
         user.setUserName(meEditDto.getUserName());

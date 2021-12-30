@@ -64,10 +64,11 @@ public class MeController {
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
+    @SaCheckLogin
     @PostMapping(value = "/edit")
     public ResponseEntity info(@RequestBody MeEditDto meEditDto) {
         try {
-            return new ResponseEntity<>(this.meService.updateInfo(meEditDto), HttpStatus.OK);
+            return new ResponseEntity<>(this.meService.updateInfo(meEditDto, (short) StpUtil.getLoginIdAsInt()), HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);

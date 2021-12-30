@@ -5,6 +5,6 @@ import com.xagd.javaeebackend.InDto.MeEditDto;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface MeService {
-    UserEntity updateInfo(MeEditDto meEditDto);
+    UserEntity updateInfo(MeEditDto meEditDto, Short userId);
     UserEntity updateImage(MultipartFile[] files);
 }
