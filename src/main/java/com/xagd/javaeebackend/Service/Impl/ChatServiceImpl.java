@@ -24,7 +24,10 @@ public class ChatServiceImpl implements ChatService {
 
         List<MessageEntity> ret = new ArrayList<MessageEntity>();
         int len = lst1.size();
-        MessageEntity[] arr = (MessageEntity[]) lst1.toArray();
+        MessageEntity[] arr = new MessageEntity[len];
+        for (int i = 0; i < len; ++i) {
+            arr[i] = lst1.get(i);
+        }
         for (int i = 0; i < len; ++i) {
             for (int j = i + 1; j < len; ++j) {
                 if (arr[i].getMessageDate().compareTo(arr[j].getMessageDate()) > 0) {
@@ -34,7 +37,6 @@ public class ChatServiceImpl implements ChatService {
                 }
             }
         }
-        lst1.clear();
         for (int i = 0; i < len; ++i) {
             ret.add(arr[i]);
         }
