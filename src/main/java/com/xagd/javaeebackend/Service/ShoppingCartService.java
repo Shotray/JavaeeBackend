@@ -12,4 +12,6 @@ public interface ShoppingCartService {
     ArrayList<ShoppingCartOutDto> findAllByShoppingCartId(short shoppingCartId);
 
     void deleteGoods(ShoppingcartEntity entity);
+
+    void changeCount(short shoppingCartId, short goodsId, short count);
 }

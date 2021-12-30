@@ -1,6 +1,8 @@
 package com.xagd.javaeebackend.Service;
 
 import com.xagd.javaeebackend.Entity.GoodsEntity;
+import com.xagd.javaeebackend.Entity.OrderEntity;
+import com.xagd.javaeebackend.InDto.GoodsShoppingCartInDto;
 import com.xagd.javaeebackend.OutDto.GoodsCategoryOutDto;
 import com.xagd.javaeebackend.OutDto.MyGoodsOutDto;
 import com.xagd.javaeebackend.Entity.ShoppingcartEntity;
@@ -21,10 +23,10 @@ public interface GoodsService {
 
     ArrayList<GoodsSearchOutDto> getGoodsByOwnerName(String ownerName);
 
-    GoodsEntity deleteGood(Short id);
+    void deleteGood(Short id);
 
     GoodsDetailedDto getGoodsDetailed(Short goodsId);
 
-    ShoppingcartEntity addGoodsToShoppingCart(Short goodsId,Short count);
+    ShoppingcartEntity addGoodsToShoppingCart(GoodsShoppingCartInDto goodsShoppingCartInDto);
 
 }

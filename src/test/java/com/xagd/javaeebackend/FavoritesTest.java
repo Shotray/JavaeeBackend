@@ -1,19 +1,24 @@
 package com.xagd.javaeebackend;
 
 import com.xagd.javaeebackend.Entity.FavoritesEntity;
+import com.xagd.javaeebackend.Entity.FavoritesGoodsEntity;
 import com.xagd.javaeebackend.Entity.FavoritesGoodsViewEntity;
+import com.xagd.javaeebackend.Entity.GoodsEntity;
+import com.xagd.javaeebackend.InDto.FavoritesGoodsInDto;
 import com.xagd.javaeebackend.OutDto.FavoritesGoodsOutDto;
+import com.xagd.javaeebackend.Repository.FavoritesGoodsRepository;
 import com.xagd.javaeebackend.Repository.FavoritesGoodsViewRepository;
 import com.xagd.javaeebackend.Repository.FavoritesRepository;
+import com.xagd.javaeebackend.Repository.GoodsRepository;
 import com.xagd.javaeebackend.Service.FavoritesGoodsViewService;
 import com.xagd.javaeebackend.Service.FavoritesService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +30,7 @@ import java.util.List;
  * @since 2021/12/13 13:32
  */
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FavoritesTest {
     @Resource
     private FavoritesRepository favoritesRepository;
@@ -35,10 +39,16 @@ public class FavoritesTest {
     private FavoritesService favoritesService;
 
     @Resource
+    private FavoritesGoodsRepository favoritesGoodsRepository;
+
+    @Resource
     private FavoritesGoodsViewRepository favoritesGoodsViewRepository;
 
     @Autowired
     private FavoritesGoodsViewService favoritesGoodsViewService;
+
+    @Autowired
+    private GoodsRepository goodsRepository;
 
     @Test
     public void testView(){
@@ -52,7 +62,7 @@ public class FavoritesTest {
 
     @Test
     public void getFavoritesEntity(){
-        ArrayList<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId((short)20);
+        List<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId();
         for(FavoritesEntity item :favoritesEntities){
             System.out.println("----------");
             System.out.println(item.getFavoritesId());
@@ -67,7 +77,7 @@ public class FavoritesTest {
     public void testDto(){
         FavoritesGoodsOutDto favoritesGoodsOutDto = new FavoritesGoodsOutDto();
 
-        ArrayList<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId((short)20);
+        List<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId();
         System.out.println(favoritesEntities.size());
         for(FavoritesEntity item : favoritesEntities){
             System.out.println(item);
@@ -104,11 +114,47 @@ public class FavoritesTest {
 
     @Test
     public void testDeleteFavorites(){
-        List<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId((short)20);
+        List<FavoritesEntity> favoritesEntities = favoritesService.getFavoritesEntityByUserId();
         System.out.println(favoritesEntities);
         favoritesService.deleteFavorites((short)3);
-        List<FavoritesEntity> favoritesEntityList = favoritesService.getFavoritesEntityByUserId((short)20);
+        List<FavoritesEntity> favoritesEntityList = favoritesService.getFavoritesEntityByUserId();
         System.out.println(favoritesEntityList);
+    }
+
+    @Test
+    public void testGetFavorites(){
+        List<HashMap<String,String>> favorites = favoritesService.getFavorites();
+        System.out.println(favorites);
+    }
+
+    @Test
+    public void testAddFavoritesGoods(){
+        FavoritesGoodsInDto favoritesGoodsInDto = new FavoritesGoodsInDto();
+        favoritesGoodsInDto.setGoodsId((short) 1);
+        favoritesGoodsInDto.setFavoriteId((short) 4);
+        FavoritesGoodsEntity favoritesGoodsEntity = favoritesService.addFavoritesGoods(favoritesGoodsInDto);
+        System.out.println(favoritesGoodsEntity);
+    }
+
+    @Test
+    @Transactional
+    public void testDeleteFavtorites(){
+        List<FavoritesGoodsEntity> favoritesEntities = favoritesGoodsRepository.getFavoritesGoodsEntitiesByGoodsId((short) 4);
+        for(FavoritesGoodsEntity favoritesGoodsEntity:favoritesEntities){
+            GoodsEntity goodsEntity = goodsRepository.getGoodsEntityByGoodsId(favoritesGoodsEntity.getGoodsId());
+            System.out.println(goodsEntity.getGoodsName());
+            System.out.println(goodsEntity.getGoodsFavorite());
+        }
+
+        favoritesService.deleteFavorites((short)4);
+
+        favoritesEntities = favoritesGoodsRepository.getFavoritesGoodsEntitiesByGoodsId((short) 4);
+        for(FavoritesGoodsEntity favoritesGoodsEntity:favoritesEntities){
+            GoodsEntity goodsEntity = goodsRepository.getGoodsEntityByGoodsId(favoritesGoodsEntity.getGoodsId());
+            System.out.println(goodsEntity.getGoodsName());
+            System.out.println(goodsEntity.getGoodsFavorite());
+        }
+
     }
 }
 

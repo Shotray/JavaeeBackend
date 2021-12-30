@@ -1,23 +1,18 @@
 package com.xagd.javaeebackend.Controller;
 
-import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
-import com.xagd.javaeebackend.Entity.GoodsEntity;
 import com.xagd.javaeebackend.Entity.OrderEntity;
 import com.xagd.javaeebackend.Entity.PostEntity;
 import com.xagd.javaeebackend.Entity.UserEntity;
 import com.xagd.javaeebackend.OutDto.MyGoodsOutDto;
 import com.xagd.javaeebackend.Service.*;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/me")
@@ -46,7 +41,7 @@ public class MeController {
     @GetMapping(value = "/order")
     public ResponseEntity order() {
         Short userId = (short)StpUtil.getLoginIdAsInt();
-        OrderEntity[] orders = this.orderService.getOrders(userId);
+        List<OrderEntity> orders = this.orderService.getOrders(userId);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 

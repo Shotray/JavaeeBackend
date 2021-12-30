@@ -1,16 +1,13 @@
 package com.xagd.javaeebackend.Service.Impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.internal.OSSUtils;
 import com.xagd.javaeebackend.Entity.*;
+import com.xagd.javaeebackend.InDto.GoodsShoppingCartInDto;
 import com.xagd.javaeebackend.OutDto.GoodsCategoryOutDto;
 import com.xagd.javaeebackend.OutDto.MyGoodsOutDto;
 import com.xagd.javaeebackend.OutDto.GoodsDetailedDto;
 import com.xagd.javaeebackend.OutDto.GoodsSearchOutDto;
-import com.xagd.javaeebackend.OutDto.ShoppingCartOutDto;
 import com.xagd.javaeebackend.Repository.*;
-import com.xagd.javaeebackend.Service.GoodsImageService;
 import com.xagd.javaeebackend.Service.GoodsService;
 import com.xagd.javaeebackend.Utils.OSSUtil;
 import org.modelmapper.ModelMapper;
@@ -121,10 +118,9 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public GoodsEntity deleteGood(Short id) {
+    public void deleteGood(Short id) {
         GoodsEntity good = this.goodsRepository.getById(id);
         this.goodsRepository.deleteById(id);
-        return good;
     }
 
 
@@ -148,19 +144,19 @@ public class GoodsServiceImpl implements GoodsService {
         goodsDetailedDto.setDescription(goodsEntity.getGoodsIntroduction());
         goodsDetailedDto.setCategory(goodsEntity.getGoodsCategory());
         goodsDetailedDto.setGoodsImage(url);
+        goodsDetailedDto.setStock(goodsEntity.getSellNum());
 
         return goodsDetailedDto;
     }
 
     @Override
-    public ShoppingcartEntity addGoodsToShoppingCart(Short goodsId,Short count) {
+    public ShoppingcartEntity addGoodsToShoppingCart(GoodsShoppingCartInDto goodsShoppingCartInDto) {
         Short userId = (short) StpUtil.getLoginIdAsInt();
         ShoppingcartEntity shoppingcartEntity = new ShoppingcartEntity();
         shoppingcartEntity.setShoppingCartId(userId);
-        shoppingcartEntity.setGoodsId(goodsId);
-        shoppingcartEntity.setCount(count);
+        shoppingcartEntity.setGoodsId(goodsShoppingCartInDto.getGoodsId());
+        shoppingcartEntity.setCount(goodsShoppingCartInDto.getCount());
         return shoppingCartRepository.save(shoppingcartEntity);
     }
-
-
+    
 }

@@ -3,6 +3,7 @@ package com.xagd.javaeebackend.Service.Impl;
 import com.xagd.javaeebackend.Entity.GoodsShoppingcartEntity;
 import com.xagd.javaeebackend.Entity.GoodsimageEntity;
 import com.xagd.javaeebackend.Entity.ShoppingcartEntity;
+import com.xagd.javaeebackend.Entity.ShoppingcartEntityPK;
 import com.xagd.javaeebackend.OutDto.ShoppingCartOutDto;
 import com.xagd.javaeebackend.Repository.GoodsImageRepository;
 import com.xagd.javaeebackend.Repository.GoodsShoppingCartRepository;
@@ -44,7 +45,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             Example<GoodsimageEntity> example = Example.of(goodsImage);
             Optional<GoodsimageEntity> result = goodsImageRepository.findOne(example);
             ShoppingCartOutDto shoppingCartOutDto = modelMapper.map(goodsShoppingCart, ShoppingCartOutDto.class);
-            shoppingCartOutDto.setImage(result.get().getImage());
+            result.ifPresent(goodsimageEntity -> shoppingCartOutDto.setImage(goodsimageEntity.getImage()));
             res.add(shoppingCartOutDto);
         }
         return res;
@@ -53,5 +54,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public void deleteGoods(ShoppingcartEntity entity) {
         shoppingCartRepository.delete(entity);
+    }
+
+    @Override
+    public void changeCount(short shoppingCartId, short goodsId, short count) {
+        ShoppingcartEntityPK shoppingCartEntityPK = new ShoppingcartEntityPK();
+        shoppingCartEntityPK.setShoppingCartId(shoppingCartId);
+        shoppingCartEntityPK.setGoodsId(goodsId);
+        Optional<ShoppingcartEntity> shoppingCartEntity = shoppingCartRepository.findById(shoppingCartEntityPK);
+        if (shoppingCartEntity.isPresent()){
+            ShoppingcartEntity changedShoppingCartEntity = shoppingCartEntity.get();
+            changedShoppingCartEntity.setCount(count);
+            shoppingCartRepository.save(changedShoppingCartEntity);
+        }
     }
 }

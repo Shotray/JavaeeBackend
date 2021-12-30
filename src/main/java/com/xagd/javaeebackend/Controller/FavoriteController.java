@@ -4,6 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import com.xagd.javaeebackend.Entity.FavoritesEntity;
 import com.xagd.javaeebackend.Entity.FavoritesGoodsViewEntity;
+import com.xagd.javaeebackend.InDto.FavoritesGoodsInDto;
 import com.xagd.javaeebackend.InDto.FavoritesInDto;
 import com.xagd.javaeebackend.OutDto.FavoritesGoodsOutDto;
 import com.xagd.javaeebackend.Service.FavoritesGoodsViewService;
@@ -26,7 +27,7 @@ import java.util.HashMap;
  */
 
 @RestController
-@RequestMapping(value = "favorites")
+@RequestMapping(value = "/favorites")
 public class FavoriteController {
 
     @Autowired
@@ -36,7 +37,7 @@ public class FavoriteController {
     FavoritesGoodsViewService favoritesGoodsViewService;
 
     @SaCheckLogin
-    @PostMapping("createFavorites")
+    @PostMapping("/createFavorites")
     public ResponseEntity createFavorites(@RequestBody FavoritesInDto favoritesInDto) {
         try {
             FavoritesEntity ret = favoritesService.addFavorites(favoritesInDto);
@@ -48,7 +49,18 @@ public class FavoriteController {
     }
 
     @SaCheckLogin
-    @GetMapping("getFavorites")
+    @GetMapping("/getFavorites")
+    public ResponseEntity getFavorites(){
+        try {
+            return new ResponseEntity<>(favoritesService.getFavorites(), HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @SaCheckLogin
+    @GetMapping("/getFavorites/goods")
     public ResponseEntity getFavoritesGoods() {
         try {
             FavoritesGoodsOutDto favoritesGoodsOutDto = favoritesService.getFavoritesGoods();
@@ -61,7 +73,7 @@ public class FavoriteController {
 
 
     @SaCheckLogin
-    @DeleteMapping("deleteFavorites/{favoritesId}")
+    @DeleteMapping("/deleteFavorites/{favoritesId}")
     public ResponseEntity deleteFavorites(
             @PathVariable(value = "favoritesId")short favoritesId
     ) {
@@ -74,5 +86,44 @@ public class FavoriteController {
         }
     }
 
+    @SaCheckLogin
+    @PostMapping("/add/goods")
+    public ResponseEntity addGoodsToFavorites(
+            @RequestBody FavoritesGoodsInDto favoritesGoodsInDto
+            ){
+        try {
+            return new ResponseEntity<>(favoritesService.addFavoritesGoods(favoritesGoodsInDto), HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @SaCheckLogin
+    @DeleteMapping("/delete/goods")
+    public ResponseEntity deleteGoodsOfFavorites(
+            @RequestParam(value = "goodsId")Short goodsId
+    ){
+        try {
+            favoritesService.deleteFavoritesGoods(goodsId);
+            return new ResponseEntity<>("ok", HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @SaCheckLogin
+    @GetMapping("/check/goods")
+    public ResponseEntity checkGoodsOfFavorites(
+        @RequestParam(value = "goodsId") Short goodsId
+    ){
+        try {
+            return new ResponseEntity<>(favoritesService.checkFavoritesGoods(goodsId), HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return new ResponseEntity<>("Bad Request", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 

@@ -8,7 +8,7 @@ import java.io.Serializable;
  * TODO:此处写FavoritesGoodsEntityPK类的描述
  *
  * @author shotray
- * @since 2021/12/29 20:52
+ * @since 2021/12/30 15:24
  */
 
 public class FavoritesGoodsEntityPK implements Serializable {

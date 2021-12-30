@@ -5,10 +5,24 @@ import java.sql.Timestamp;
 
 public class ShoppingCartOutDto {
     private short goodsId;
+    private short userId;
     private String goodsName;
     private BigDecimal goodsPrice;
     private short count;
     private String image;
+    private short sellNum;
+
+    public short getSellNum() {
+        return sellNum;
+    }
+
+    public void setSellNum(short sellNum) {
+        this.sellNum = sellNum;
+    }
+
+    public short getUserId() { return userId; }
+
+    public void setUserId(short userId) { this.userId = userId; }
 
     public String getImage() {
         return image;
