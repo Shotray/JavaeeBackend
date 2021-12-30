@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -60,6 +61,7 @@ public class ChatServiceImpl implements ChatService {
         List<UserEntity> users = new ArrayList<UserEntity>();
         for (MessageEntity msg: msgs) {
             UserEntity user = this.userRepository.findUserEntityByUserId(msg.getMessageFromUserId());
+            if (users.contains(user)) continue;
             users.add(user);
         }
         return users;
