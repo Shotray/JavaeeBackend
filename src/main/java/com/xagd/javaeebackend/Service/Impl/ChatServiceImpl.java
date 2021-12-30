@@ -6,6 +6,7 @@ import com.xagd.javaeebackend.Service.ChatService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,7 +21,24 @@ public class ChatServiceImpl implements ChatService {
         for (MessageEntity msg: lst2) {
             lst1.add(msg);
         }
-        return lst1;
+
+        List<MessageEntity> ret = new ArrayList<MessageEntity>();
+        int len = lst1.size();
+        MessageEntity[] arr = (MessageEntity[]) lst1.toArray();
+        for (int i = 0; i < len; ++i) {
+            for (int j = i + 1; j < len; ++j) {
+                if (arr[i].getMessageDate().compareTo(arr[j].getMessageDate()) > 0) {
+                    MessageEntity tmp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = tmp;
+                }
+            }
+        }
+        lst1.clear();
+        for (int i = 0; i < len; ++i) {
+            ret.add(arr[i]);
+        }
+        return ret;
     }
 
     @Override
