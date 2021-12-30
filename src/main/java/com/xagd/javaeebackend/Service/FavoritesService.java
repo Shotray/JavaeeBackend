@@ -5,14 +5,9 @@ import com.xagd.javaeebackend.Entity.FavoritesGoodsEntity;
 import com.xagd.javaeebackend.InDto.FavoritesGoodsInDto;
 import com.xagd.javaeebackend.InDto.FavoritesInDto;
 import com.xagd.javaeebackend.OutDto.FavoritesGoodsOutDto;
-import com.xagd.javaeebackend.Repository.FavoritesRepository;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * TODO:此处写FavoriteService类的描述
