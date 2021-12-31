@@ -49,7 +49,7 @@ public class GoodsServiceImpl implements GoodsService {
         int i = 0;
         for (MultipartFile file : files){
             i += 1;
-            String url = OSSUtil.uploadFile(file, "goodsimage" + addedGoods.getGoodsId() + "#" + i);
+            String url = OSSUtil.uploadFile(file, "goodsimage" + addedGoods.getGoodsId() + "hh" + i);
             GoodsImageEntity goodsImageEntity = new GoodsImageEntity();
             goodsImageEntity.setGoodsId(addedGoods.getGoodsId());
             goodsImageEntity.setImage(url);
