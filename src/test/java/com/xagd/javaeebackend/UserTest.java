@@ -99,20 +99,20 @@ public class UserTest {
         assertTrue(flag);
     }
 
-//    @Test
-//    public void checkSMS(){
-//        String resp = SendSMS.send("17692419697", "1234");
-//        try{
-//            Document doc = DocumentHelper.parseText(resp);
-//            Element root = doc.getRootElement();
-//            String respCode = root.element("code").getText();
-//            if (respCode.equals("2")){
-//                System.out.println("true");
-//            }
-//        } catch (DocumentException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @Test
+    public void checkSMS(){
+        String resp = SendSMS.send("17692419697", "1234");
+        try{
+            Document doc = DocumentHelper.parseText(resp);
+            Element root = doc.getRootElement();
+            String respCode = root.element("code").getText();
+            if (respCode.equals("2")){
+                System.out.println("true");
+            }
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void checkProfile() {
